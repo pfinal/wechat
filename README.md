@@ -26,3 +26,7 @@
   ```shell
   composer require "pfinal/wechat:~1.0"
   ```
+
+![](doc/demo1.png)
+![](doc/demo2.png)
+![](doc/demo3.png)
