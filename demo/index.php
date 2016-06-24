@@ -4,6 +4,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Service\JsService;
 
+//请复制 config-local.example 为 config-local.php
 $config = require __DIR__ . '/config-local.php';
 
 Kernel::init($config);
@@ -34,7 +35,7 @@ $signPackage = JsService::getSignPackage();
 </ul>
 
 
-<a href="javascript:;" class="chooseImage">选择图片</a>
+<a href="javascript:;" class="chooseImage">JS_SDK选择图片</a>
 
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 

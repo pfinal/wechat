@@ -3,8 +3,8 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use PFinal\Wechat\Kernel;
-use PFinal\Wechat\Support\Log;
 
+//请复制 config-local.example 为 config-local.php
 $config = require __DIR__ . '/config-local.php';
 
 Kernel::init($config);
