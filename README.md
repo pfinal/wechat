@@ -14,8 +14,8 @@
  - 核心API类单文件，简单易用，隐藏开发者不需要关注的细节;
  - 抽象了消息事件，让你的控制器代码更优雅，扩展和维护更容易;
  - 详细的调式日志，让开发更轻松;
- - 对PHP版本要求低，需要5.4版本;
- - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，支持与各主流PHP框架集成;
+ - 支持PHP 5.4、5.5、5.6、7版本;
+ - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，非常方便与各主流PHP框架集成;
 
 ## 安装
 
@@ -51,7 +51,6 @@
     });
 
    ```
-
 
 ![](doc/demo1.png)
 ![](doc/demo2.png)
