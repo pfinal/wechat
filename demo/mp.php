@@ -19,7 +19,7 @@ if (isset($_GET['test'])) {
 
     //var_dump(\PFinal\Wechat\Service\MessageService::send($openid2, new \PFinal\Wechat\Message\News($news)));
 
-    // var_dump(\PFinal\Wechat\Service\MaterialService::uploadTemporary('./test.jpg', 'image'));
+    //var_dump(\PFinal\Wechat\Service\MaterialService::uploadTemporary('./test.jpg', 'image'));
     //var_dump(\PFinal\Wechat\Service\MaterialService::uploadFile('./test.jpg','image'));
     //var_dump(\PFinal\Wechat\Service\MaterialService::uploadFile('./mz.png','image'));
 

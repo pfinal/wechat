@@ -24,12 +24,17 @@
 1. 使用 [composer](https://getcomposer.org/)
 
   ```shell
-  composer require "pfinal/wechat:~1.0"
+  composer require pfinal/wechat
   ```
 2. 查看demo中的示例。 demo/server.php 是服务端
 
    ```php
     <?php
+    use PFinal\Wechat\Kernel;
+    use PFinal\Wechat\Message\Receive;
+    use PFinal\Wechat\Message;
+    use PFinal\Wechat\WechatEvent;
+
     //初始化
     Kernel::init($config);
 
