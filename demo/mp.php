@@ -19,7 +19,7 @@ if (isset($_GET['test'])) {
 
     //var_dump(\PFinal\Wechat\Service\MessageService::send($openid2, new \PFinal\Wechat\Message\News($news)));
 
-    //var_dump(\PFinal\Wechat\Service\MaterialService::uploadTemporary('./test.jpg', 'image'));
+    var_dump(\PFinal\Wechat\Service\MaterialService::uploadFileTemporary('./test.jpg', 'image'));
     //var_dump(\PFinal\Wechat\Service\MaterialService::uploadFile('./test.jpg','image'));
     //var_dump(\PFinal\Wechat\Service\MaterialService::uploadFile('./mz.png','image'));
 
@@ -30,7 +30,7 @@ if (isset($_GET['test'])) {
     //$arr = \PFinal\Wechat\Service\MaterialService::uploadFile('./video.mp4', 'video', '测试', '描述');
     //var_dump($arr);
 
-    var_dump(\PFinal\Wechat\Service\MessageService::send($openid2, new \PFinal\Wechat\Message\Video($videoMediaId, $imageMediaId, 'aa', 'bb')));
+    //var_dump(\PFinal\Wechat\Service\MessageService::send($openid2, new \PFinal\Wechat\Message\Video($videoMediaId, $imageMediaId, 'aa', 'bb')));
 
 
     exit;
