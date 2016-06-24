@@ -26,6 +26,10 @@
   ```shell
   composer require pfinal/wechat
   ```
+
+如果你的项目没有使用composer，可以直接下载[完整包](https://github.com/pfinal/wechat/blob/master/down/pfinal-wechat-1.0.zip)
+
+
 2. 查看demo中的示例。 demo/server.php 是服务端
 
    ```php
