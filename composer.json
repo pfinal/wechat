@@ -1,0 +1,29 @@
+{
+    "name": "pfinal/wechat",
+    "description": "一个简单易用的微信公众平台SDK",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/pfinal/wechat/issues",
+        "source": "https://github.com/pfinal/wechat"
+    },
+    "authors": [
+        {
+            "name": "Zou Yiliang"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "symfony/event-dispatcher": "~2.6",
+        "monolog/monolog": "1.*",
+        "pfinal/cache": "^1.0",
+        "pfinal/session": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PFinal\\Wechat\\": "src/"
+        }
+    }
+}
