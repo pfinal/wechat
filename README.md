@@ -28,6 +28,26 @@
   ```
 2. 查看demo中的示例。 demo/server.php 是服务端
 
+   ```php
+
+    //初始化
+    Kernel::init($config);
+
+    //消息处理
+    Kernel::register(Receive::TYPE_TEXT, function (WechatEvent $event) {
+        $message = $event->getMessage();
+        $event->setResponse('你好');
+    }
+
+    //关注事件
+    Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
+        $event->setResponse($event->getApi()->buildReply('你关注或是不关注，我都在这里，不悲不喜~~'));
+        $event->stopPropagation();
+    });
+
+   ```
+
+
 ![](doc/demo1.png)
 ![](doc/demo2.png)
 ![](doc/demo3.png)
