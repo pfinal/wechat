@@ -2,6 +2,7 @@
     "name": "pfinal/wechat",
     "description": "一个简单易用的微信公众平台SDK",
     "license": "MIT",
+    "homepage": "http://www.pfinal.cn",
     "support": {
         "issues": "https://github.com/pfinal/wechat/issues",
         "source": "https://github.com/pfinal/wechat"
