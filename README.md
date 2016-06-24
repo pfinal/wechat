@@ -41,7 +41,7 @@
 
     //关注事件
     Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
-        $event->setResponse($event->getApi()->buildReply('你关注或是不关注，我都在这里，不悲不喜~~'));
+        $event->setResponse('你关注或是不关注，我都在这里，不悲不喜~~');
         $event->stopPropagation();
     });
 
@@ -51,3 +51,4 @@
 ![](doc/demo1.png)
 ![](doc/demo2.png)
 ![](doc/demo3.png)
+![](doc/demo4.png)

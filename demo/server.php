@@ -60,7 +60,7 @@ Kernel::register(Receive::TYPE_TEXT, function (WechatEvent $event) {
 */
 
 Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
-    $event->setResponse($event->getApi()->buildReply('你关注或是不关注，我都在这里，不悲不喜~~'));
+    $event->setResponse('你关注或是不关注，我都在这里，不悲不喜~~');
     $event->stopPropagation();
 });
 
