@@ -36,6 +36,7 @@
     use PFinal\Wechat\WechatEvent;
 
     //初始化
+    $config = require __DIR__ . '/config-local.php';
     Kernel::init($config);
 
     //消息处理
