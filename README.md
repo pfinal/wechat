@@ -26,6 +26,7 @@
   ```shell
   composer require "pfinal/wechat:~1.0"
   ```
+2. 查看demo中的示例。 demo/server.php 是服务端
 
 ![](doc/demo1.png)
 ![](doc/demo2.png)

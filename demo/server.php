@@ -8,28 +8,7 @@ use PFinal\Wechat\Support\Log;
 use PFinal\Wechat\Message;
 use PFinal\Wechat\WechatEvent;
 
-//$config = array(
-//    //公众平台
-//    'appId' => 'wxf26a7eereabaeee2',
-//    'appSecret' => 'dc49ba13254cc09219f20e5186042324',
-//    'token' => 'pfinal',
-//    'encodingAesKey' => 'Sv11jWIKQW1x8CQAD6EZcssSomTA3kdJOtS3345',
-//    'middleUrl' => 'http://wechat.it266.com/demo/authorize-redirect.php',
-//
-//    //微信支付
-//    'mchId' => '12845234572', //商户号
-//    'apiSecret' => '0919520aa2324d260f031fa6f016a4533', //API密钥
-//    'sslCert' => '/Users/ethan/Desktop/esitools/cert/apiclient_cert.pem',
-//    'sslKey' => '/Users/ethan/Desktop/esitools/cert/apiclient_key.pem',
-//    'caInfo' => '/Users/ethan/Desktop/esitools/cert/rootca.pem',
-//
-//    //日志
-//    'log' => array(
-//        'level' => Monolog\Logger::DEBUG,
-//        'file' => './wechat.log',
-//    ),
-//);
-
+//请复制 config-local.example 为 config-local.php
 $config = require __DIR__ . '/config-local.php';
 
 Kernel::init($config);
