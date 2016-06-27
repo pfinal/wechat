@@ -11,6 +11,7 @@ use PFinal\Wechat\Contract\ReplyMessage;
 use PFinal\Wechat\Support\Xml;
 use PFinal\Wechat\Support\Cache;
 use PFinal\Wechat\Support\Curl;
+use PFinal\Wechat\Support\Log;
 
 /**
  * 微信公众平台API
@@ -232,6 +233,9 @@ class Api
         $errCode = $pc->decryptMsg($msgSignature, $timestamp, $nonce, $encryptMsg, $msg);
 
         if ($errCode == 0) {
+
+            Log::debug((string)$msg);
+
             return $msg;
         }
 
@@ -270,8 +274,10 @@ class Api
      */
     public function buildReply($reply)
     {
-        //回复的消息为null，会返回给微信一个"success"
-        $reply = is_null($reply) ? 'success' : $reply;
+        //回复的消息为null，会返回给微信一个"success"，微信服务器不会对此作任何处理，并且不会发起重试
+        if (is_null($reply)) {
+            return 'success';
+        }
 
         if (is_string($reply)) {
             $reply = new Text($reply);
