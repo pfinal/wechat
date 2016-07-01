@@ -27,8 +27,16 @@
   composer require pfinal/wechat
   ```
 
-如果你的项目没有使用composer，可以直接下载 [完整包](https://github.com/pfinal/wechat/raw/master/down/pfinal-wechat-1.0.zip)
+如果你的项目没有使用composer，使用下面的方式加载类
 
+```php
+<?php
+
+    require __DIR__ . '/src/ClassLoader.php';
+
+    \PFinal\Wechat\ClassLoader::register();
+
+```
 
 2. 查看demo中的示例。 demo/server.php 是服务端
 
