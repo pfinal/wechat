@@ -25,28 +25,28 @@
 
 环境要求：PHP >= 5.4
 
-1. 使用 [composer](https://getcomposer.org/)
+* 使用 [composer](https://getcomposer.org/)
 
-    ```shell
+```shell
 composer require pfinal/wechat
-    ```
+```
 
-2.如果你的项目没有使用composer，使用下面的方式加载类
+* 如果你的项目没有使用composer，使用下面的方式加载类
 
-    ```php
+```php
 <?php
 
     require __DIR__ . '/src/ClassLoader.php';
 
     \PFinal\Wechat\ClassLoader::register();
 
-    ```
+```
 
 ## 示例
 
 查看demo中的示例  demo/server.php 是服务端
 
-    ```php
+```php
 <?php
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Message\Receive;
@@ -83,7 +83,7 @@ $response = Kernel::handle();
 
 echo $response;
 
-    ```
+```
 
 ## 效果截图
 
