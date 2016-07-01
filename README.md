@@ -17,6 +17,10 @@
  - 支持PHP 5.4、5.5、5.6、7版本;
  - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，非常方便与各主流PHP框架集成;
 
+## 视频教程
+
+    http://www.pfinal.cn/subject/wechat
+
 ## 安装
 
 环境要求：PHP >= 5.4
