@@ -19,7 +19,7 @@
 
 ## 视频教程
 
-    http://www.pfinal.cn/subject/wechat
+> [http://www.pfinal.cn/subject/wechat](http://www.pfinal.cn/subject/wechat)
 
 ## 安装
 
