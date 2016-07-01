@@ -23,61 +23,61 @@
 
 1. 使用 [composer](https://getcomposer.org/)
 
-  ```shell
-  composer require pfinal/wechat
-  ```
+    ```shell
+composer require pfinal/wechat
+    ```
 
-如果你的项目没有使用composer，使用下面的方式加载类
+    如果你的项目没有使用composer，使用下面的方式加载类
 
-```php
+    ```php
 <?php
 
     require __DIR__ . '/src/ClassLoader.php';
 
     \PFinal\Wechat\ClassLoader::register();
 
-```
+    ```
 
 2. 查看demo中的示例。 demo/server.php 是服务端
 
-   ```php
-    <?php
-    use PFinal\Wechat\Kernel;
-    use PFinal\Wechat\Message\Receive;
-    use PFinal\Wechat\Message;
-    use PFinal\Wechat\WechatEvent;
-    use PFinal\Wechat\Support\Log;
+    ```php
+<?php
+use PFinal\Wechat\Kernel;
+use PFinal\Wechat\Message\Receive;
+use PFinal\Wechat\Message;
+use PFinal\Wechat\WechatEvent;
+use PFinal\Wechat\Support\Log;
 
-    //配置项
-    $config = [
-        'appId' => 'xxxxxxxxx',
-        'appSecret' => 'xxxxxxxxxxxxxxxxxxxx',
-        'token' => 'xxxxxx',
-        'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    ];
+//配置项
+$config = [
+    'appId' => 'xxxxxxxxx',
+    'appSecret' => 'xxxxxxxxxxxxxxxxxxxx',
+    'token' => 'xxxxxx',
+    'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+];
 
-    //初始化
-    Kernel::init($config);
+//初始化
+Kernel::init($config);
 
-    //消息处理
-    Kernel::register(Receive::TYPE_TEXT, function (WechatEvent $event) {
-        $message = $event->getMessage();
-        $event->setResponse('你好');
-        $event->stopPropagation();
-    }
+//消息处理
+Kernel::register(Receive::TYPE_TEXT, function (WechatEvent $event) {
+    $message = $event->getMessage();
+    $event->setResponse('你好');
+    $event->stopPropagation();
+}
 
-    //关注事件
-    Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
-        $event->setResponse('你关注或是不关注，我都在这里，不悲不喜~~');
-        $event->stopPropagation();
-    });
+//关注事件
+Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
+    $event->setResponse('你关注或是不关注，我都在这里，不悲不喜~~');
+    $event->stopPropagation();
+});
 
-    //处理微信服务器的请求
-    $response = Kernel::handle();
+//处理微信服务器的请求
+$response = Kernel::handle();
 
-    echo $response;
+echo $response;
 
-   ```
+    ```
 
 ![](doc/demo1.png)
 ![](doc/demo2.png)
