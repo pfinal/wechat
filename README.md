@@ -14,7 +14,7 @@
  - 核心API类单文件，简单易用，隐藏开发者不需要关注的细节;
  - 抽象了消息事件，让你的控制器代码更优雅，扩展和维护更容易;
  - 详细的调式日志，让开发更轻松;
- - 支持PHP 5.4、5.5、5.6、7版本;
+ - 支持PHP 5.4、5.5、5.6、7.x版本;
  - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，非常方便与各主流PHP框架集成;
 
 ## 视频教程
@@ -31,7 +31,7 @@
 composer require pfinal/wechat
     ```
 
-    如果你的项目没有使用composer，使用下面的方式加载类
+2.如果你的项目没有使用composer，使用下面的方式加载类
 
     ```php
 <?php
@@ -42,7 +42,9 @@ composer require pfinal/wechat
 
     ```
 
-2. 查看demo中的示例。 demo/server.php 是服务端
+## 示例
+
+查看demo中的示例  demo/server.php 是服务端
 
     ```php
 <?php
@@ -83,6 +85,7 @@ echo $response;
 
     ```
 
+## 效果截图
 
 ![](doc/demo1.png)
 ![](doc/demo2.png)
