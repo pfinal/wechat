@@ -90,13 +90,13 @@ if (isset($_GET['qr'])) {
     echo "<img src='$url'>";
 
 
-    //永久1
+    //永久 数字key
     $result = \PFinal\Wechat\Service\QrcodeService::forever(33);
     $url = \PFinal\Wechat\Service\QrcodeService::url($result['ticket']);
     echo "<img src='$url'>";
 
 
-    //永久2
+    //永久 字符串key
     $result = \PFinal\Wechat\Service\QrcodeService::forever("haha");
     $url = \PFinal\Wechat\Service\QrcodeService::url($result['ticket']);
     echo "<img src='$url'>";
