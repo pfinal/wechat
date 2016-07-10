@@ -85,6 +85,13 @@ Kernel::register(Receive::TYPE_EVENT_CLICK, function (WechatEvent $event) {
 });
 
 
+Kernel::register(Receive::TYPE_EVENT_SCAN, function (WechatEvent $event) {
+    Log::debug('扫码', (array)$event->getMessage());
+    $event->setResponse('扫码');
+    $event->stopPropagation();
+});
+
+
 //处理微信服务器的请求
 $response = Kernel::handle();
 

@@ -17,12 +17,14 @@ class QrcodeService extends BaseService
         $data = array(
             'action_name' => 'QR_SCENE',
             'action_info' => array(
-                'scene_id' => $sceneId,
+                'scene' => array(
+                    'scene_id' => $sceneId,
+                ),
             ),
         );
 
         if ($expireSeconds !== null) {
-            $data['action_info']['expire_seconds'] = $expireSeconds;
+            $data['expire_seconds'] = $expireSeconds;
         }
 
         return parent::request($url, $data);
@@ -37,14 +39,18 @@ class QrcodeService extends BaseService
             $data = array(
                 'action_name' => 'QR_LIMIT_SCENE',
                 'action_info' => array(
-                    'scene_id' => $sceneId,
+                    'scene' => array(
+                        'scene_id' => $sceneId,
+                    ),
                 ),
             );
         } else {
             $data = array(
                 'action_name' => 'QR_LIMIT_STR_SCENE',
                 'action_info' => array(
-                    'scene_str' => $sceneId,
+                    'scene' => array(
+                        'scene_str' => $sceneId,
+                    ),
                 ),
             );
         }

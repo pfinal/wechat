@@ -80,6 +80,29 @@ if (isset($_GET['redpack'])) {
     var_dump($result);
 }
 
+
+if (isset($_GET['qr'])) {
+
+    //临时
+    $result = \PFinal\Wechat\Service\QrcodeService::temporary(1000001, 60 * 60 * 24);
+
+    $url = \PFinal\Wechat\Service\QrcodeService::url($result['ticket']);
+    echo "<img src='$url'>";
+
+
+    //永久1
+    $result = \PFinal\Wechat\Service\QrcodeService::forever(33);
+    $url = \PFinal\Wechat\Service\QrcodeService::url($result['ticket']);
+    echo "<img src='$url'>";
+
+
+    //永久2
+    $result = \PFinal\Wechat\Service\QrcodeService::forever("haha");
+    $url = \PFinal\Wechat\Service\QrcodeService::url($result['ticket']);
+    echo "<img src='$url'>";
+
+}
+
 //var_dump(\PFinal\Wechat\Service\MessageService::send($openid, new \PFinal\Wechat\Message\Text('pFinal.cn')));
 
 //$result = \PFinal\Wechat\Service\MaterialService::uploadFileTemporary('./test.jpg', 'image');

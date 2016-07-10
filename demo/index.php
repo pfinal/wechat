@@ -32,6 +32,7 @@ $signPackage = JsService::getSignPackage();
     <li><a href="mp.php?send">发客服消息</a></li>
     <li><a href="mp.php?preview">群发预览</a></li>
     <li><a href="mp.php?redpack">发红包</a></li>
+    <li><a href="mp.php?qr">二唯码</a></li>
 </ul>
 
 
