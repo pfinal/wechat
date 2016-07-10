@@ -70,7 +70,7 @@ Kernel::register(Receive::TYPE_TEXT, function (WechatEvent $event) {
     $message = $event->getMessage();
     $event->setResponse('你好');
     $event->stopPropagation();
-}
+});
 
 //关注事件
 Kernel::register(Receive::TYPE_EVENT_SUBSCRIBE, function (WechatEvent $event) {
