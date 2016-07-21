@@ -20,6 +20,8 @@
 ## 视频教程
 
 > [http://www.pfinal.cn/subject/wechat](http://www.pfinal.cn/subject/wechat)
+>
+> [在线文档](doc/index.md)
 
 ## 安装
 
@@ -48,6 +50,9 @@ composer require pfinal/wechat
 
 ```php
 <?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Message\Receive;
 use PFinal\Wechat\Message;

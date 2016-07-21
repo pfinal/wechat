@@ -12,6 +12,7 @@
 
 * [安装](install.md)
 * [接入微信公众平台](started.md)
+* [在框架中使用](framework.md)
 
 ## 消息 (Message)
 
@@ -23,3 +24,6 @@ pfinal/wechat中的消息,分为如下4大类
     群发消息 (MassMessage)
 
 * [接收和回复消息](message.md)
+
+
+* [发送客服消息](send.md)
