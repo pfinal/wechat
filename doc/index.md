@@ -14,17 +14,9 @@
 * [接入微信公众平台](started.md)
 * [在框架中使用](framework.md)
 
-## 消息 (Message)
-
-pfinal/wechat中的消息,分为如下4大类
-
-    接收微信服务器推送消息和事件 (Receive)
-    被动响应消息 (ReplyMessage)
-    主动发送消息 (SendMessage)
-    群发消息 (MassMessage)
+## 基本使用
 
 * [接收和回复消息](message.md)
-
 
 * [发送客服消息](send.md)
 
@@ -43,3 +35,11 @@ pfinal/wechat中的消息,分为如下4大类
 * 菜单
 
 * todo...
+
+
+pfinal/wechat中的消息,分为如下4大类
+
+    接收微信服务器推送消息和事件 (Receive)
+    被动响应消息 (ReplyMessage)
+    主动发送消息 (SendMessage)
+    群发消息 (MassMessage)
