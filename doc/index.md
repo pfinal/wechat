@@ -27,3 +27,19 @@ pfinal/wechat中的消息,分为如下4大类
 
 
 * [发送客服消息](send.md)
+
+* 群发消息
+
+* [网页授权](oauth.md)
+
+* [红包](lucky-money.md)
+
+* JSSDK
+
+* 素材管理
+
+* 二唯码
+
+* 菜单
+
+* todo...
