@@ -10,7 +10,8 @@
 
 ## 接入
 
-* [快速接入指南](install.md)
+* [安装](install.md)
+* [接入微信公众平台](started.md)
 
 ## 消息 (Message)
 
