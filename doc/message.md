@@ -83,7 +83,7 @@ TYPE_EVENT_USER_VIEW_CARD       //用户在进入会员卡
 
 ## 属性
 
-Kernel::register()第二个参数为处理消息的闭包([closure](http://php.net/manual/en/class.closure.php)) 该闭包接收一个参数 $event，通过此对象，可以很方便的获取消息内容和回复消息 `$message = $event->getMessage()` 获取到的`$message`对象，是 `PFinal\Wechat\Message\Receive`类的实例，相关相关属性如下(属性大小写，与微信官方XML一样)
+Kernel::register()第二个参数为处理消息的闭包([closure](http://php.net/manual/en/class.closure.php)) 该闭包接收一个参数 $event，通过此对象，可以很方便的获取消息内容和回复消息 `$message = $event->getMessage()` 获取到的`$message`对象，是 `PFinal\Wechat\Message\Receive`类的实例，相关属性如下(属性大小写，与微信官方XML一样)
 
 ```
 //基本属性(所有消息都有)
