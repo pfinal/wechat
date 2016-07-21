@@ -36,7 +36,7 @@ echo $response; //Laravel、Yii2等框架中，使用 return $response;
 
 ```
 
-进入`微信公众平台->开发->基本配置` 获取`AppID`、`AppSecret`，填入上面代码中对应的地方。修改服务器配置，`URL`处填入我们服务器地址 `http://pfinal.cn/server.php`，`Token`处填入一个随机字符串，生成`EncodingAESKey`。并将`Token`和`EncodingAESKey`填入上面代码中对应的地方，最后选择安全模式并点击提交。提示成功即完成了接入。
+进入`微信公众平台->开发->基本配置` 获取`AppID`、`AppSecret`，填入上面代码中对应的地方。修改服务器配置，`URL`处填入我们服务器地址 `http://pfinal.cn/server.php`，`Token`处填入一个随机字符串，生成`EncodingAESKey`。并将`Token`和`EncodingAESKey`填入上面代码中对应的地方，最后选择安全模式并点击提交。提示成功即完成了接入服务端验证。如果你想了解更多细节，可查阅 [微信官方的接入指引](http://mp.weixin.qq.com/wiki/17/2d4265491f12608cd170a95559800f2d.html)
 
 > 实际操作中，请更改`pfinal.cn`为你自己服务器的域名
 > 
