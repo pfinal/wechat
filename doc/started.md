@@ -3,7 +3,7 @@
 ## 接入微信公众平台
 
 公众平台接口调用仅支持80端口，需要准备一个公网服务器。
-这里假设我们自己的服务器域名是 pfinal.cn，我们在服务器上准备一个文件server.php 代码如下
+这里假设我们自己的服务器域名是 pfinal.cn，我们准备一个文件server.php，并上传到服务器中
 
 ```PHP
 <?php
@@ -36,7 +36,7 @@ echo $response; //Laravel、Yii2等框架中，使用 return $response;
 
 ```
 
-进入`微信公众平台->开发->基本配置` 获取`AppID`、`AppSecret`，填入上面代码中对应的地方。修改服务器配置，`URL`处填入我们服务器地址 `http://pfinal.cn/server.php`，`Token`处填入一个随机字符串，生成`EncodingAESKey`。并将`Token`和`EncodingAESKey`填入上面代码中对应的地方，最后选择安全模式并点击提交。提示成功即已完成了接入服务端验证。
+进入`微信公众平台->开发->基本配置` 获取`AppID`、`AppSecret`，填入上面代码中对应的地方。修改服务器配置，`URL`处填入我们服务器地址 `http://pfinal.cn/server.php`，`Token`处填入一个随机字符串，生成`EncodingAESKey`。并将`Token`和`EncodingAESKey`填入上面代码中对应的地方，最后选择安全模式并点击提交。提示成功即完成了接入。
 
 > 实际操作中，请更改`pfinal.cn`为你自己服务器的域名
 > 
