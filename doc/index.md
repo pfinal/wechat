@@ -10,10 +10,15 @@
 
 ## 接入
 
+* [快速接入指南](install.md)
+
 ## 消息 (Message)
 
-* 接收微信服务器推送消息和事件 (Receive)
-* 被动响应消息 (ReplyMessage)
-* 主动发送消息 (SendMessage)
-* 群发消息 (MassMessage)
+pfinal/wechat中的消息,分为如下4大类
 
+    接收微信服务器推送消息和事件 (Receive)
+    被动响应消息 (ReplyMessage)
+    主动发送消息 (SendMessage)
+    群发消息 (MassMessage)
+
+* [接收和回复消息](message.md)
