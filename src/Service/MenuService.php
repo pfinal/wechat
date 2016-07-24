@@ -17,7 +17,8 @@ class MenuService extends BaseService
     /**
      * 创建菜单
      * @param array $data 菜单数据,例如:
-     * array(
+     *
+     * $data = array(
      *       array(
      *            "type"=>"click",
      *            "name"=>"今日歌曲",
@@ -33,17 +34,17 @@ class MenuService extends BaseService
      *                  ),
      *                  array(
      *                        "type"=>"view",
-     *                         "name"=>"视频",
-     *                         "url"=>"http://v.qq.com/"
+     *                        "name"=>"视频",
+     *                        "url"=>"http://v.qq.com/"
      *                  ),
      *                  array(
      *                      "type"=>"click",
-     *                       "name"=>"赞一下我们",
-     *                       "key"=>"V1001_GOOD"
+     *                      "name"=>"赞一下我们",
+     *                      "key"=>"V1001_GOOD"
      *                  ),
      *              ),
      *       )
-     * )
+     * );
      * @return array
      */
     public static function create(array $data)
