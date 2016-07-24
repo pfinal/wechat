@@ -36,12 +36,12 @@ class WechatController extends Controller
         include_once dirname(APP_PATH) . '/pfinal-wechat/autoload.php';
 
         //配置项
-        $config = [
+        $config = array(
             'appId' => 'xxxxxxxxx',
             'appSecret' => 'xxxxxxxxxx',
             'token' => 'xxxxxx',
             'encodingAesKey' => 'xxxxxxxxxxxxx',
-        ];
+        );
 
         //初始化
         Kernel::init($config);

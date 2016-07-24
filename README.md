@@ -57,12 +57,12 @@ use PFinal\Wechat\WechatEvent;
 use PFinal\Wechat\Support\Log;
 
 //配置项
-$config = [
+$config = array(
     'appId' => 'xxxxxxxxx',
     'appSecret' => 'xxxxxxxxxxxxxxxxxxxx',
     'token' => 'xxxxxx',
     'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-];
+);
 
 //初始化
 Kernel::init($config);
