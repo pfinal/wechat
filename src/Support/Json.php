@@ -13,6 +13,17 @@ class Json
      */
     public static function encode($data)
     {
+        if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+            $str = json_encode($data);
+            $str = preg_replace_callback(
+                '#\\\u([0-9a-f]{4})#i',
+                function ($matchs) {
+                    return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
+                },
+                $str
+            );
+            return str_replace('\/', '/', $str);
+        }
         return json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); //php 5.4.0
     }
 
