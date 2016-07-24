@@ -11,9 +11,8 @@
 // composer自动加载
 require __DIR__ . '/../vendor/autoload.php';
 
-// 如果你项目没有使用composer，使用下面两句代码代替上面的一句
-// require __DIR__ . '/src/ClassLoader.php';
-// \PFinal\Wechat\ClassLoader::register();
+// 如果你项目没有使用composer，使用下面代码代替上面的一句
+// require __DIR__ . '/pfinal-wechat/autoload.php';
 
 use PFinal\Wechat\Kernel;
 

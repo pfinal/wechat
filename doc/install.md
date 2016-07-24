@@ -14,7 +14,7 @@
 	$ composer require pfinal/wechat
 	```
 
-* 如果你的项目没有使用composer，请 [点击这里](https://github.com/pfinal/wechat/archive/master.zip) 下载最新`pfinal/wechat`源代码并解压，得到src目录
+* 如果你的项目没有使用composer，请 [点击这里](https://github.com/pfinal/wechat/raw/master/dist/pfinal-wechat-full.zip) 下载最新`pfinal/wechat`完整源代码并解压到pfinal-wechat目录
 
 
 
