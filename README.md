@@ -13,8 +13,8 @@
  - 基于微信官方SDK简单封装，避免过度封装带来的额外学习成本以及影响扩展性;
  - 核心API类单文件，简单易用，隐藏开发者不需要关注的细节;
  - 抽象了消息事件，让你的控制器代码更优雅，扩展和维护更容易;
- - 详细的调式日志，让开发更轻松;
- - 支持PHP 5.3、5.4、5.5、5.6、7.x版本;
+ - 详细的调试日志，让开发更轻松;
+ - 支持PHP 5.3+、7.x版本;
  - 符合 [PSR](https://github.com/php-fig/fig-standards) 标准，非常方便与各主流PHP框架集成;
 
 ## 视频教程
@@ -37,8 +37,7 @@ composer require pfinal/wechat
 
 ```php
 <?php
-
-     include_once __DIR__ . '/pfinal-wechat/autoload.php';
+    include_once __DIR__ . '/pfinal-wechat/autoload.php';
 ```
 
 ## 示例

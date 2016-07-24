@@ -28,6 +28,7 @@ use Think\Controller;
 use PFinal\Wechat\Message\Receive;
 use PFinal\Wechat\WechatEvent;
 use PFinal\Wechat\Kernel;
+use PFinal\Wechat\Support\Log;
 
 class WechatController extends Controller
 {
