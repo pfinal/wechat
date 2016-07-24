@@ -33,15 +33,12 @@
 composer require pfinal/wechat
 ```
 
-* 如果你的项目没有使用composer，使用下面的方式加载类
+* 如果你的项目没有使用composer，请下载[完整包](https://github.com/pfinal/wechat/raw/master/dist/pfinal-wechat-full.zip)解压后,使用下面的代码进行加载
 
 ```php
 <?php
 
-    require __DIR__ . '/src/ClassLoader.php';
-
-    \PFinal\Wechat\ClassLoader::register();
-
+     include_once __DIR__ . '/pfinal-wechat/autoload.php';
 ```
 
 ## 示例
