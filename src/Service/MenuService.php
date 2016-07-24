@@ -16,7 +16,34 @@ class MenuService extends BaseService
 
     /**
      * 创建菜单
-     * @param array $data
+     * @param array $data 菜单数据,例如:
+     * array(
+     *       array(
+     *            "type"=>"click",
+     *            "name"=>"今日歌曲",
+     *            "key"=>"V1001_TODAY_MUSIC",
+     *       ),
+     *       array(
+     *            "name"=>"菜单",
+     *            "sub_button"=>array(
+     *                  array(
+     *                      "type"=>"view",
+     *                      "name"=>"搜索",
+     *                      "url"=>"http://www.soso.com/"
+     *                  ),
+     *                  array(
+     *                        "type"=>"view",
+     *                         "name"=>"视频",
+     *                         "url"=>"http://v.qq.com/"
+     *                  ),
+     *                  array(
+     *                      "type"=>"click",
+     *                       "name"=>"赞一下我们",
+     *                       "key"=>"V1001_GOOD"
+     *                  ),
+     *              ),
+     *       )
+     * )
      * @return array
      */
     public static function create(array $data)
