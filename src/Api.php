@@ -279,8 +279,8 @@ class Api
             return 'success';
         }
 
-        if (is_string($reply)) {
-            $reply = new Text($reply);
+        if (is_string($reply) || is_numeric($reply)) {
+            $reply = new Text("$reply");
         }
 
         //索引数组，多图文消息
