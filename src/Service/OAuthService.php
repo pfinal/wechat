@@ -11,6 +11,9 @@ class OAuthService extends BaseService
      * 获取微信用户openid,此方法会跳转到微信授权页面获取用户授权然后返回
      * 在ajax中调用本方法，无效
      *
+     * 请先填写授权回调页面域名
+     * https://mp.weixin.qq.com 开发>接口权限>网页服务>网页账号>网页授权获取用户基本信息>授权回调页面域名
+     *
      * @return string
      * @throws WechatException
      */
