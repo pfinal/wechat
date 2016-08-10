@@ -5,6 +5,9 @@ namespace PFinal\Wechat\Service;
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Support\Log;
 
+/**
+ * 微信支付
+ */
 class PayService
 {
     public static function getConfig()
