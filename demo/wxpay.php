@@ -25,9 +25,9 @@ $notifyUrl = 'http://xxx.com/index.php/wxpay/notify';
 
 // 订单信息
 $order = array(
-    'totalFee' => 0.01,
-    'tradeNo' => uniqid(),
-    'name' => '测试订单',
+    'totalFee' => 0.01,    //支付金额
+    'tradeNo' => uniqid(), //订单号
+    'name' => '测试订单',   //订单名称
 );
 
 // 业务签名
