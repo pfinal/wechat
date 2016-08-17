@@ -26,15 +26,15 @@ $signPackage = \PFinal\Wechat\Service\JsService::getSignPackage();
     $info = \PFinal\Wechat\Service\PayService::notify();
     $info数组,内容如下
     [
-         $mch_id          //微信支付分配的商户号
-         $appid           //微信分配的公众账号ID
-         $openid          //用户在商户appid下的唯一标识
-         $transaction_id  //微信支付订单号
-         $out_trade_no    //商户订单号
-         $total_fee       //订单总金额单位默认为分，已转为元
-         $is_subscribe    //用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
-         $attach          //商家数据包，原样返回
-         $time_end        //支付完成时间
+         mch_id          //微信支付分配的商户号
+         appid           //微信分配的公众账号ID
+         openid          //用户在商户appid下的唯一标识
+         transaction_id  //微信支付订单号
+         out_trade_no    //商户订单号
+         total_fee       //订单总金额单位默认为分，已转为元
+         is_subscribe    //用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
+         attach          //商家数据包，原样返回
+         time_end        //支付完成时间
     ]
 */
 $notifyUrl = 'http://xxx.com/index.php/wxpay/notify';
