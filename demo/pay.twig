@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>微信支付demo</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <a href="javascript:;" class="js-btn-wxpay btn btn-success btn-block">微信支付</a>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    $(function () {
+        wx.config({
+            debug: true,//调试模式
+            appId: '{{ signPackage['appId'] }}',
+            timestamp: {{ signPackage['timestamp'] }},
+            nonceStr: '{{ signPackage['nonceStr'] }}',
+            signature: '{{ signPackage['signature'] }}',
+            jsApiList: [
+                'chooseWXPay'
+            ]
+        });
+        $(".js-btn-wxpay").click(function () {
+            if (typeof WeixinJSBridge == "undefined") {
+                alert("请在微信中打开");
+                return;
+            }
+            var success = false;
+            wx.chooseWXPay({
+                timestamp: {{ bizPackage['timeStamp'] }},
+                nonceStr: '{{ bizPackage['nonceStr'] }}',
+                package: '{{ bizPackage['package'] }}',
+                signType: '{{ bizPackage['signType'] }}',
+                paySign: '{{ bizPackage['paySign'] }}',
+                success: function (res) {
+                    success = true;
+                },
+                complete: function () {
+                    if (success) {
+                        alert('支付成功');
+                    } else {
+                        alert('支付失败');
+                    }
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>
