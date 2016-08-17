@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/../vendor/autoload.php';
 
 $config = array(
     'appId' => 'wx00e5904efes9',
