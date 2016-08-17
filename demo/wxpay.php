@@ -35,7 +35,7 @@ $bizPackage = \PFinal\Wechat\Service\PayService::createJsBizPackage(
     $openid, $order['totalFee'], $order['tradeNo'], $order['name'], $notifyUrl, $signPackage['timestamp']);
 
 // 加载视图
-return \View::render('pay.twig', array(
+return \View::render('wxpay.twig', array(
     'openid' => $openid,
     'signPackage' => $signPackage,
     'bizPackage' => $bizPackage,
