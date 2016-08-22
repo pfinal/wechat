@@ -242,7 +242,7 @@ class MessageService extends BaseService
             'data' => $data,
         );
 
-        return parent::request($apiUrl, $postData, false);
+        return parent::request($apiUrl, $postData);
     }
 
 }
