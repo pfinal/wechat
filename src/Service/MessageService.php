@@ -196,7 +196,7 @@ class MessageService extends BaseService
      * $data = array(
      *    'first' => array(
      *         'value' => '尊敬的车主，您的爱车保养以过期'
-     *         'color' => '#173177'
+     *         'color' => '#FC5C48'
      *      ),
      *    'keynote1' => array(
      *         'value' => '2014年12月12日'
@@ -220,8 +220,13 @@ class MessageService extends BaseService
      * @param string $topColor
      * @param string $defaultItemColor
      * @return array
+     * array(
+     *      'errcode' => int 0
+     *      'errmsg' => string 'ok' (length=2)
+     *      'msgid' => int 413100638
+     * )
      */
-    public function template($openid, $templateId, array $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177')
+    public static function template($openid, $templateId, array $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177')
     {
         $apiUrl = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN';
 

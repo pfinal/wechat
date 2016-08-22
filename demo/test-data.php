@@ -3,6 +3,9 @@
 $openid = 'oBhV8uMtPrH12dy6czX3LKHu24j4';
 $openid2 = 'oBhV8uN54GnGhInEvn2yo8KxhDM8';
 
+//mz
+$openid3 = 'o5cI1wr6k6mjcSReR9GNx5xMDfW4';
+
 $imageMediaId = 'ZbXWSFYu_gmXjP9EW5ydPHAgFanMTN0m_IdeYuuqwio';//永久图片素材
 $newsMediaId = 'ZbXWSFYu_gmXjP9EW5ydPDqHIZ6hcbfbQI0j0z4AGlA'; //永久文章素材
 $voiceMediaId = 'ZbXWSFYu_gmXjP9EW5ydPFFpZ3QbCBr8Xyp0NaPt2Uo';//永久语音素材

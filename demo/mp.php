@@ -103,6 +103,14 @@ if (isset($_GET['qr'])) {
 
 }
 
+
+if (isset($_GET['template'])) {
+    //$data = ['first' => '234', 'keyword1' => 'aaa', 'keyword2' => 'adsfsaf', 'keyword3', 'remark' => 'aaaa'];
+    $data = ['first' => ['value' => '234', 'color' => '#FC5C48'], 'keyword1' => 'aaa', 'keyword2' => 'adsfsaf', 'keyword3', 'remark' => 'aaaa'];
+    $result = \PFinal\Wechat\Service\MessageService::template($openid3, 'VSmzI2hL3MuHyd1eqw9eIxNsLmY4N8CFTgX4tiCDyYI', $data);
+    var_dump($result);
+}
+
 //var_dump(\PFinal\Wechat\Service\MessageService::send($openid, new \PFinal\Wechat\Message\Text('pFinal.cn')));
 
 //$result = \PFinal\Wechat\Service\MaterialService::uploadFileTemporary('./test.jpg', 'image');
