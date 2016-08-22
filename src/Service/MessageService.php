@@ -169,4 +169,80 @@ class MessageService extends BaseService
         return parent::request($url, array('msg_id' => $msgId));
     }
 
+    /**
+     * 发送模板消息
+     *
+     * @param string $openid
+     * @param string $templateId 模板ID
+     * @param array $data 详细内容
+     *
+     * 比如：保养过期通知 详细内容如下：
+     * {{first.DATA}}
+     *    保养到期时间：{{keynote1.DATA}}
+     *    上次保养时间：{{keynote2.DATA}}
+     *    上次保养里程：{{keynote3.DATA}}
+     * {{remark.DATA}}
+     *
+     * 对应data数据为:
+     * $data = array(
+     *    'first' => '尊敬的车主，您的爱车保养以过期'
+     *    'keynote1'=> '2014年12月12日',
+     *    'keynote2'=> '2013年12月12日',
+     *    'keynote3'=> '555KM',
+     *    'remark'=> '点击保养，惊喜不断！',
+     * );
+     *
+     * 如果需要指定每项颜色:
+     * $data = array(
+     *    'first' => array(
+     *         'value' => '尊敬的车主，您的爱车保养以过期'
+     *         'color' => '#173177'
+     *      ),
+     *    'keynote1' => array(
+     *         'value' => '2014年12月12日'
+     *         'color' => '#173177'
+     *      ),
+     *    'keynote2' => array(
+     *         'value' => '2014年12月12日'
+     *         'color' => '#173177'
+     *      ),
+     *    'keynote3' => array(
+     *         'value' => '2013年12月12日'
+     *         'color' => '#173177'
+     *      ),
+     *    'remark' => array(
+     *         'value' => '点击保养，惊喜不断！'
+     *         'color' => '#173177'
+     *      ),
+     * );
+     *
+     * @param string $url
+     * @param string $topColor
+     * @param string $defaultItemColor
+     * @return array
+     */
+    public function template($openid, $templateId, array $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177')
+    {
+        $apiUrl = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN';
+
+        foreach ($data as $key => $val) {
+            if (!is_array($val)) {
+                $data[$key] = array(
+                    'value' => "$val",
+                    'color' => "$defaultItemColor",
+                );
+            }
+        }
+
+        $postData = array(
+            'touser' => "$openid",
+            'template_id' => "$templateId",
+            'url' => "$url",
+            'topcolor' => "$topColor",
+            'data' => $data,
+        );
+
+        return parent::request($apiUrl, $postData, false);
+    }
+
 }
