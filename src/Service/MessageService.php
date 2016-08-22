@@ -235,10 +235,10 @@ class MessageService extends BaseService
         }
 
         $postData = array(
-            'touser' => "$openid",
-            'template_id' => "$templateId",
-            'url' => "$url",
-            'topcolor' => "$topColor",
+            'touser' => $openid,
+            'template_id' => $templateId,
+            'url' => $url,
+            'topcolor' => $topColor,
             'data' => $data,
         );
 
