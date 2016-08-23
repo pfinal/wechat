@@ -124,7 +124,7 @@ class Api
                 throw new WechatException('http raw post data is empty.');
             }
 
-            //自动设别是否需要解密
+            //自动识别是否需要解密
             $xmlStr = $this->attemptDecrypt($xmlStr);
 
             $xmlElement = @simplexml_load_string($xmlStr, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);

@@ -111,6 +111,13 @@ if (isset($_GET['template'])) {
     var_dump($result);
 }
 
+if (isset($_GET['menu'])) {
+    
+    //var_dump(\PFinal\Wechat\Service\MenuService::create($menus));
+    var_dump(\PFinal\Wechat\Service\MenuService::all());
+
+}
+
 //var_dump(\PFinal\Wechat\Service\MessageService::send($openid, new \PFinal\Wechat\Message\Text('pFinal.cn')));
 
 //$result = \PFinal\Wechat\Service\MaterialService::uploadFileTemporary('./test.jpg', 'image');
@@ -119,8 +126,7 @@ if (isset($_GET['template'])) {
 
 //var_dump(\PFinal\Wechat\Service\MessageService::send($openid, new \PFinal\Wechat\Message\News($news)));
 
-//var_dump(\PFinal\Wechat\Service\MenuService::all());exit;
-//var_dump(\PFinal\Wechat\Service\MenuService::create($menus));
+
 //var_dump(\PFinal\Wechat\Service\UserService::get($openid));
 //var_dump(\PFinal\Wechat\Service\UserService::batchGet([$openid, $openid2]));
 //var_dump(\PFinal\Wechat\Service\QrcodeService::temporary(11));
