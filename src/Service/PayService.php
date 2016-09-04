@@ -20,6 +20,8 @@ class PayService
     }
 
     /**
+     * https://pay.weixin.qq.com/wiki/doc/api/wap.php?chapter=9_1
+     *
      * @param string $openid 调用【网页授权获取用户信息】接口获取到用户在该公众号下的Openid
      * @param float $totalFee 收款总费用 单位元
      * @param string $outTradeNo 唯一的订单号

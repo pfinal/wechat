@@ -5,12 +5,74 @@ namespace PFinal\Wechat\Service;
 class MenuService extends BaseService
 {
     /**
-     * 查询菜单
-     * @return array
+     * 自定义菜单查询接口 仅能查询到使用API设置的菜单配置
+     * http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141014&token=&lang=zh_CN
+     *
+     * 在设置了个性化菜单后，使用本自定义菜单查询接口可以获取默认菜单和全部个性化菜单信息
+     *
+     * 类型为click、scancode_push、scancode_waitmsg、pic_sysphoto、pic_photo_or_album、 pic_weixin、location_select：保存值到key；
+     * 类型为view：保存链接到url
+     *
+     * @return array 例如
+     * array(
+     *     'menu' => array(
+     *         'button' => array(
+     *             array('type' => 'click', 'name' => '今日歌曲', 'key' => 'V1001_TODAY_MUSIC', 'sub_button' => array()),
+     *             array('type' => 'click', 'name' => '歌手简介', 'key' => 'V1001_TODAY_SINGER', 'sub_button' => array()),
+     *             array('name' => '菜单', 'sub_button' => array(
+     *                 array('type' => 'view', 'name' => '搜索', 'url' => 'http://www.soso.com/', 'sub_button' => array(),),
+     *                 array('type' => 'view', 'name' => '视频', 'url' => 'http://v.qq.com/', 'sub_button' => array(),),
+     *                 array('type' => 'click', 'name' => '赞一下我们', 'key' => 'V1001_GOOD', 'sub_button' => array(),),),
+     *             )
+     *         )
+     *     )
+     * )
      */
     public static function all()
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN';
+        return parent::request($url);
+    }
+
+    /**
+     * 获取自定义菜单配置
+     * http://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1434698695&token=&lang=zh_CN
+     *
+     * 本接口将会提供公众号当前使用的自定义菜单的配置，如果公众号是通过API调用设置的菜单，则返回菜单的开发配置，
+     * 而如果公众号是在公众平台官网通过网站功能发布菜单，则本接口返回运营者设置的菜单配置
+     * 1、第三方平台开发者可以通过本接口，在旗下公众号将业务授权给你后，立即通过本接口检测公众号的自定义菜单配置，并通过接口再次给公众号设置好自动回复规则，以提升公众号运营者的业务体验。
+     * 2、本接口与自定义菜单查询接口的不同之处在于，本接口无论公众号的接口是如何设置的，都能查询到接口，而自定义菜单查询接口则仅能查询到使用API设置的菜单配置。
+     * 3、认证/未认证的服务号/订阅号，以及接口测试号，均拥有该接口权限。
+     * 4、从第三方平台的公众号登录授权机制上来说，该接口从属于消息与菜单权限集。
+     * 5、本接口中返回的图片/语音/视频为临时素材（临时素材每次获取都不同，3天内有效，通过素材管理-获取临时素材接口来获取这些素材），本接口返回的图文消息为永久素材素材（通过素材管理-获取永久素材接口来获取这些素材）。
+     *
+     * 如果公众号是在公众平台官网通过网站功能发布菜单,type有可能为news、video、text、img
+     *
+     * @return array
+     *
+     * array(
+     *     'is_menu_open'=>1
+     *     'selfmenu_info' => array(
+     *         'button' => array(
+     *             array('type' => 'click', 'name' => '今日歌曲', 'key' => 'V1001_TODAY_MUSIC', 'sub_button' => array()),
+     *             array('type' => 'click', 'name' => '歌手简介', 'key' => 'V1001_TODAY_SINGER', 'sub_button' => array()),
+     *             array('name' => '菜单', 'sub_button' => array(
+     *                  'list'=>array(
+     *                         array('type' => 'view', 'name' => '搜索', 'url' => 'http://www.soso.com/', 'sub_button' => array(),),
+     *                         array('type' => 'view', 'name' => '视频', 'url' => 'http://v.qq.com/', 'sub_button' => array(),),
+     *                         array('type' => 'click', 'name' => '赞一下我们', 'key' => 'V1001_GOOD', 'sub_button' => array(),),),
+     *                     )
+     *             )
+     *         )
+     *     )
+     * )
+     *
+     * @throws \Exception
+     * @throws \PFinal\Wechat\WechatException
+     */
+    public static function current()
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN';
         return parent::request($url);
     }
 
@@ -56,9 +118,9 @@ class MenuService extends BaseService
 
     /**
      * 删除菜单
-     * @return array
+     * @return array ["errcode"=>0,"errmsg"=>"ok"]
      */
-    public function delete()
+    public static function delete()
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN';
         return parent::request($url);
@@ -116,17 +178,4 @@ class MenuService extends BaseService
         return parent::request($url, $data);
     }
 
-    /**
-     * 获取自定义菜单配置
-     * 本接口将会提供公众号当前使用的自定义菜单的配置，如果公众号是通过API调用设置的菜单，则返回菜单的开发配置，
-     * 而如果公众号是在公众平台官网通过网站功能发布菜单，则本接口返回运营者设置的菜单配置
-     * @return array
-     * @throws \Exception
-     * @throws \PFinal\Wechat\WechatException
-     */
-    public static function current()
-    {
-        $url = 'https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=ACCESS_TOKEN';
-        return parent::request($url);
-    }
 }
