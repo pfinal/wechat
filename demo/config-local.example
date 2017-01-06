@@ -10,7 +10,7 @@ return array(
     'middleUrl' => null,
 
     //微信支付
-    'mchId' => 'xxxxxxx',
+    'mchId' => 'xxxxxxxxxxxxxxx',
     'apiSecret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxx',
     'sslCert' => '/data/cert/apiclient_cert.pem',
     'sslKey' => '/data/cert/apiclient_key.pem',
