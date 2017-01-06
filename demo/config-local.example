@@ -5,16 +5,16 @@ return array(
     //公众平台
     'appId' => 'xxxxxxxxxxxxxxx',
     'appSecret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'token' => 'xxxx',
+    'token' => 'xxxxxxxxxxxxxxx',
     'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     'middleUrl' => null,
 
     //微信支付
     'mchId' => 'xxxxxxx',
     'apiSecret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'sslCert' => '/Users/ethan/Desktop/esitools/cert/apiclient_cert.pem',
-    'sslKey' => '/Users/ethan/Desktop/esitools/cert/apiclient_key.pem',
-    'caInfo' => '/Users/ethan/Desktop/esitools/cert/rootca.pem',
+    'sslCert' => '/data/cert/apiclient_cert.pem',
+    'sslKey' => '/data/cert/apiclient_key.pem',
+    'caInfo' => '/data/cert/rootca.pem',
 
     //日志
     'log' => array(
@@ -27,12 +27,12 @@ return array(
     //会话
     'session' => array(
         'class' => 'PFinal\Session\NativeSession',
-        'keyPrefix' => 'pfinal.wechat'
+        'keyPrefix' => 'pfinal.wechat',
     ),
 
     //缓存
     'cache' => array(
         'class' => 'PFinal\Cache\FileCache',
-        'keyPrefix' => 'pfinal.wechat'
+        'keyPrefix' => 'pfinal.wechat',
     ),
 );
