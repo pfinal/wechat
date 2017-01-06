@@ -33,12 +33,8 @@
 composer require pfinal/wechat
 ```
 
-* 如果你的项目没有使用composer，请下载[完整包](https://github.com/pfinal/wechat/raw/master/dist/pfinal-wechat-full.zip)解压后,使用下面的代码进行加载
+* 如果你的项目没有使用composer，请下载[完整包](https://github.com/pfinal/wechat/raw/publish/pfinal-wechat-full.zip)解压后,使用下面的代码进行加载
 
-```php
-<?php
-    include_once __DIR__ . '/pfinal-wechat/autoload.php';
-```
 
 ## 示例
 
@@ -55,12 +51,13 @@ use PFinal\Wechat\Message;
 use PFinal\Wechat\WechatEvent;
 use PFinal\Wechat\Support\Log;
 
-//配置项
+//配置项 
 $config = array(
     'appId' => 'xxxxxxxxx',
     'appSecret' => 'xxxxxxxxxxxxxxxxxxxx',
     'token' => 'xxxxxx',
     'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    //更多详细配置请参考 demo/config-local.example
 );
 
 //初始化
