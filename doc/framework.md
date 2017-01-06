@@ -15,7 +15,7 @@
 
 ## ThinkPHP
 
-* 下载完整版本 [点击这里](https://github.com/pfinal/wechat/raw/master/dist/pfinal-wechat-full.zip)
+* 下载完整版本 [点击这里](https://github.com/pfinal/wechat/raw/publish/pfinal-wechat-full.zip)
 * 解压到项目的根目录(index.php所在目录)
 * 新建一个WechatController控制器,示例代码如下
 
