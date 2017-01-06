@@ -33,7 +33,7 @@
 composer require pfinal/wechat
 ```
 
-* 如果你的项目没有使用composer，请下载[完整包](https://github.com/pfinal/wechat/raw/publish/pfinal-wechat-full.zip)解压后,使用下面的代码进行加载
+* 如果你的项目没有使用composer，请下载[完整包](https://github.com/pfinal/wechat/raw/publish/pfinal-wechat-full.zip)
 
 
 ## 示例
