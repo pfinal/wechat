@@ -170,7 +170,7 @@ class MessageService extends BaseService
     }
 
     /**
-     * 发送模板消息
+     * 发送公众号模板消息[小程序请用templateWxapp()方法]
      *
      * @param string $openid
      * @param string $templateId 模板ID
@@ -244,6 +244,40 @@ class MessageService extends BaseService
             'template_id' => $templateId,
             'url' => $url,
             'topcolor' => $topColor,
+            'data' => $data,
+        );
+
+        return parent::request($apiUrl, $postData);
+    }
+
+    /**
+     * 小程序模板消息 [公众号请用template()方法]
+     * @param $openid
+     * @param $templateId
+     * @param $formId
+     * @param array $data
+     * @param string $page
+     * @param string $defaultItemColor
+     * @return array
+     */
+    public static function templateWxapp($openid, $templateId, $formId, array $data, $page = '', $defaultItemColor = '#173177')
+    {
+        $apiUrl = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=ACCESS_TOKEN';
+
+        foreach ($data as $key => $val) {
+            if (!is_array($val)) {
+                $data[$key] = array(
+                    'value' => "$val",
+                    'color' => "$defaultItemColor",
+                );
+            }
+        }
+
+        $postData = array(
+            'touser' => $openid,
+            'template_id' => $templateId,
+            'page' => $page,
+            'form_id' => $formId,
             'data' => $data,
         );
 
