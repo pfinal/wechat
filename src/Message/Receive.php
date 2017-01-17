@@ -1,6 +1,7 @@
 <?php
 
 namespace PFinal\Wechat\Message;
+
 use PFinal\Wechat\Contract\Message;
 
 /**
@@ -72,6 +73,8 @@ class Receive implements Message
     const TYPE_EVENT_USER_GET_CARD = 'event.user_get_card';               //用户在领取卡券
     const TYPE_EVENT_USER_DEL_CARD = 'event.user_del_card';               //用户在删除卡券
     const TYPE_EVENT_USER_VIEW_CARD = 'event.user_view_card';             //用户在进入会员卡
+
+    const TYPE_EVENT_USER_ENTER_TEMPSESSION = 'event.user_enter_tempsession'; //进入会话事件(小程序事件)
 
     /**
      * @return string
