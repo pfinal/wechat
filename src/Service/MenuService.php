@@ -107,7 +107,7 @@ class MenuService extends BaseService
      *              ),
      *       )
      * );
-     * @return array
+     * @return array {"errcode":0,"errmsg":"ok"}
      */
     public static function create(array $data)
     {
