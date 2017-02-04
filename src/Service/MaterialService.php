@@ -73,6 +73,76 @@ class MaterialService extends BaseService
         return parent::request($url, $data, false);
     }
 
+    /**
+     * 下载多媒体文件
+     * 从微信服务器下载文件 成功返回文件名，失败返回false
+     * http://mp.weixin.qq.com/wiki/12/58bfcfabbd501c7cd77c19bd9cfa8354.html
+     *
+     * @param $mediaId
+     * @param string $savePath
+     * @return bool|string
+     */
+    public function downFile($mediaId, $savePath = './uploads')
+    {
+        $token = parent::getApi()->getAccessToken();
+
+        $url = 'http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=' . $token . '&media_id=' . $mediaId;
+
+        /*
+        HTTP/1.1 200 OK
+        Connection: close
+        Content-Type: image/jpeg
+        Content-disposition: attachment; filename="cK4q4fLKK9yFYMf2AukLtZGWltIqauKKygW3osp7YOlaqx8NLMv2hIgidluDOafB.jpg"
+        Date: Sun, 18 Jan 2015 16:56:32 GMT
+        Cache-Control: no-cache, must-revalidate
+        Content-Length: 963704
+        */
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($ch, CURLOPT_HEADER, true);    //需要response header
+        curl_setopt($ch, CURLOPT_NOBODY, false);    //需要response body
+
+        $response = curl_exec($ch);
+
+        //分离header与body
+        $header = '';
+        $body = '';
+        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200') {
+            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE); //头信息size
+            $header = substr($response, 0, $headerSize);
+            $body = substr($response, $headerSize);
+        }
+
+        curl_close($ch);
+
+        //文件名
+        $arr = array();
+        if (preg_match('/filename="(.*?)"/', $header, $arr)) {
+
+            $file = date('Ym') . '/' . uniqid() . strrchr($arr[1], '.');
+            $fullName = rtrim($savePath, '/') . '/' . $file;
+
+            //创建目录并设置权限
+            $basePath = dirname($fullName);
+            if (!file_exists($basePath)) {
+                @mkdir($basePath, 0777, true);
+                @chmod($basePath, 0777);
+            }
+
+            if (@file_put_contents($fullName, $body)) {
+                return $file;
+            } else {
+                //保存出错
+            }
+        } else {
+            //没有匹配到文件名
+        }
+
+        return false;
+    }
 
     /**
      * 上传图文消息内的图片获取URL (在图文消息的具体内容中，将过滤外部的图片链接)，只能使用此方法返回的url
@@ -124,5 +194,4 @@ class MaterialService extends BaseService
 
         return parent::request($url, $data);
     }
-
 }
