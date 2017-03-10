@@ -25,7 +25,7 @@ class OAuthService extends BaseService
 
     /**
      * 获取微信用户信息,此方法会跳转到微信授权页面获取用户授权然后返回
-     * 在ajax中调用本方法，无效
+     * 在ajax中调用本方法无效
      *
      * @param bool|false $openidOnly 此参数为true时，仅返回openid 响应速度会更快，并且不需要用户点击同意授权
      * @return array
@@ -42,7 +42,7 @@ class OAuthService extends BaseService
 
             if (is_array($flashData) && (time() - $flashData[0] < 60) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
 
-                if (!isset($_GET['state'])) {
+                if (!isset($_GET['code'])) {
                     throw new WechatException('微信网页授权失败');
                 }
 
