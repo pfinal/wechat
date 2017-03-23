@@ -353,6 +353,8 @@ class Api
             Cache::delete($cacheKey);
         }
 
+        Log::debug('getAccessToken');
+
         //获取accessToken
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s';
         $response = Curl::get(sprintf($url, $this->appId, $this->appSecret));

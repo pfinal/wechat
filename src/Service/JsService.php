@@ -3,6 +3,7 @@
 namespace PFinal\Wechat\Service;
 
 use PFinal\Wechat\Support\Cache;
+use PFinal\Wechat\Support\Log;
 
 class JsService extends BaseService
 {
@@ -104,6 +105,8 @@ class JsService extends BaseService
 
         //jsapi_ticket的有效期为7200秒
         Cache::set($cacheKey, $ticket, $data['expires_in'] - 200);
+
+        Log::debug('getJsApiTicket');
 
         return $ticket;
     }
