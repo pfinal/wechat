@@ -170,10 +170,12 @@ class PayService
             return;
         }
 
-        $arr = (array)$postObj;
-        unset($arr['sign']);
+        //转为数组
+        $postArr = (array)$postObj;
+        $signArr = $postArr;
+        unset($signArr['sign']);
 
-        if (self::getSign($arr, $config['key']) === "{$postObj->sign}") {
+        if (self::getSign($signArr, $config['key']) === $postArr['sign']) {
 
             // $mch_id = $postObj->mch_id;  //微信支付分配的商户号
             // $appid = $postObj->appid; //微信分配的公众账号ID
@@ -188,9 +190,9 @@ class PayService
             echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
 
             //金额单位转为元
-            $postObj->total_fee = self::calc($postObj->total_fee, 100, '/', 2);
+            $postArr['total_fee'] = self::calc($postArr['total_fee'], 100, '/', 2);
 
-            return (array)$postObj;
+            return $postArr;
         } else {
             Log::error('sign error');
         }
