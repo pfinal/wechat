@@ -157,7 +157,7 @@ class PayService
         */
         $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
-        if ($postObj === false) {
+        if ($postObj == false) {
             Log::error('parse xml error: ' . $postStr);
             return;
         }
@@ -190,7 +190,7 @@ class PayService
             //金额单位转为元
             $postObj->total_fee = self::calc($postObj->total_fee, 100, '/', 2);
 
-            return $postObj;
+            return (array)$postObj;
         } else {
             Log::error('sign error');
         }
