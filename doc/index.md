@@ -44,3 +44,5 @@ pfinal/wechat中的消息,分为如下4大类
     被动响应消息 (ReplyMessage)
     主动发送消息 (SendMessage)
     群发消息 (MassMessage)
+    
+[更多信息](readme.md)

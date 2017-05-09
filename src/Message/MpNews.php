@@ -7,7 +7,7 @@ use PFinal\Wechat\Contract\MassMessage;
 /**
  * 图文消息
  */
-class MpNews implements MassMessage
+class MpNews implements MassMessage //支持 SendMessage
 {
     protected $type = 'mpnews';
     protected $mediaId;

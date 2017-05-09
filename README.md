@@ -3,8 +3,6 @@
 一个简单易用的微信公众平台SDK。
 
 >支持微信公众平台 https://mp.weixin.qq.com
->
->支持微信开放平台 https://open.weixin.qq.com
 
 微信开发者交流 QQ 群：`16455997`
 

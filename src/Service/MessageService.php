@@ -51,7 +51,7 @@ class MessageService extends BaseService
      * 3、类似地，服务号在一个月内，使用is_to_all为true群发的次数，加上公众平台官网群发（不管本次群发是对全体还是对某个分组）的次数，最多只能是4次。
      * 4、设置is_to_all为false时是可以多次群发的，但每个用户只会收到最多4条，且这些群发不会进入历史消息列表。
      *
-     * @param int $groupId
+     * @param string $tagId 用户管理中用户分组接口 $is_to_all为true时，此参数传入null即可
      * @param string $mediaId 媒体id,如果发送文字，则此参数为需要发送的字符串
      * @param $type
      *      text
@@ -61,17 +61,20 @@ class MessageService extends BaseService
      *      wxcard
      *      mpvideo 视频 此处视频的media_id需通过 self::convertMediaIdForSendAll() 方法转换得到
      *
-     * @param bool $is_to_all
+     * @param bool $isToAll 选择true该消息群发给所有用户
      * @return array
      * @throws WechatException
      * @throws \Exception
      */
-    public static function sendAll($groupId, MassMessage $message, $is_to_all = false)
+    public static function sendAll($tagId, MassMessage $message, $isToAll = false)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN';
         $data = array(
-            'filter' => array('is_to_all' => $is_to_all, 'group_id' => $groupId),
+            'filter' => array('is_to_all' => (bool)$isToAll, 'tag_id' => (string)$tagId),
         );
+        if ($isToAll) {
+            unset($data['filter']['tag_id']);
+        }
 
         $data = array_merge($data, $message->jsonData());
         $data['msgtype'] = $message->type();
@@ -97,7 +100,6 @@ class MessageService extends BaseService
         $data['msgtype'] = $message->type();
 
         return parent::request($url, $data);
-
     }
 
     /**

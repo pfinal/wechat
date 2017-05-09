@@ -5,6 +5,9 @@ namespace PFinal\Wechat\Message;
 use PFinal\Wechat\Contract\ReplyMessage;
 use PFinal\Wechat\Contract\SendMessage;
 
+/**
+ * 图文消息条数限制在8条以内
+ */
 class News implements ReplyMessage, SendMessage
 {
     protected $type = 'news';
