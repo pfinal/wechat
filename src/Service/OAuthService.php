@@ -33,7 +33,7 @@ class OAuthService extends BaseService
      */
     public static function getUser($openidOnly = false)
     {
-        $flashKey = md5(__FILE__) . 'oAuthAuthState';
+        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
 
         //从微信oAuth页面跳转回来
         if (Session::hasFlash($flashKey)) {

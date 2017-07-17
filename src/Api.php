@@ -335,7 +335,7 @@ class Api
     public function getAccessToken($useCache = true)
     {
         //缓存key
-        $cacheKey = md5(__FILE__ . __METHOD__ . $this->appId);
+        $cacheKey = md5(__CLASS__ . __METHOD__ . $this->appId);
 
         //检查是否启用缓存
         if ($useCache) {
