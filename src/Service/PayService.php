@@ -4,6 +4,7 @@ namespace PFinal\Wechat\Service;
 
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Support\Log;
+use PFinal\Wechat\WechatException;
 
 /**
  * 微信支付
@@ -29,10 +30,19 @@ class PayService
      * @param string $notifyUrl 支付结果通知url 不要有问号
      *      https://mp.weixin.qq.com/  微信支付-开发配置-测试目录
      *      测试目录 http://www.example.com/paytest/    最后需要斜线，(需要精确到二级或三级目录)
-     * @return string
+     *
+     * @param $timestamp
+     * @return array
+     * @throws WechatException
      */
     public static function createJsBizPackage($openid, $totalFee, $outTradeNo, $orderName, $notifyUrl, $timestamp)
     {
+        // notify_url 中包含问号时，有可能会导致回调时签名验证不成功
+        if (strpos($notifyUrl, '?') !== false) {
+            Log::warning('notify_url中包含问号:' . $notifyUrl);
+            throw new WechatException('notify_url error: cannot contain "?"');
+        }
+
         $config = self::getConfig();
 
         $unified = array(
@@ -52,47 +62,47 @@ class PayService
         $unified['sign'] = self::getSign($unified, $config['key']);
         $responseXml = self::curlPost('https://api.mch.weixin.qq.com/pay/unifiedorder', self::arrayToXml($unified));
 
-        /*
-        <xml>
-        <return_code><![CDATA[SUCCESS]]></return_code>
-        <return_msg><![CDATA[OK]]></return_msg>
-        <appid><![CDATA[wx00e5904efec77699]]></appid>
-        <mch_id><![CDATA[1220647301]]></mch_id>
-        <nonce_str><![CDATA[1LHBROsdmqfXoWQR]]></nonce_str>
-        <sign><![CDATA[ACA7BC8A9164D1FBED06C7DFC13EC839]]></sign>
-        <result_code><![CDATA[SUCCESS]]></result_code>
-        <prepay_id><![CDATA[wx2015032016590503f1bcd9c30421762652]]></prepay_id>
-        <trade_type><![CDATA[JSAPI]]></trade_type>
-        </xml>
-        */
+        //<xml>
+        //    <return_code><![CDATA[SUCCESS]]></return_code>
+        //    <return_msg><![CDATA[OK]]></return_msg>
+        //    <appid><![CDATA[wx00e5904efec77699]]></appid>
+        //    <mch_id><![CDATA[1220647301]]></mch_id>
+        //    <nonce_str><![CDATA[1LHBROsdmqfXoWQR]]></nonce_str>
+        //    <sign><![CDATA[ACA7BC8A9164D1FBED06C7DFC13EC839]]></sign>
+        //    <result_code><![CDATA[SUCCESS]]></result_code>
+        //    <prepay_id><![CDATA[wx2015032016590503f1bcd9c30421762652]]></prepay_id>
+        //    <trade_type><![CDATA[JSAPI]]></trade_type>
+        //</xml>
+
         $unifiedOrder = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        //Log::info($responseXml);
 
         if ($unifiedOrder === false) {
-            die('parse xml error');
+            Log::warning('parse xml error: ' . $responseXml);
+            throw new WechatException('parse xml error');
         }
-        if ("{$unifiedOrder->return_code}" !== 'SUCCESS') {
-            die($unifiedOrder->return_msg);
+        if ((string)$unifiedOrder->return_code !== 'SUCCESS') {
+            Log::warning('return_code: ' . $unifiedOrder->return_msg);
+            throw new WechatException('return_code: ' . $unifiedOrder->return_msg);
         }
-        if ("{$unifiedOrder->result_code}" !== 'SUCCESS') {
-            die($unifiedOrder->err_code);
-            /*
-            NOAUTH  商户无此接口权限
-            NOTENOUGH  余额不足
-            ORDERPAID  商户订单已支付
-            ORDERCLOSED  订单已关闭
-            SYSTEMERROR  系统错误
-            APPID_NOT_EXIST     APPID不存在
-            MCHID_NOT_EXIST  MCHID不存在
-            APPID_MCHID_NOT_MATCH appid和mch_id不匹配
-            LACK_PARAMS 缺少参数
-            OUT_TRADE_NO_USED 商户订单号重复
-            SIGNERROR 签名错误
-            XML_FORMAT_ERROR XML格式错误
-            REQUIRE_POST_METHOD 请使用post方法
-            POST_DATA_EMPTY post数据为空
-            NOT_UTF8 编码格式错误
-           */
+        if ((string)$unifiedOrder->result_code !== 'SUCCESS') {
+            Log::warning('result_code: ' . $unifiedOrder->err_code);
+            throw new WechatException('result_code: ' . $unifiedOrder->err_code);
+
+            //NOAUTH  商户无此接口权限
+            //NOTENOUGH  余额不足
+            //ORDERPAID  商户订单已支付
+            //ORDERCLOSED  订单已关闭
+            //SYSTEMERROR  系统错误
+            //APPID_NOT_EXIST     APPID不存在
+            //MCHID_NOT_EXIST  MCHID不存在
+            //APPID_MCHID_NOT_MATCH appid和mch_id不匹配
+            //LACK_PARAMS 缺少参数
+            //OUT_TRADE_NO_USED 商户订单号重复
+            //SIGNERROR 签名错误
+            //XML_FORMAT_ERROR XML格式错误
+            //REQUIRE_POST_METHOD 请使用post方法
+            //POST_DATA_EMPTY post数据为空
+            //NOT_UTF8 编码格式错误
         }
 
         //$unifiedOrder->trade_type  交易类型  调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP
@@ -108,25 +118,30 @@ class PayService
         );
 
         $arr['paySign'] = self::getSign($arr, $config['key']);
+
         return $arr;
     }
 
     /**
-     * 获取微信支付异步通知。(支付金额单位已转为元)
-     * 成功返回通知信息数组,失败返回null
+     * 获取微信支付异步通知 (支付金额单位已转为元)
+     *
+     * 验证成功返回数组
      *
      * @return array
+     *
      * [
-     *      $mch_id          //微信支付分配的商户号
-     *      $appid           //微信分配的公众账号ID
-     *      $openid          //用户在商户appid下的唯一标识
-     *      $transaction_id  //微信支付订单号
-     *      $out_trade_no    //商户订单号
-     *      $total_fee       //订单总金额单位默认为分，已转为元
-     *      $is_subscribe    //用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
-     *      $attach          //商家数据包，原样返回
-     *      $time_end        //支付完成时间
+     *      mch_id          //微信支付分配的商户号
+     *      appid           //微信分配的公众账号ID
+     *      openid          //用户在商户appid下的唯一标识
+     *      transaction_id  //微信支付订单号
+     *      out_trade_no    //商户订单号
+     *      total_fee       //订单总金额单位默认为分，已转为元
+     *      is_subscribe    //用户是否关注公众账号，Y-关注，N-未关注，仅在公众账号类型支付有效
+     *      attach          //商家数据包，原样返回
+     *      time_end        //支付完成时间
      * ]
+     *
+     * @throws WechatException
      */
     public static function notify()
     {
@@ -134,43 +149,41 @@ class PayService
 
         $postStr = file_get_contents('php://input');
 
-        /*
-        $postStr = '<xml>
-        <appid><![CDATA[wx00e5904efec77699]]></appid>
-        <attach><![CDATA[支付测试]]></attach>
-        <bank_type><![CDATA[CMB_CREDIT]]></bank_type>
-        <cash_fee><![CDATA[1]]></cash_fee>
-        <fee_type><![CDATA[CNY]]></fee_type>
-        <is_subscribe><![CDATA[Y]]></is_subscribe>
-        <mch_id><![CDATA[1220647301]]></mch_id>
-        <nonce_str><![CDATA[a0tZ41phiHm8zfmO]]></nonce_str>
-        <openid><![CDATA[oU3OCt5O46PumN7IE87WcoYZY9r0]]></openid>
-        <out_trade_no><![CDATA[550bf2990c51f]]></out_trade_no>
-        <result_code><![CDATA[SUCCESS]]></result_code>
-        <return_code><![CDATA[SUCCESS]]></return_code>
-        <sign><![CDATA[F6F519B4DD8DB978040F8C866C1E6250]]></sign>
-        <time_end><![CDATA[20150320181606]]></time_end>
-        <total_fee>1</total_fee>
-        <trade_type><![CDATA[JSAPI]]></trade_type>
-        <transaction_id><![CDATA[1008840847201503200034663980]]></transaction_id>
-        </xml>';
-        */
+        //$postStr = '<xml>
+        //    <appid><![CDATA[wx00e5904efec77699]]></appid>
+        //    <attach><![CDATA[支付测试]]></attach>
+        //    <bank_type><![CDATA[CMB_CREDIT]]></bank_type>
+        //    <cash_fee><![CDATA[1]]></cash_fee>
+        //    <fee_type><![CDATA[CNY]]></fee_type>
+        //    <is_subscribe><![CDATA[Y]]></is_subscribe>
+        //    <mch_id><![CDATA[1220647301]]></mch_id>
+        //    <nonce_str><![CDATA[a0tZ41phiHm8zfmO]]></nonce_str>
+        //    <openid><![CDATA[oU3OCt5O46PumN7IE87WcoYZY9r0]]></openid>
+        //    <out_trade_no><![CDATA[550bf2990c51f]]></out_trade_no>
+        //    <result_code><![CDATA[SUCCESS]]></result_code>
+        //    <return_code><![CDATA[SUCCESS]]></return_code>
+        //    <sign><![CDATA[F6F519B4DD8DB978040F8C866C1E6250]]></sign>
+        //    <time_end><![CDATA[20150320181606]]></time_end>
+        //    <total_fee>1</total_fee>
+        //    <trade_type><![CDATA[JSAPI]]></trade_type>
+        //    <transaction_id><![CDATA[1008840847201503200034663980]]></transaction_id>
+        //</xml>';
+
         $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($postObj == false) {
-            Log::error('parse xml error: ' . $postStr);
-            return;
+            Log::warning('parse xml error: ' . $postStr);
+            throw new WechatException('parse xml error');
         }
         if ($postObj->return_code != 'SUCCESS') {
-            Log::error($postObj->return_msg);
-            return;
+            Log::warning('return_code: ' . $postObj->return_code);
+            throw new WechatException('return_code: ' . $postObj->return_code);
         }
         if ($postObj->result_code != 'SUCCESS') {
-            Log::error($postObj->result_code);
-            return;
+            Log::warning('result_code: ' . $postObj->result_code);
+            throw new WechatException('result_code: ' . $postObj->result_code);
         }
 
-        //转为数组
         $postArr = (array)$postObj;
         $signArr = $postArr;
         unset($signArr['sign']);
@@ -194,7 +207,8 @@ class PayService
 
             return $postArr;
         } else {
-            Log::error('sign error');
+            Log::warning('sign error');
+            throw new WechatException('sign error');
         }
     }
 
