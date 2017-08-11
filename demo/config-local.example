@@ -2,17 +2,17 @@
 
 return array(
 
-    //公众平台
-    'appId' => 'xxxxxxxxxxxxxxx',
-    'appSecret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'token' => 'xxxxxxxxxxxxxxx',
-    'encodingAesKey' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'middleUrl' => null,
+    //公众平台 https://mp.weixin.qq.com
+    'appId' => 'xxx',
+    'appSecret' => 'xxx',
+    'token' => 'xxx',
+    'encodingAesKey' => 'xxx',
+    'middleUrl' => null,         //此参数默认为null即可
 
-    //微信支付
-    'mchId' => 'xxxxxxxxxxxxxxx',
-    'apiSecret' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    'sslCert' => '/data/cert/apiclient_cert.pem',
+    //微信支付 https://pay.weixin.qq.com
+    'mchId' => 'xxx',
+    'apiSecret' => 'xxx', // 在这里设置 https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥
+    'sslCert' => '/data/cert/apiclient_cert.pem', //发红包等功能需要配置证书，根据实际情况配置，只是在线收款，不需要证书
     'sslKey' => '/data/cert/apiclient_key.pem',
     'caInfo' => '/data/cert/rootca.pem',
 
@@ -34,5 +34,6 @@ return array(
     'cache' => array(
         'class' => 'PFinal\Cache\FileCache',
         'keyPrefix' => 'pfinal.wechat',
+        'cachePath' => './cache',
     ),
 );
