@@ -217,6 +217,8 @@ class PayService
     /**
      * 申请退款
      *
+     * 提交退款申请后，通过调用该接口查询退款状态。退款有一定延时，用零钱支付的退款20分钟内到账，银行卡支付的退款3个工作日后重新查询退款状态
+     *
      * @link https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4
      *
      * 1、交易时间超过一年的订单无法提交退款
@@ -225,7 +227,7 @@ class PayService
      * 4、每个支付订单的部分退款次数不能超过50次
      *
      * @param string $out_trade_no 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一 (transaction_id out_trade_no 二选一)
-     * @param float $total_fee 订单金额 单位为元，精度为2位小数
+     * @param float $total_fee 订单金额 单位为元，精度为2位小数  此方法中会自动转为分单位
      * @param float $refund_fee 退款总金额 单位为元，精度为2位小数
      * @param string $out_refund_no 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
      * @param string $transaction_id 微信订单号 String(28) 微信生成的订单号，在支付通知中有返回 (transaction_id out_trade_no 二选一)
@@ -263,12 +265,80 @@ class PayService
         if ($transaction_id != null) {
             $helper->setParameter("transaction_id", $transaction_id);
         }
+
         $helper->setParameter("out_refund_no", $out_refund_no);
 
 
         $postXml = $helper->create_hongbao_xml();
 
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+
+        $responseXml = $helper->curl_post_ssl($url, $postXml);
+
+        if ($responseXml === false) {
+            throw new \Exception("curl失败");
+        }
+
+        Log::debug($responseXml);
+
+        $responseObj = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        if ($responseObj === false) {
+            throw new \Exception("解析xml失败");
+        }
+
+        //SUCCESS/FAIL  SUCCESS退款申请接收成功，结果通过退款查询接口查询 FAIL 提交业务失败
+        if ('SUCCESS' === (string)$responseObj->result_code) {
+            return (array)$responseObj;
+        }
+
+        throw new \Exception($responseObj->err_code . ' ' . $responseObj->return_msg);
+    }
+
+    /**
+     * 查询退款
+     * @link https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_5
+     *
+     * 四选一( refund_id   out_refund_no  transaction_id   out_trade_no)
+     * 微信订单号查询的优先级是： refund_id > out_refund_no > transaction_id > out_trade_no
+     *
+     * @param string $out_refund_no 商户退款单号 商户系统内部的退款单号 申请退款时生成
+     * @param string $refund_id 微信退款单号 微信生成的退款单号，在申请退款接口有返回
+     * @param string $out_trade_no 商户订单号
+     * @param string $transaction_id 微信订单号
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public static function refundQuery($out_refund_no, $refund_id = null, $out_trade_no = null, $transaction_id = null)
+    {
+        $helper = Kernel::getRedpackHelper();
+
+        $commonUtil = new CommonUtil();
+
+        $helper->setParameter("appid", $helper->appId);
+        $helper->setParameter("mch_id", $helper->mchId);//商户号
+        $helper->setParameter("nonce_str", $commonUtil->create_noncestr());//随机字符串，长于 32 位
+
+        if ($out_refund_no != null) {
+            $helper->setParameter("out_refund_no", $out_refund_no);
+        }
+
+        if ($refund_id != null) {
+            $helper->setParameter("refund_id", $refund_id);
+        }
+
+        if ($out_trade_no != null) {
+            $helper->setParameter("out_trade_no", $out_trade_no);
+        }
+
+        if ($transaction_id != null) {
+            $helper->setParameter("transaction_id", $transaction_id);
+        }
+
+        $postXml = $helper->create_hongbao_xml();
+
+        $url = 'https://api.mch.weixin.qq.com/pay/refundquery';
 
         $responseXml = $helper->curl_post_ssl($url, $postXml);
 
