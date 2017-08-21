@@ -3,11 +3,13 @@
 namespace PFinal\Wechat\Service;
 
 use PFinal\Wechat\Kernel;
+use PFinal\Wechat\SDK\Redpack\CommonUtil;
 use PFinal\Wechat\Support\Log;
 use PFinal\Wechat\WechatException;
 
 /**
  * 微信支付
+ * https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4
  */
 class PayService
 {
@@ -213,6 +215,84 @@ class PayService
     }
 
     /**
+     * 申请退款
+     *
+     * @link https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4
+     *
+     * 1、交易时间超过一年的订单无法提交退款
+     * 2、微信支付退款支持单笔交易分多次退款，多次退款需要提交原支付订单的商户订单号和设置不同的退款单号。申请退款总金额不能超过订单金额。 一笔退款失败后重新提交，请不要更换退款单号，请使用原商户退款单号
+     * 3、请求频率限制：150qps，即每秒钟正常的申请退款请求次数不超过150次 错误或无效请求频率限制：6qps，即每秒钟异常或错误的退款申请请求不超过6次
+     * 4、每个支付订单的部分退款次数不能超过50次
+     *
+     * @param string $out_trade_no 商户订单号 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一 (transaction_id out_trade_no 二选一)
+     * @param float $total_fee 订单金额 单位为元，精度为2位小数
+     * @param float $refund_fee 退款总金额 单位为元，精度为2位小数
+     * @param string $out_refund_no 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
+     * @param string $transaction_id 微信订单号 String(28) 微信生成的订单号，在支付通知中有返回 (transaction_id out_trade_no 二选一)
+     * @return array
+     * @throws \Exception
+     */
+    public static function refund($out_trade_no, $total_fee, $refund_fee, $out_refund_no, $transaction_id = null)
+    {
+        $helper = Kernel::getRedpackHelper();
+
+        $total_fee = $total_fee * 100;//红包金额，转为单位分
+        $total_fee = number_format($total_fee, 0, '.', '');//去掉小数
+        if ($total_fee <= 0) {
+            throw new \Exception('金额不能小于或等于0');
+        }
+
+        $refund_fee = $refund_fee * 100;//红包金额，转为单位分
+        $refund_fee = number_format($refund_fee, 0, '.', '');//去掉小数
+        if ($refund_fee <= 0) {
+            throw new \Exception('金额不能小于或等于0');
+        }
+
+        $commonUtil = new CommonUtil();
+
+        $helper->setParameter("appid", $helper->appId);
+        $helper->setParameter("mch_id", $helper->mchId);//商户号
+        $helper->setParameter("nonce_str", $commonUtil->create_noncestr());//随机字符串，长于 32 位
+
+        //sign  sign_type
+
+        //transaction_id out_trade_no 二选一
+        if ($out_trade_no != null) {
+            $helper->setParameter("out_trade_no", $out_trade_no);
+        }
+        if ($transaction_id != null) {
+            $helper->setParameter("transaction_id", $transaction_id);
+        }
+        $helper->setParameter("out_refund_no", $out_refund_no);
+
+
+        $postXml = $helper->create_hongbao_xml();
+
+        $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
+
+        $responseXml = $helper->curl_post_ssl($url, $postXml);
+
+        if ($responseXml === false) {
+            throw new \Exception("curl失败");
+        }
+
+        Log::debug($responseXml);
+
+        $responseObj = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        if ($responseObj === false) {
+            throw new \Exception("解析xml失败");
+        }
+
+        //SUCCESS/FAIL  SUCCESS退款申请接收成功，结果通过退款查询接口查询 FAIL 提交业务失败
+        if ('SUCCESS' === (string)$responseObj->result_code) {
+            return (array)$responseObj;
+        }
+
+        throw new \Exception($responseObj->err_code . ' ' . $responseObj->return_msg);
+    }
+
+    /**
      * curl get
      *
      * @param string $url
@@ -324,6 +404,7 @@ class PayService
         }
         return $reqPar;
     }
+
 
     /**
      * 精度计算
