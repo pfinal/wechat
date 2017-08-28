@@ -28,8 +28,8 @@ use PFinal\Wechat\Contract\Message;
  * @property string $EventKey 事件KEY值，qrscene_为前缀，后面为二维码的参数值
  * @property string $Ticket 二维码的ticket，可用来换取二维码图片
  * @property string $Latitude 地理位置纬度
- * @property string $Longitude 地理位置纬度
- * @property string $Precision 地理位置经度
+ * @property string $Longitude 地理位置经度
+ * @property string $Precision 地理位置精度
  * @property string $Recognition 语音识别结果，UTF8编码
  *
  * 群发推送结果:
