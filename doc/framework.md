@@ -34,7 +34,7 @@ class WechatController extends Controller
 {
     public function index()
     {
-        include_once dirname(APP_PATH) . '/pfinal-wechat/autoload.php';
+        include_once dirname(APP_PATH) . '/pfinal-wechat/vendor/autoload.php';
 
         //配置项
         $config = array(
