@@ -11,7 +11,6 @@ namespace PFinal\Wechat\SDK;
  * 在算法、data、key、vi 一致的情况下
  * openssl_encrypt 加密相当于将 mcrypt_encrypt 的加密结果执行一次 base64_encode
  * 而 openssl_decode 解密相当于 先将加密结果执行一次base64_decode 然后再通过mcrypt_encrypt 解密
- *
  */
 class Prpcrypt
 {
