@@ -6,6 +6,12 @@ namespace PFinal\Wechat\SDK;
  * Prpcrypt class
  *
  * 提供接收和推送给公众平台消息的加解密接口.
+ *
+ * php 7.1 废弃mcrypt扩展 被 OpenSSL取代了
+ * 在算法、data、key、vi 一致的情况下
+ * openssl_encrypt 加密相当于将 mcrypt_encrypt 的加密结果执行一次 base64_encode
+ * 而 openssl_decode 解密相当于 先将加密结果执行一次base64_decode 然后再通过mcrypt_encrypt 解密
+ *
  */
 class Prpcrypt
 {
@@ -26,24 +32,13 @@ class Prpcrypt
 
         try {
             //获得16位随机字符串，填充到明文之前
-            $random = $this->getRandomStr();
+            $random = $this->getRandomStr();//"aaaabbbbccccdddd";
             $text = $random . pack("N", strlen($text)) . $text . $appid;
-            // 网络字节序
-            $size = mcrypt_get_block_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv = substr($this->key, 0, 16);
-            //使用自定义的填充方式对明文进行补位填充
             $pkc_encoder = new PKCS7Encoder;
             $text = $pkc_encoder->encode($text);
-            mcrypt_generic_init($module, $this->key, $iv);
-            //加密
-            $encrypted = mcrypt_generic($module, $text);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
-
-            //print(base64_encode($encrypted));
-            //使用BASE64对加密后的字符串进行编码
-            return array(ErrorCode::$OK, base64_encode($encrypted));
+            $encrypted = openssl_encrypt($text, 'AES-256-CBC', substr($this->key, 0, 32), OPENSSL_ZERO_PADDING, $iv);
+            return array(ErrorCode::$OK, $encrypted);
         } catch (\Exception $e) {
             //print $e;
             return array(ErrorCode::$EncryptAESError, null);
@@ -57,18 +52,10 @@ class Prpcrypt
      */
     public function decrypt($encrypted, $appid)
     {
-
         try {
             //使用BASE64对需要解密的字符串进行解码
-            $ciphertext_dec = base64_decode($encrypted);
-            $module = mcrypt_module_open(MCRYPT_RIJNDAEL_128, '', MCRYPT_MODE_CBC, '');
             $iv = substr($this->key, 0, 16);
-            mcrypt_generic_init($module, $this->key, $iv);
-
-            //解密
-            $decrypted = mdecrypt_generic($module, $ciphertext_dec);
-            mcrypt_generic_deinit($module);
-            mcrypt_module_close($module);
+            $decrypted = openssl_decrypt($encrypted, 'AES-256-CBC', substr($this->key, 0, 32), OPENSSL_ZERO_PADDING, $iv);
         } catch (\Exception $e) {
             return array(ErrorCode::$DecryptAESError, null);
         }
@@ -86,6 +73,9 @@ class Prpcrypt
             $xml_len = $len_list[1];
             $xml_content = substr($content, 4, $xml_len);
             $from_appid = substr($content, $xml_len + 4);
+            if (!$appid)
+                $appid = $from_appid;
+            //如果传入的appid是空的，则认为是订阅号，使用数据中提取出来的appid
         } catch (\Exception $e) {
             //print $e;
             return array(ErrorCode::$IllegalBuffer, null);
