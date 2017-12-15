@@ -42,7 +42,7 @@ class Kernel
      */
     public static function getApi()
     {
-        if (static::$api == null) {
+        if (static::$api == null || static::$api->getAppId() != self::$config['appId']) {
             static::$api = new \PFinal\Wechat\Api(self::$config);
         }
         return static::$api;
