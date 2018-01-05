@@ -12,7 +12,11 @@ class QrcodeService extends BaseService
 {
     /**
      * 生成临时二唯码
-     * @param int|string $sceneId 场景值ID 为整数时:32位非0整型, 建议大于100000,避免与永久二唯码冲突(永久二维码时最大值为100000,目前参数只支持1--100000)
+     * @param int|string $sceneId
+     *
+     * 场景值ID 为整数时:32位非0整型, 建议大于100000,避免与永久二唯码冲突
+     * 场景值ID（字符串形式的ID），字符串类型，长度限制为1到64
+     *
      * @param null $expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），为null时默认有效期为30秒。
      * @return array
      * [
@@ -55,14 +59,14 @@ class QrcodeService extends BaseService
 
     /**
      * 生成永久二唯码
-     * @param int|string $sceneId 场景值ID 32位非0整型,最大值为100000,目前参数只支持1--100000; 字符串形式的ID，长度限制为1到64，仅永久二维码支持
+     * @param int|string $sceneId 场景值ID 32位非0整型,最大值为100000,目前参数只支持1--100000; 字符串形式的ID，长度限制为1到64
      * @return array 返回值参考 QrcodeService::temporary()方法的返回值
      */
     public static function forever($sceneId)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN';
 
-        if (is_integer($sceneId) && $sceneId >= 1 && $sceneId < 100000) {
+        if (is_integer($sceneId) && $sceneId >= 1 && $sceneId <= 100000) {
             $data = array(
                 'action_name' => 'QR_LIMIT_SCENE',
                 'action_info' => array(
