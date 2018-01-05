@@ -12,7 +12,7 @@ class QrcodeService extends BaseService
 {
     /**
      * 生成临时二唯码
-     * @param int $sceneId 场景值ID 32位非0整型, 建议大于100000,避免与永久二唯码冲突(永久二维码时最大值为100000,目前参数只支持1--100000)
+     * @param int|string $sceneId 场景值ID 为整数时:32位非0整型, 建议大于100000,避免与永久二唯码冲突(永久二维码时最大值为100000,目前参数只支持1--100000)
      * @param null $expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），为null时默认有效期为30秒。
      * @return array
      * [
@@ -25,14 +25,26 @@ class QrcodeService extends BaseService
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN';
 
-        $data = array(
-            'action_name' => 'QR_SCENE',
-            'action_info' => array(
-                'scene' => array(
-                    'scene_id' => $sceneId,
+        //0x7FFFFFFF 32位int最大值
+        if (is_integer($sceneId) && $sceneId > 100000 && $sceneId <= 0x7FFFFFFF) {
+            $data = array(
+                'action_name' => 'QR_SCENE',
+                'action_info' => array(
+                    'scene' => array(
+                        'scene_id' => $sceneId,
+                    ),
                 ),
-            ),
-        );
+            );
+        } else {
+            $data = array(
+                'action_name' => 'QR_STR_SCENE',
+                'action_info' => array(
+                    'scene' => array(
+                        'scene_str' => $sceneId,
+                    ),
+                ),
+            );
+        }
 
         if ($expireSeconds !== null) {
             $data['expire_seconds'] = $expireSeconds;
@@ -50,7 +62,7 @@ class QrcodeService extends BaseService
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN';
 
-        if (is_numeric($sceneId) && $sceneId >= 1 && $sceneId < 100000) {
+        if (is_integer($sceneId) && $sceneId >= 1 && $sceneId < 100000) {
             $data = array(
                 'action_name' => 'QR_LIMIT_SCENE',
                 'action_info' => array(
