@@ -92,7 +92,7 @@ class Kernel
 
         //验证token
         if (!$api->checkSignature()) {
-            Log::error('signature error. url:' . $url);
+            Log::debug('signature error. url:' . $url);
             return 'signature error';
         }
 
