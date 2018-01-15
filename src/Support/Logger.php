@@ -4,6 +4,7 @@ namespace PFinal\Wechat\Support;
 
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Handler\NullHandler;
+use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Psr\Log\LoggerInterface;
 
@@ -50,7 +51,8 @@ class Logger
         } else if (empty($this->file)) {
             $logger->pushHandler(new ErrorLogHandler(ErrorLogHandler::OPERATING_SYSTEM, $this->level));
         } else {
-            $logger->pushHandler(new StreamHandler($this->file, $this->level));
+//            $logger->pushHandler(new StreamHandler($this->file, $this->level));
+            $logger->pushHandler(new RotatingFileHandler($this->file, 7, $this->level));
         }
         $this->logger = $logger;
     }
