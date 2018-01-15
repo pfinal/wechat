@@ -112,11 +112,16 @@ class Kernel
         }
 
         //派发事件
-        Log::debug('dispatch event:' . $eventName);
+        Log::debug('dispatch event:' . $eventName, (array)$message);
+
         $event = self::getDispatcher()->dispatch($eventName, new WechatEvent($api));
 
         $reply = $event->getResponse();
 
-        return (string)$api->buildReply($reply);
+        $str = (string)$api->buildReply($reply);
+
+        Log::debug('response:' . $str);
+
+        return $str;
     }
 }
