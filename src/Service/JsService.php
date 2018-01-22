@@ -90,7 +90,6 @@ class JsService extends BaseService
     {
 
         $cacheKey = parent::getApi()->getAppId() . $type . 'jsapi_ticket';
-
         $ticket = Cache::get($cacheKey, false);
 
         if ($ticket !== false) {
