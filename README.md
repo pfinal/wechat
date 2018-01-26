@@ -41,7 +41,7 @@ composer require pfinal/wechat
 ```php
 <?php
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Message\Receive;
