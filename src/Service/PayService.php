@@ -410,6 +410,7 @@ XML;
         }
 
         throw new \Exception($responseObj->err_code . ' ' . $responseObj->return_msg);
+
     }
 
     /**
