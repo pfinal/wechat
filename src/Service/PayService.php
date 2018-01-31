@@ -232,13 +232,37 @@ class PayService
      * @param string $out_refund_no 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
      * @param string $transaction_id 微信订单号 String(28) 微信生成的订单号，在支付通知中有返回 (transaction_id out_trade_no 二选一)
      * @return array
-     * @throws \Exception
+     * Array
+     * (
+     *     [return_code] => SUCCESS
+     *     [return_msg] => OK
+     *     [appid] => wx4a38afb33f0d02f4
+     *     [mch_id] => 1494589642
+     *     [nonce_str] => tw2hpp5QVBP6pP8L
+     *     [sign] => 1AEFD3744A1295C0795F3C3DC2109E32
+     *     [result_code] => SUCCESS
+     *     [transaction_id] => 4200000097201801314500515963
+     *     [out_trade_no] => d1c8081837154fb5257d243b8966a4b9
+     *     [out_refund_no] => 5a71d29ca49e6
+     *     [refund_id] => 50000305562018013103367483357
+     *     [refund_channel] => SimpleXMLElement Object
+     *         (
+     *         )
+     *
+     *     [refund_fee] => 1
+     *     [coupon_refund_fee] => 0
+     *     [total_fee] => 1
+     *     [cash_fee] => 1
+     *     [coupon_refund_count] => 0
+     *     [cash_refund_fee] => 1
+     * )
      */
-    public static function refund($out_trade_no, $total_fee, $refund_fee, $out_refund_no, $transaction_id = null)
+    public static function refund($out_trade_no, $total_fee, $refund_fee, $out_refund_no, $transaction_id = '')
     {
+        $config = self::getConfig();
         $helper = Kernel::getRedpackHelper();
 
-        $total_fee = $total_fee * 100;//红包金额，转为单位分
+        $total_fee = $total_fee * 100;//金额，转为单位分
         $total_fee = number_format($total_fee, 0, '.', '');//去掉小数
         if ($total_fee <= 0) {
             throw new \Exception('金额不能小于或等于0');
@@ -250,27 +274,31 @@ class PayService
             throw new \Exception('金额不能小于或等于0');
         }
 
-        $commonUtil = new CommonUtil();
+        $data = [
+            'appid' => $config['appid'],
+            'mch_id' => $config['mch_id'],
+            'nonce_str' => self::createNonceStr(),
+            'out_refund_no' => $out_refund_no,
+            'out_trade_no' => $out_trade_no,
+            'total_fee' => $total_fee,
+            'refund_fee' => $refund_fee,
+            'transaction_id' => $transaction_id,
+        ];
+        $sign = self::getSign($data, $config['key']);
 
-        $helper->setParameter("appid", $helper->appId);
-        $helper->setParameter("mch_id", $helper->mchId);//商户号
-        $helper->setParameter("nonce_str", $commonUtil->create_noncestr());//随机字符串，长于 32 位
-
-        //sign  sign_type
-
-        //transaction_id out_trade_no 二选一
-        if ($out_trade_no != null) {
-            $helper->setParameter("out_trade_no", $out_trade_no);
-        }
-        if ($transaction_id != null) {
-            $helper->setParameter("transaction_id", $transaction_id);
-        }
-
-        $helper->setParameter("out_refund_no", $out_refund_no);
-
-
-        $postXml = $helper->create_hongbao_xml();
-
+        $postXml = <<<XML
+<xml>
+   <appid>{$data['appid']}</appid>
+   <mch_id>{$data['mch_id']}</mch_id>
+   <nonce_str>{$data['nonce_str']}</nonce_str> 
+   <out_refund_no>{$data['out_refund_no']}</out_refund_no>
+   <out_trade_no>{$data['out_trade_no']}</out_trade_no>
+   <refund_fee>{$data['refund_fee']}</refund_fee>
+   <total_fee>{$data['total_fee']}</total_fee>
+   <transaction_id>{$data['transaction_id']}</transaction_id>
+   <sign>{$sign}</sign>
+</xml>
+XML;
         $url = 'https://api.mch.weixin.qq.com/secapi/pay/refund';
 
         $responseXml = $helper->curl_post_ssl($url, $postXml);
@@ -308,36 +336,58 @@ class PayService
      * @param string $transaction_id 微信订单号
      *
      * @return array
-     * @throws \Exception
+     * Array
+     * (
+     *     [appid] => wx4a38afb33f0d02f4
+     *     [cash_fee] => 1
+     *     [mch_id] => 1494589642
+     *     [nonce_str] => e2EMFq897chBJYYz
+     *     [out_refund_no_0] => 5a71d29ca49e6
+     *     [out_trade_no] => d1c8081837154fb5257d243b8966a4b9
+     *     [refund_account_0] => REFUND_SOURCE_UNSETTLED_FUNDS
+     *     [refund_channel_0] => ORIGINAL
+     *     [refund_count] => 1
+     *     [refund_fee] => 1
+     *     [refund_fee_0] => 1
+     *     [refund_id_0] => 50000305562018013103367483357
+     *     [refund_recv_accout_0] => 支付用户的零钱
+     *     [refund_status_0] => PROCESSING
+     *     [result_code] => SUCCESS
+     *     [return_code] => SUCCESS
+     *     [return_msg] => OK
+     *     [sign] => 8C5D54311D0134AA932C6D8C7133C8F8
+     *     [total_fee] => 1
+     *     [transaction_id] => 4200000097201801314500515963
+     * )
      */
-    public static function refundQuery($out_refund_no, $refund_id = null, $out_trade_no = null, $transaction_id = null)
+    public static function refundQuery($out_refund_no, $refund_id = '', $out_trade_no = '', $transaction_id = '')
     {
+        $config = self::getConfig();
         $helper = Kernel::getRedpackHelper();
 
-        $commonUtil = new CommonUtil();
+        $data = [
+            'appid' => $config['appid'],
+            'mch_id' => $config['mch_id'],
+            'nonce_str' => self::createNonceStr(),
+            'out_refund_no' => $out_refund_no,
+            'out_trade_no' => $out_trade_no,
+            'refund_id' => $refund_id,
+            'transaction_id' => $transaction_id,
+        ];
+        $sign = self::getSign($data, $config['key']);
 
-        $helper->setParameter("appid", $helper->appId);
-        $helper->setParameter("mch_id", $helper->mchId);//商户号
-        $helper->setParameter("nonce_str", $commonUtil->create_noncestr());//随机字符串，长于 32 位
-
-        if ($out_refund_no != null) {
-            $helper->setParameter("out_refund_no", $out_refund_no);
-        }
-
-        if ($refund_id != null) {
-            $helper->setParameter("refund_id", $refund_id);
-        }
-
-        if ($out_trade_no != null) {
-            $helper->setParameter("out_trade_no", $out_trade_no);
-        }
-
-        if ($transaction_id != null) {
-            $helper->setParameter("transaction_id", $transaction_id);
-        }
-
-        $postXml = $helper->create_hongbao_xml();
-
+        $postXml = <<<XML
+<xml>
+   <appid>{$data['appid']}</appid>
+   <mch_id>{$data['mch_id']}</mch_id>
+   <nonce_str>{$data['nonce_str']}</nonce_str> 
+   <out_refund_no>{$data['out_refund_no']}</out_refund_no>
+   <out_trade_no>{$data['out_trade_no']}</out_trade_no>
+   <refund_id>{$data['refund_id']}</refund_id>
+   <transaction_id>{$data['transaction_id']}</transaction_id>
+   <sign>{$sign}</sign>
+</xml>
+XML;
         $url = 'https://api.mch.weixin.qq.com/pay/refundquery';
 
         $responseXml = $helper->curl_post_ssl($url, $postXml);
