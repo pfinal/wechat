@@ -33,29 +33,41 @@ class OAuthService extends BaseService
      */
     public static function getUser($openidOnly = false)
     {
-        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
+//        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
+//
+//        //从微信oAuth页面跳转回来
+//        if (Session::hasFlash($flashKey)) {
+//
+//            $flashData = @unserialize(Session::getFlash($flashKey));
+//
+//            if (is_array($flashData) && (time() - $flashData[0] < 60) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
+//
+//                if (!isset($_GET['code'])) {
+//                    throw new WechatException('微信网页授权失败');
+//                }
+//
+//                //通过code换取网页授权access_token
+//                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
+//
+//                if ($openidOnly) {
+//                    return $OauthAccessTokenArr;
+//                }
+//
+//                //拉取用户信息(需scope为 snsapi_userinfo)
+//                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
+//            }
+//        }
+        if (isset($_GET['code'])) {
 
-        //从微信oAuth页面跳转回来
-        if (Session::hasFlash($flashKey)) {
+            //通过code换取网页授权access_token
+            $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
 
-            $flashData = @unserialize(Session::getFlash($flashKey));
-
-            if (is_array($flashData) && (time() - $flashData[0] < 60) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
-
-                if (!isset($_GET['code'])) {
-                    throw new WechatException('微信网页授权失败');
-                }
-
-                //通过code换取网页授权access_token
-                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
-
-                if ($openidOnly) {
-                    return $OauthAccessTokenArr;
-                }
-
-                //拉取用户信息(需scope为 snsapi_userinfo)
-                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
+            if ($openidOnly) {
+                return $OauthAccessTokenArr;
             }
+
+            //拉取用户信息(需scope为 snsapi_userinfo)
+            return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
         }
 
         //当前url
@@ -63,7 +75,7 @@ class OAuthService extends BaseService
 
         //跳转到微信oAuth授权页面
         $state = uniqid();
-        Session::setFlash($flashKey, serialize(array(time(), $state)));
+//        Session::setFlash($flashKey, serialize(array(time(), $state)));
 
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
     }
