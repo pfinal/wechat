@@ -33,30 +33,30 @@ class OAuthService extends BaseService
      */
     public static function getUser($openidOnly = false)
     {
-//        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
-//
-//        //从微信oAuth页面跳转回来
-//        if (Session::hasFlash($flashKey)) {
-//
-//            $flashData = @unserialize(Session::getFlash($flashKey));
-//
-//            if (is_array($flashData) && (time() - $flashData[0] < 60) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
-//
-//                if (!isset($_GET['code'])) {
-//                    throw new WechatException('微信网页授权失败');
-//                }
-//
-//                //通过code换取网页授权access_token
-//                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
-//
-//                if ($openidOnly) {
-//                    return $OauthAccessTokenArr;
-//                }
-//
-//                //拉取用户信息(需scope为 snsapi_userinfo)
-//                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
-//            }
-//        }
+        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
+
+        //从微信oAuth页面跳转回来
+        if (Session::hasFlash($flashKey)) {
+
+            $flashData = @unserialize(Session::getFlash($flashKey));
+
+            if (is_array($flashData) && (time() - $flashData[0] < 120) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
+
+                if (!isset($_GET['code'])) {
+                    throw new WechatException('微信网页授权失败');
+                }
+
+                //通过code换取网页授权access_token
+                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
+
+                if ($openidOnly) {
+                    return $OauthAccessTokenArr;
+                }
+
+                //拉取用户信息(需scope为 snsapi_userinfo)
+                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
+            }
+        }
         if (isset($_GET['code'])) {
 
             //通过code换取网页授权access_token
@@ -73,11 +73,39 @@ class OAuthService extends BaseService
         //当前url
         $uri = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
+        $uri = static::urlClean($uri);
+
         //跳转到微信oAuth授权页面
         $state = uniqid();
-//        Session::setFlash($flashKey, serialize(array(time(), $state)));
+        Session::setFlash($flashKey, serialize(array(time(), $state)));
 
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
+    }
+
+    /**
+     * 从url中移除code参数 例如 http://www.test.com?/oauth?code=1234&params=11 将返回 http://www.test.com?/oauth?params=11
+     * @param $uri
+     * @return string
+     */
+    private static function urlClean($uri, $remove = ['state', 'code'])
+    {
+        $arr = parse_url($uri);
+
+        if (isset($arr['query'])) {
+            parse_str($arr['query'], $temp);
+
+            foreach ($remove as $v) {
+                if (array_key_exists($v, $temp)) {
+                    unset($temp[$v]);
+                }
+            }
+            $arr['query'] = http_build_query($temp);
+        }
+
+        $arr['path'] = array_key_exists('path', $arr) ? $arr['path'] : '';
+        $arr['query'] = array_key_exists('query', $arr) ? ('?' . $arr['query']) : '';
+
+        return $arr['scheme'] . '://' . $arr['host'] . $arr['path'] . $arr['query'];
     }
 
     /**
