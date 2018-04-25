@@ -138,7 +138,7 @@ class PayService
      * @param $timestamp
      * @return array
      */
-    public function miniRequestPayment($openid, $totalFee, $outTradeNo, $orderName, $notifyUrl, $timestamp)
+    public static function miniRequestPayment($openid, $totalFee, $outTradeNo, $orderName, $notifyUrl, $timestamp)
     {
         //订单名太长支付会失败
         //$orderName = mb_strlen($orderName) > 10 ? (mb_substr($orderName, 10) . '...') : $orderName;
