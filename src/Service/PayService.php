@@ -16,8 +16,9 @@ class PayService
     public static function getConfig()
     {
         return array(
+            'appid' => Kernel::getConfig('appId'),          //微信公众号appid
+            'mini_appid' => Kernel::getConfig('miniAppId'), //微信小程序appid
             'mch_id' => Kernel::getConfig('mchId'),
-            'appid' => Kernel::getConfig('appId'),
             'key' => Kernel::getConfig('apiSecret'),//https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥
         );
     }
@@ -122,6 +123,149 @@ class PayService
         $arr['paySign'] = self::getSign($arr, $config['key']);
 
         return $arr;
+    }
+
+
+    /**
+     * 小程序请求支付
+     * https://developers.weixin.qq.com/miniprogram/dev/api/api-pay.html
+     *
+     * @param $openid
+     * @param float $totalFee 金额 单位元
+     * @param $outTradeNo
+     * @param $orderName
+     * @param $notifyUrl
+     * @param $timestamp
+     * @return array
+     */
+    public function miniRequestPayment($openid, $totalFee, $outTradeNo, $orderName, $notifyUrl, $timestamp)
+    {
+        //订单名太长支付会失败
+        //$orderName = mb_strlen($orderName) > 10 ? (mb_substr($orderName, 10) . '...') : $orderName;
+
+        $config = self::getConfig();
+
+        //小程序配置信息
+        $mini_appid = $config['mini_appid'];
+
+        //支付配置
+        $mch_id = $config['mch_id'];
+        $payKey = $config['key'];
+
+        $timeStamp = (string)$timestamp;
+        $nonceStr = self::createNonceStr();
+        $signType = 'MD5';
+
+        $unified = array(
+            'appid' => $config['mini_appid'],
+            'mch_id' => $mch_id,
+            'nonce_str' => $nonceStr,
+            'body' => $orderName,
+            'out_trade_no' => $outTradeNo,
+            'total_fee' => sprintf('%.0f', self::calc($totalFee, 100, '*', 2)),//单位 转为分
+            'spbill_create_ip' => '127.0.0.1',  //终端IP
+            'notify_url' => $notifyUrl,
+            'trade_type' => 'JSAPI',
+
+            //'attach' => '支付',                          //商家数据包，原样返回
+
+            //rade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取
+            'openid' => $openid,                        //rade_type=JSAPI，此参数必传
+        );
+
+        $arr = static::unifiedOrder($unified, $payKey);
+        $package = 'prepay_id=' . $arr['prepay_id'];
+
+        $paySignData = array(
+            'appId' => $mini_appid,
+            'timeStamp' => $timeStamp,
+            'nonceStr' => $nonceStr,
+            'package' => $package,
+            'signType' => 'MD5',
+        );
+
+        $paySign = PayService::getSign($paySignData, $payKey);
+
+        $requestPayment = compact('timeStamp', 'nonceStr', 'package', 'signType', 'paySign');
+
+        return $requestPayment;
+    }
+
+
+    public static function unifiedOrder($unified, $payKey)
+    {
+
+//        $unified = array(
+//            'appid' => $config['appid'],
+//            'mch_id' => $config['mch_id'],
+//            'nonce_str' => self::createNonceStr(),
+//            'body' => $orderName,
+//            'out_trade_no' => $outTradeNo,
+//            'total_fee' => sprintf('%.0f', self::calc($totalFee, 100, '*', 2)),//单位 转为分
+//            'spbill_create_ip' => '127.0.0.1',  //终端IP
+//            'notify_url' => $notifyUrl,
+//            'trade_type' => 'JSAPI',
+//
+//            //'attach' => '支付',                          //商家数据包，原样返回
+//
+//            //rade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识。openid如何获取
+//            'openid' => $openid,                        //rade_type=JSAPI，此参数必传
+//        );
+
+        $unified['sign_type'] = 'MD5';
+        $unified['sign'] = self::getSign($unified, $payKey);
+
+        $responseXml = self::curlPost('https://api.mch.weixin.qq.com/pay/unifiedorder', self::arrayToXml($unified));
+
+
+        //<xml>
+        //    <return_code><![CDATA[SUCCESS]]></return_code>
+        //    <return_msg><![CDATA[OK]]></return_msg>
+        //    <appid><![CDATA[wx00e5904efec77699]]></appid>
+        //    <mch_id><![CDATA[1220647301]]></mch_id>
+        //    <nonce_str><![CDATA[1LHBROsdmqfXoWQR]]></nonce_str>
+        //    <sign><![CDATA[ACA7BC8A9164D1FBED06C7DFC13EC839]]></sign>
+        //    <result_code><![CDATA[SUCCESS]]></result_code>
+        //    <prepay_id><![CDATA[wx2015032016590503f1bcd9c30421762652]]></prepay_id>
+        //    <trade_type><![CDATA[JSAPI]]></trade_type>
+        //</xml>
+
+        $unifiedOrder = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
+
+        if ($unifiedOrder === false) {
+            Log::warning('parse xml error: ' . $responseXml);
+            throw new WechatException('parse xml error');
+        }
+        if ((string)$unifiedOrder->return_code !== 'SUCCESS') {
+            Log::warning('return_code: ' . $unifiedOrder->return_msg);
+            throw new WechatException('return_code: ' . $unifiedOrder->return_msg);
+        }
+        if ((string)$unifiedOrder->result_code !== 'SUCCESS') {
+            Log::warning('result_code: ' . $unifiedOrder->err_code);
+            throw new WechatException('result_code: ' . $unifiedOrder->err_code);
+
+            //NOAUTH  商户无此接口权限
+            //NOTENOUGH  余额不足
+            //ORDERPAID  商户订单已支付
+            //ORDERCLOSED  订单已关闭
+            //SYSTEMERROR  系统错误
+            //APPID_NOT_EXIST     APPID不存在
+            //MCHID_NOT_EXIST  MCHID不存在
+            //APPID_MCHID_NOT_MATCH appid和mch_id不匹配
+            //LACK_PARAMS 缺少参数
+            //OUT_TRADE_NO_USED 商户订单号重复
+            //SIGNERROR 签名错误
+            //XML_FORMAT_ERROR XML格式错误
+            //REQUIRE_POST_METHOD 请使用post方法
+            //POST_DATA_EMPTY post数据为空
+            //NOT_UTF8 编码格式错误
+        }
+
+        //$unifiedOrder->trade_type  交易类型  调用接口提交的交易类型，取值如下：JSAPI，NATIVE，APP
+        //$unifiedOrder->prepay_id  预支付交易会话标识 微信生成的预支付回话标识，用于后续接口调用中使用，该值有效期为2小时
+        //$unifiedOrder->code_url 二维码链接 trade_type为NATIVE是有返回，可将该参数值生成二维码展示出来进行扫码支付
+
+        return (array)$unifiedOrder;
     }
 
     /**

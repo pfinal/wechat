@@ -9,6 +9,10 @@ return array(
     'encodingAesKey' => 'xxx',
     'middleUrl' => null,         //此参数默认为null即可
 
+    //小程序
+    'miniAppId' => 'xxx',
+    'miniSecret' => 'xxx',
+
     //微信支付 https://pay.weixin.qq.com
     'mchId' => 'xxx',
     'apiSecret' => 'xxx', // 在这里设置 https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥

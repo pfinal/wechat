@@ -2,6 +2,7 @@
 
 namespace PFinal\Wechat\Service;
 
+use PFinal\Wechat\Kernel;
 use PFinal\Wechat\Support\Session;
 use PFinal\Wechat\WechatException;
 
@@ -195,4 +196,43 @@ class OAuthService extends BaseService
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openId}&lang=zh_CN";
         return parent::request($url);
     }
+
+
+    /**
+     * 小程序登录
+     *
+     * 返回 ['openid'=>'', 'session_key'=>'']
+     */
+    public function jscode2session($code)
+    {
+
+        //小程序配置信息
+        $mini_appid = Kernel::getConfig('miniAppId');
+        $mini_secret = Kernel::getConfig('miniSecret');
+
+        $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code';
+        $url = sprintf($url, $mini_appid, $mini_secret, $code);
+
+        return parent::request($url);
+
+        // 正常返回的JSON数据包
+        //{
+        //    "openid": "OPENID",
+        //      "session_key": "SESSIONKEY",
+        //}
+        //
+        ////满足UnionID返回条件时，返回的JSON数据包
+        //{
+        //    "openid": "OPENID",
+        //    "session_key": "SESSIONKEY",
+        //    "unionid": "UNIONID"
+        //}
+        ////错误时返回JSON数据包(示例为Code无效)
+        //{
+        //    "errcode": 40029,
+        //    "errmsg": "invalid code"
+        //}
+    }
+
+
 }
