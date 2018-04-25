@@ -2,6 +2,10 @@
 
 namespace PFinal\Wechat\Service;
 
+use PFinal\Wechat\Kernel;
+use PFinal\Wechat\SDK\MiniAppCrypt\WXBizDataCrypt;
+use PFinal\Wechat\WechatException;
+
 class UserService extends BaseService
 {
     /**
@@ -100,4 +104,29 @@ class UserService extends BaseService
 
         return parent::request($url);
     }
+
+    /**
+     * 从小程序中获取用户手机号
+     * 小程序 获取微信用户绑定的手机号，需先调用login接口，拿到 $sessionKey
+     *
+     * https://developers.weixin.qq.com/miniprogram/dev/api/getPhoneNumber.html
+     *
+     * countryCode
+     * purePhoneNumber
+     * phoneNumber
+     */
+    public function getPhoneNumber($encryptedData, $iv, $sessionKey)
+    {
+        //小程序配置信息
+        $mini_appid = Kernel::getConfig('miniAppId');
+
+        $pc = new WXBizDataCrypt($mini_appid, $sessionKey);
+        $errCode = $pc->decryptData($encryptedData, $iv, $data);
+
+        if ($errCode != 0) {
+            throw new WechatException('解密失败' . $errCode);
+        }
+        return json_decode($data, true);
+    }
+
 }
