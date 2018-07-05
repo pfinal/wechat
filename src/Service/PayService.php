@@ -77,6 +77,8 @@ class PayService
         //    <trade_type><![CDATA[JSAPI]]></trade_type>
         //</xml>
 
+        //https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=23_5
+        libxml_disable_entity_loader(true);
         $unifiedOrder = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($unifiedOrder === false) {
@@ -230,6 +232,7 @@ class PayService
         //    <trade_type><![CDATA[JSAPI]]></trade_type>
         //</xml>
 
+        libxml_disable_entity_loader(true);
         $unifiedOrder = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($unifiedOrder === false) {
@@ -315,6 +318,7 @@ class PayService
         //    <transaction_id><![CDATA[1008840847201503200034663980]]></transaction_id>
         //</xml>';
 
+        libxml_disable_entity_loader(true);
         $postObj = @simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($postObj == false) {
@@ -453,6 +457,7 @@ XML;
 
         Log::debug($responseXml);
 
+        libxml_disable_entity_loader(true);
         $responseObj = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($responseObj === false) {
@@ -542,6 +547,7 @@ XML;
 
         Log::debug($responseXml);
 
+        libxml_disable_entity_loader(true);
         $responseObj = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
         if ($responseObj === false) {

@@ -127,6 +127,7 @@ class Api
             //自动识别是否需要解密
             $xmlStr = $this->attemptDecrypt($xmlStr);
 
+            libxml_disable_entity_loader(true);
             $xmlElement = @simplexml_load_string($xmlStr, 'SimpleXMLElement', LIBXML_NOCDATA | LIBXML_NOBLANKS);
             if ($xmlElement === false) {
                 throw new WechatException('load xml error. ' . $xmlStr);

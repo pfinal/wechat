@@ -100,6 +100,7 @@ class RedPackService extends BaseService
         wishing字段为必填,并且少于128个字符	缺少wishing字段	填写wishing字段再重试
         商户号和wxappid不匹配	商户号和wxappid不匹配	请修改Mchid或wxappid参数
         */
+        libxml_disable_entity_loader(true);
         $responseObj = @simplexml_load_string($responseXml, 'SimpleXMLElement', LIBXML_NOCDATA);
 
 
