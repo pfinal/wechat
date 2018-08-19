@@ -379,7 +379,7 @@ class PayService
      * @param float $refund_fee 退款总金额 单位为元，精度为2位小数
      * @param string $out_refund_no 商户退款单号 商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。
      * @param string $transaction_id 微信订单号 String(28) 微信生成的订单号，在支付通知中有返回 (transaction_id out_trade_no 二选一)
-     * @return array
+     * @return array 成功返回如下数组，失败将抛出异常
      * Array
      * (
      *     [return_code] => SUCCESS
@@ -469,7 +469,10 @@ XML;
             return (array)$responseObj;
         }
 
-        throw new \Exception($responseObj->err_code . ' ' . $responseObj->return_msg);
+        Log::warning('refund error', (array)$responseObj);
+        //{"return_code":"SUCCESS","return_msg":"OK","appid":"wxd1048134f34b25d9","mch_id":"1510414541","nonce_str":"qfcr3qFBZWaSeBSv","sign":"98C20C8148B2328C31AA844E51E97B16","result_code":"FAIL","err_code":"NOTENOUGH","err_code_des":"基本账户余额不足，请充值后重新发起"}
+
+        throw new \Exception($responseObj->err_code . ' ' . $responseObj->return_msg . ' ' . $responseObj->err_code_des);
     }
 
     /**

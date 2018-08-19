@@ -16,9 +16,9 @@ return array(
     //微信支付 https://pay.weixin.qq.com
     'mchId' => 'xxx',
     'apiSecret' => 'xxx', // 在这里设置 https://pay.weixin.qq.com 帐户设置-安全设置-API安全-API密钥-设置API密钥
-    'sslCert' => '/data/cert/apiclient_cert.pem', //发红包等功能需要配置证书，根据实际情况配置，只是在线收款，不需要证书
+    'sslCert' => '/data/cert/apiclient_cert.pem', //发红包、退款等功能需要配置证书，根据实际情况配置，如果只是在线收款，不需要证书
     'sslKey' => '/data/cert/apiclient_key.pem',
-    'caInfo' => '/data/cert/rootca.pem',
+    //'caInfo' => '/data/cert/rootca.pem', //由于绝大部分操作系统已内置了微信支付服务器证书的根CA证书,  2018年3月6日后, 不再提供CA证书文件（rootca.pem）下载
 
     //日志
     'log' => array(
