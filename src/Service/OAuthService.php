@@ -203,7 +203,7 @@ class OAuthService extends BaseService
      *
      * 返回 ['openid'=>'', 'session_key'=>'']
      */
-    public function jscode2session($code)
+    public static function jscode2session($code)
     {
         //小程序配置信息
         $mini_appid = Kernel::getConfig('miniAppId');
