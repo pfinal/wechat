@@ -197,9 +197,8 @@ class OAuthService extends BaseService
         return parent::request($url);
     }
 
-
     /**
-     * 小程序登录
+     * 小程序登录，code换取openid和session_key
      *
      * 返回 ['openid'=>'', 'session_key'=>'']
      */
@@ -212,7 +211,15 @@ class OAuthService extends BaseService
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code';
         $url = sprintf($url, $mini_appid, $mini_secret, $code);
 
-        return parent::request($url);
+        //{"session_key":"T2z4lZyjJIOeg15Br7+i8w==","expires_in":7200,"openid":"omNAI0TVp3kBuzSwXXhC10mhYap4"}
+        $json = \PFinal\Wechat\Support\Curl::get($url);
+        $arr = @json_decode($json, true);
+
+        if (!array_key_exists('openid', $arr)) {
+            throw new WechatException($arr['errmsg'], $arr['errcode']);
+        }
+
+        return $arr;
 
         // 正常返回的JSON数据包
         //{
@@ -232,6 +239,4 @@ class OAuthService extends BaseService
         //    "errmsg": "invalid code"
         //}
     }
-
-
 }
