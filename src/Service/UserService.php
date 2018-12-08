@@ -109,13 +109,31 @@ class UserService extends BaseService
      * 从小程序中获取用户手机号
      * 小程序 获取微信用户绑定的手机号，需先调用login接口，拿到 $sessionKey
      *
-     * https://developers.weixin.qq.com/miniprogram/dev/api/getPhoneNumber.html
+     * https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
      *
      * countryCode
      * purePhoneNumber
      * phoneNumber
+     * @throws WechatException
      */
-    public function getPhoneNumber($encryptedData, $iv, $sessionKey)
+    public static function getPhoneNumber($encryptedData, $iv, $sessionKey)
+    {
+        return self::decryptDataForMiniProgram($encryptedData, $iv, $sessionKey);
+    }
+
+    /**
+     * 解密小程序数据 例如 wx.getUserInfo  getPhoneNumber
+     *
+     * https://developers.weixin.qq.com/miniprogram/dev/api/wx.getUserInfo.html
+     * https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html
+     *
+     * @param $encryptedData
+     * @param $iv
+     * @param $sessionKey
+     * @return array
+     * @throws WechatException
+     */
+    public static function decryptDataForMiniProgram($encryptedData, $iv, $sessionKey)
     {
         //小程序配置信息
         $mini_appid = Kernel::getConfig('miniAppId');
@@ -128,5 +146,4 @@ class UserService extends BaseService
         }
         return json_decode($data, true);
     }
-
 }

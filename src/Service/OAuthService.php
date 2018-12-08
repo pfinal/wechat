@@ -197,8 +197,9 @@ class OAuthService extends BaseService
         return parent::request($url);
     }
 
+
     /**
-     * 小程序登录，code换取openid和session_key
+     * 小程序登录 code换取 session_key 和 openid
      *
      * 返回 ['openid'=>'', 'session_key'=>'']
      */
