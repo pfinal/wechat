@@ -10,7 +10,7 @@ class OAuthService extends BaseService
 {
     /**
      * 获取微信用户openid,此方法会跳转到微信授权页面获取用户授权然后返回
-     * 在ajax中调用本方法，无效
+     * 在ajax中调用本方法无效，url中请勿包含code和state查询参数
      *
      * 请先填写授权回调页面域名
      * https://mp.weixin.qq.com 开发>接口权限>网页服务>网页账号>网页授权获取用户基本信息>授权回调页面域名
@@ -26,7 +26,7 @@ class OAuthService extends BaseService
 
     /**
      * 获取微信用户信息,此方法会跳转到微信授权页面获取用户授权然后返回
-     * 在ajax中调用本方法无效
+     * 在ajax中调用本方法无效，url中请勿包含code和state查询参数
      *
      * @param bool|false $openidOnly 此参数为true时，仅返回openid 响应速度会更快，并且不需要用户点击同意授权
      * @return array
@@ -34,31 +34,9 @@ class OAuthService extends BaseService
      */
     public static function getUser($openidOnly = false)
     {
-        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
+        $state = 'PFINAL_WECHAT';
 
-        //从微信oAuth页面跳转回来
-        if (Session::hasFlash($flashKey)) {
-
-            $flashData = @unserialize(Session::getFlash($flashKey));
-
-            if (is_array($flashData) && (time() - $flashData[0] < 120) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
-
-                if (!isset($_GET['code'])) {
-                    throw new WechatException('微信网页授权失败');
-                }
-
-                //通过code换取网页授权access_token
-                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
-
-                if ($openidOnly) {
-                    return $OauthAccessTokenArr;
-                }
-
-                //拉取用户信息(需scope为 snsapi_userinfo)
-                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
-            }
-        }
-        if (isset($_GET['code'])) {
+        if (isset($_GET['code']) && isset($_GET['state']) && $_GET['state'] === $state) {
 
             //通过code换取网页授权access_token
             $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
@@ -77,11 +55,59 @@ class OAuthService extends BaseService
         $uri = static::urlClean($uri);
 
         //跳转到微信oAuth授权页面
-        $state = uniqid();
-        Session::setFlash($flashKey, serialize(array(time(), $state)));
-
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
     }
+
+//    public static function getUser($openidOnly = false)
+//    {
+//        $flashKey = md5(__CLASS__ . __METHOD__) . 'oAuthAuthState';
+//
+//        //从微信oAuth页面跳转回来
+//        if (Session::hasFlash($flashKey)) {
+//
+//            $flashData = @unserialize(Session::getFlash($flashKey));
+//
+//            if (is_array($flashData) && (time() - $flashData[0] < 120) && isset($_GET['state']) && $_GET['state'] === $flashData[1]) {
+//
+//                if (!isset($_GET['code'])) {
+//                    throw new WechatException('微信网页授权失败');
+//                }
+//
+//                //通过code换取网页授权access_token
+//                $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
+//
+//                if ($openidOnly) {
+//                    return $OauthAccessTokenArr;
+//                }
+//
+//                //拉取用户信息(需scope为 snsapi_userinfo)
+//                return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
+//            }
+//        }
+//        if (isset($_GET['code'])) {
+//
+//            //通过code换取网页授权access_token
+//            $OauthAccessTokenArr = self::getOauthAccessToken($_GET['code']);
+//
+//            if ($openidOnly) {
+//                return $OauthAccessTokenArr;
+//            }
+//
+//            //拉取用户信息(需scope为 snsapi_userinfo)
+//            return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
+//        }
+//
+//        //当前url
+//        $uri = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+//
+//        $uri = static::urlClean($uri);
+//
+//        //跳转到微信oAuth授权页面
+//        $state = uniqid();
+//        Session::setFlash($flashKey, serialize(array(time(), $state)));
+//
+//        self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
+//    }
 
     /**
      * 从url中移除code参数 例如 http://www.test.com?/oauth?code=1234&params=11 将返回 http://www.test.com?/oauth?params=11

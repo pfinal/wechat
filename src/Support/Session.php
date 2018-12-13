@@ -4,6 +4,12 @@ namespace PFinal\Wechat\Support;
 
 use PFinal\Wechat\Kernel;
 
+/**
+ * 'session' => array(
+ *    'class' => '\PFinal\Session\NativeSession',// 支持切换为Redis或Memcache，默认为PHP原生Session
+ *     'keyPrefix' => 'pfinal.wechat',
+ *   ),
+ */
 class Session
 {
     /**
@@ -21,7 +27,7 @@ class Session
         }
     }
 
-    public static function  __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         static::init();
 

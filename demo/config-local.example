@@ -28,12 +28,6 @@ return array(
         'file' => './wechat.log',
     ),
 
-    //会话
-    'session' => array(
-        'class' => '\PFinal\Session\NativeSession',// 支持切换为Redis或Memcache，默认为PHP原生Session
-        'keyPrefix' => 'pfinal.wechat',
-    ),
-
     //缓存
     'cache' => array(
         'class' => '\PFinal\Cache\FileCache', // 支持切换为Redis或Memcache缓存，默认为文件缓存
