@@ -292,10 +292,8 @@ class PayService
      *
      * @throws WechatException
      */
-    public static function notify()
+    public static function notify($checkSign = true)
     {
-        $config = self::getConfig();
-
         $postStr = file_get_contents('php://input');
 
         //$postStr = '<xml>
@@ -335,8 +333,16 @@ class PayService
         }
 
         $postArr = (array)$postObj;
+
+        //不验证签名，主要用于获取appid、mch_id
+        if (!$checkSign) {
+            return $postArr;
+        }
+
         $signArr = $postArr;
         unset($signArr['sign']);
+
+        $config = self::getConfig();
 
         if (self::getSign($signArr, $config['key']) === $postArr['sign']) {
 
