@@ -144,9 +144,8 @@ class QrcodeService extends BaseService
             ]
         );
 
-
         if (strlen($image) > 500) {
-            header('Content-type: image');
+            //header('Content-type: image');
             return $image;
         }
 
@@ -179,7 +178,7 @@ class QrcodeService extends BaseService
             );
 
             if (strlen($image) > 500) {
-                header('Content-type: image');
+                //header('Content-type: image');
                 return $image;
             }
             $arr = @json_decode($image, true);
