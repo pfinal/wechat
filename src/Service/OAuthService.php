@@ -49,8 +49,14 @@ class OAuthService extends BaseService
             return self::getOauthUserInfo($OauthAccessTokenArr['openid'], $OauthAccessTokenArr['access_token']);
         }
 
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+            $proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
+        } else {
+            $proto = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+        }
+
         //当前url
-        $uri = (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $uri = $proto . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         $uri = static::urlClean($uri);
 
