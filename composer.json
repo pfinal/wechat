@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=5.3",
-        "symfony/event-dispatcher": ">=2.6|3.*",
+        "symfony/event-dispatcher": "2.*|3.*",
         "monolog/monolog": "*",
         "pfinal/cache": "*",
         "pfinal/session": "*"
