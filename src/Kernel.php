@@ -53,7 +53,7 @@ class Kernel
      */
     public static function getRedpackHelper()
     {
-        if (static::$redpackHelper == null) {
+        if (static::$redpackHelper == null || static::$redpackHelper->appId != self::$config['appId']) {
             static::$redpackHelper = new \PFinal\Wechat\SDK\Redpack\Helper(self::$config);
         }
 

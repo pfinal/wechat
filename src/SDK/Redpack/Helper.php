@@ -171,23 +171,33 @@ class Helper
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        //以下两种方式需选择一种
-        //第二种方式，两个文件合成一个.pem文件
+        //如果两个文件合成一个.pem文件
         //curl_setopt($ch,CURLOPT_SSLCERT,getcwd().'/all.pem');
 
+        $sslCertTempFile = false;
+        if (strlen($this->sslCert) > 255) {
+            $sslCertTempFile = tempnam(sys_get_temp_dir(), 'pfinal_wechat');
+            file_put_contents($sslCertTempFile, $this->sslCert);
+        }
+        curl_setopt($ch, CURLOPT_SSLCERT, $sslCertTempFile ? $sslCertTempFile : $this->sslCert);
 
-        //第一种方法，cert 与 key 分别属于两个.pem文件
-        curl_setopt($ch, CURLOPT_SSLCERT, $this->sslCert);
-        //curl_setopt($ch, CURLOPT_SSLKEY, $this->sslKey);
-        //curl_setopt($ch, CURLOPT_CAINFO,$this->caInfo);
-
+        $sslKeyTempFile = false;
         if (!empty($this->sslKey)) {
-            curl_setopt($ch, CURLOPT_SSLKEY, $this->sslKey);
-        }
-        if (!empty($this->caInfo)) {
-            curl_setopt($ch, CURLOPT_CAINFO, $this->caInfo);
+            if (strlen($this->sslKey) > 255) {
+                $sslKeyTempFile = tempnam(sys_get_temp_dir(), 'pfinal_wechat');
+                file_put_contents($sslKeyTempFile, $this->sslKey);
+            }
+            curl_setopt($ch, CURLOPT_SSLKEY, $sslKeyTempFile ? $sslKeyTempFile : $this->sslKey);
         }
 
+        $caInfoTempFile = false;
+        if (!empty($this->caInfo)) {
+            if (strlen($this->caInfo) > 255) {
+                $caInfoTempFile = tempnam(sys_get_temp_dir(), 'pfinal_wechat');
+                file_put_contents($caInfoTempFile, $this->caInfo);
+            }
+            curl_setopt($ch, CURLOPT_CAINFO, $caInfoTempFile ? $caInfoTempFile : $this->caInfo);
+        }
 
         if (count($aHeader) >= 1) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $aHeader);
@@ -196,6 +206,18 @@ class Helper
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $vars);
         $data = curl_exec($ch);
+
+
+        if ($sslCertTempFile) {
+            unlink($sslCertTempFile);
+        }
+        if ($sslKeyTempFile) {
+            unlink($sslKeyTempFile);
+        }
+        if ($caInfoTempFile) {
+            unlink($caInfoTempFile);
+        }
+
         if ($data) {
             curl_close($ch);
             return $data;
