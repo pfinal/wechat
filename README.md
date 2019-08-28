@@ -81,19 +81,13 @@ echo $response;
 
 ```
 
-## 效果截图
-
-![](doc/demo1.png)
-![](doc/demo2.png)
-![](doc/demo3.png)
-![](doc/demo4.png)
-
 
 ## http代理
 
-```
+```php
+<?php
 putenv('WECHAT_PROXY', '127.0.0.1');
-putenv('CURLOPT_PROXYPORT', '8080');
+putenv('WECHAT_PROXYPORT', '8080');
 
 # proxy server
 # https://github.com/pfinal/proxy
@@ -101,5 +95,12 @@ putenv('CURLOPT_PROXYPORT', '8080');
 # chmod +x proxy
 # ./proxy --port :8080
 ```
+
+## 效果截图
+
+![](doc/demo1.png)
+![](doc/demo2.png)
+![](doc/demo3.png)
+![](doc/demo4.png)
 
 
