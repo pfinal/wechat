@@ -87,3 +87,19 @@ echo $response;
 ![](doc/demo2.png)
 ![](doc/demo3.png)
 ![](doc/demo4.png)
+
+
+## http代理
+
+```
+putenv('WECHAT_PROXY', '127.0.0.1');
+putenv('CURLOPT_PROXYPORT', '8080');
+
+# proxy server
+# https://github.com/pfinal/proxy
+# curl -o proxy https://github.com/pfinal/proxy/releases/download/v1.0.0/proxy-linux
+# chmod +x proxy
+# ./proxy --port :8080
+```
+
+
