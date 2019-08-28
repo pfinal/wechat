@@ -39,6 +39,20 @@ class Curl
             curl_setopt_array($ch, $options);
         }
 
+        //https://github.com/pfinal/proxy
+        $proxy = getenv('WECHAT_PROXY');
+        $proxyPort = getenv('WECHAT_PROXYPORT');
+
+        if ($proxy) {
+            curl_setopt($ch, CURLOPT_PROXY, $proxy);
+        }
+
+        if ($proxyPort) {
+            curl_setopt($ch, CURLOPT_PROXYPORT, $proxyPort);
+        }
+
+        //curl_setopt($ch, CURLOPT_PROXYUSERPWD, "代理用户:代理密码");
+
         if (!($output = curl_exec($ch))) {
             $errors = array(
                     'errno' => curl_errno($ch),
