@@ -96,6 +96,19 @@ putenv('WECHAT_PROXYPORT', '8080');
 # ./proxy --port :8080
 ```
 
+## 中控服务器
+
+```
+putenv('WECHAT_ACCESS_TOKEN_SERVER', 'http://192.168.1.33/wechat-access-token');
+
+中控服务器接收参数:
+$_POST['appId']
+$_POST['useCache']  '1'表示可用缓存  '0' 表示不用缓存
+响应内容 {"status": true, "access_token": "xxx"}
+```
+
+
+
 ## 效果截图
 
 ![](doc/demo1.png)
