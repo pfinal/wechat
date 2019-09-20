@@ -335,6 +335,26 @@ class Api
      */
     public function getAccessToken($useCache = true)
     {
+        //https://developers.weixin.qq.com/doc/offiaccount/Basic_Information/Get_access_token.html
+        //建议公众号开发者使用中控服务器统一获取和刷新access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务
+
+        // 接收参数:
+        // $_POST['appId']
+        // $_POST['useCache']  '1'表示可用缓存  '0' 表示不用缓存
+        // 响应内容 {"status": true, "access_token": "xxx"}
+        $server = getenv('WECHAT_ACCESS_TOKEN_SERVER');
+
+        if ($server) {
+
+            $result = Curl::post($server, ['appId' => $this->appId, 'useCache' => $useCache ? 1 : 0]);
+            if ($result && ($arr = json_decode($result, true)) && is_array($arr) && $arr['status']) {
+
+                $this->accessToken = $arr['access_token'];
+
+                return $this->accessToken;
+            }
+        }
+
         //缓存key
         $cacheKey = md5(__CLASS__ . __METHOD__ . $this->appId);
 
