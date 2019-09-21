@@ -32,7 +32,7 @@ class OAuthService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function getUser($openidOnly = false)
+    public static function getUser($openidOnly = false, $uri = null)
     {
         $state = 'PFINAL_WECHAT';
 
@@ -56,9 +56,10 @@ class OAuthService extends BaseService
         }
 
         //当前url
-        $uri = $proto . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
-        $uri = static::urlClean($uri);
+        if ($uri == null) {
+            $uri = $proto . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            $uri = static::urlClean($uri);
+        }
 
         //跳转到微信oAuth授权页面
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
