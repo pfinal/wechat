@@ -1,6 +1,15 @@
 {
     "name": "yanlongli/wechat",
-    "description": "a",
+    "description": "希望打造一个尽量全面的微信平台管理工具，包含公众号、小程序、微信商户、移动app、网站app等。",
+    "keywords": [
+        "wechat",
+        "微信",
+        "公众号",
+        "小程序",
+        "微信商户",
+        "微信支付",
+        "wechat pay"
+    ],
     "type": "library",
     "license": "MulanPSL",
     "authors": [
@@ -9,6 +18,34 @@
             "email": "ahlyl94@gmail.com"
         }
     ],
+    "homepage": "https://wechat.yanlongli.com/",
+    "support": {
+        "issues": "https://gitee.com/yanlong-li/wechat/issues",
+        "forum": "https://gitee.com/yanlong-li/wechat/issues",
+        "wiki": "https://gitee.com/yanlong-li/wechat/wikis",
+        "irc": "https://gitee.com/yanlong-li/wechat/issues",
+        "source": "https://gitee.com/yanlong-li/wechat",
+        "email": "admin@yanlongli.com",
+        "docs": "https://gitee.com/yanlong-li/wechat/wikis",
+        "rss": "https://gitee.com/yanlong-li/wechat/wikis"
+    },
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "php": ">=7.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "yanlongli\\wechat\\core\\": "src/core/",
+            "yanlongli\\wechat\\officialAccount\\": "src/officialAccount/",
+            "yanlongli\\wechat\\websiteApp\\": "src/websiteApp/",
+            "yanlongli\\wechat\\miniProgram\\": "src/miniProgram/",
+            "yanlongli\\wechat\\pay\\": "src/pay/"
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    }
 }
