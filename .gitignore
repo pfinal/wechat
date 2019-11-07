@@ -1,0 +1,10 @@
+#Idea
+/.idea
+
+#composer
+/vendor
+/composer.lock
+
+#system
+.DS_Store
+__MACOSX

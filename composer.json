@@ -1,0 +1,14 @@
+{
+    "name": "yanlongli/wechat",
+    "description": "a",
+    "type": "library",
+    "license": "MulanPSL",
+    "authors": [
+        {
+            "name": "Yanlong-li",
+            "email": "ahlyl94@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
