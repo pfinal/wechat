@@ -15,14 +15,16 @@
  *   IDE:    PhpStorm
  *   Desc:   小程序
  */
+declare(strict_types=1);
 
 namespace yanlongli\wechat\miniProgram;
+
+use yanlongli\wechat\App;
 
 /**
  * Class MiniProgram
  * @package yanlongli\wechat\miniProgram
  */
-class MiniProgram
+class MiniProgram extends App
 {
-
 }

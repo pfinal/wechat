@@ -10,22 +10,23 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
+ *   Author: Yanlongli <jobs@yanlongli.com> 、Zou Yiliang<>
+ *   Date:   2019/11/8
  *   IDE:    PhpStorm
- *   Desc:   公众号
+ *   Desc:  群发消息接口
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
-
-
-use yanlongli\wechat\App;
+namespace yanlongli\wechat\messaging\contract;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * Interface MassMessage
+ * @author  Zou Yiliang
+ * @license MIT
+ * @version 0.0.1.0
+ * @package yanlongli\wechat\contract
  */
-class OfficialAccount extends App
+interface MassMessage extends CallMessage
 {
+
 }

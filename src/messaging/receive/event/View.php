@@ -11,21 +11,23 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
+ *   Date:   2019/11/14
  *   IDE:    PhpStorm
- *   Desc:   公众号
+ *   Desc:   点击菜单跳转事件
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
+namespace yanlongli\wechat\messaging\receive\event;
 
 
-use yanlongli\wechat\App;
+use yanlongli\wechat\messaging\contract\EventMessage;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * Class Click
+ * @package yanlongli\wechat\messaging\receive\event
+ * @property string $EventKey 事件KEY值，与自定义菜单接口中KEY值对应
  */
-class OfficialAccount extends App
+class View implements EventMessage
 {
+    const EVENT = 'VIEW';
 }

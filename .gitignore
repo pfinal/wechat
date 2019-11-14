@@ -8,3 +8,7 @@
 #system
 .DS_Store
 __MACOSX
+
+#project
+*-local.*
+*.log

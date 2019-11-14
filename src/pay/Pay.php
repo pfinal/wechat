@@ -15,14 +15,17 @@
  *   IDE:    PhpStorm
  *   Desc:   微信支付
  */
+declare(strict_types=1);
 
 namespace yanlongli\wechat\pay;
+
+use yanlongli\wechat\App;
 
 /**
  * Class Pay
  * @package yanlongli\wechat\pay
  */
-class Pay
+class Pay extends App
 {
 
 }

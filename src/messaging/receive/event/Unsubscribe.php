@@ -11,21 +11,22 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
+ *   Date:   2019/11/14
  *   IDE:    PhpStorm
- *   Desc:   公众号
+ *   Desc:   取消关注事件
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
+namespace yanlongli\wechat\messaging\receive\event;
 
 
-use yanlongli\wechat\App;
+use yanlongli\wechat\messaging\contract\EventMessage;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * Class Unsubscribe
+ * @package yanlongli\wechat\messaging\receive\event
  */
-class OfficialAccount extends App
+class Unsubscribe implements EventMessage
 {
+    const EVENT = 'unsubscribe';
 }

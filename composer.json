@@ -31,16 +31,22 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.3.0"
+        "php": ">=7.3.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-iconv": "*"
     },
     "autoload": {
         "psr-4": {
-            "yanlongli\\wechat\\core\\": "src/core/",
-            "yanlongli\\wechat\\officialAccount\\": "src/officialAccount/",
-            "yanlongli\\wechat\\websiteApp\\": "src/websiteApp/",
-            "yanlongli\\wechat\\miniProgram\\": "src/miniProgram/",
-            "yanlongli\\wechat\\pay\\": "src/pay/"
+            "yanlongli\\wechat\\": "src/"
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php wechat.php service:discover"
+        ]
+    },
+    "scripts-descriptions": {
     },
     "repositories": {
         "packagist": {

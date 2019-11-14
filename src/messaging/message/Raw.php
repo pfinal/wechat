@@ -10,22 +10,43 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
- *   IDE:    PhpStorm
- *   Desc:   公众号
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
+namespace yanlongli\wechat\messaging\message;
 
-
-use yanlongli\wechat\App;
+use yanlongli\wechat\messaging\contract\ReplyMessage;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * Class Raw
+ * @package yanlongli\wechat\messaging\message
  */
-class OfficialAccount extends App
+class Raw implements ReplyMessage
 {
+    public $data;
+
+    /**
+     * 手动构建xml字符串
+     * @param string $data
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function xmlData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return string
+     */
+    public function type()
+    {
+        return 'raw';
+    }
 }

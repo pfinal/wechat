@@ -11,18 +11,33 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
+ *   Date:   2019/11/8
  *   IDE:    PhpStorm
- *   Desc:   微信管理SDK核心
+ *   Desc:
  */
+declare(strict_types=1);
 
-namespace yanlongli\wechat\core;
+namespace yanlongli\wechat;
+
 
 /**
- * Class Wechat
- * @package yanlongli\wechat\core
+ * Class User
+ * @package yanlongli\wechat
  */
-class Wechat
+abstract class User
 {
+    /**
+     * @var string
+     */
+    public $openID;
 
+    /**
+     * User constructor.
+     * @param $openID
+     * @return void
+     */
+    public function __construct($openID)
+    {
+        $this->openID = $openID;
+    }
 }

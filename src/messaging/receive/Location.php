@@ -11,21 +11,25 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
+ *   Date:   2019/11/14
  *   IDE:    PhpStorm
- *   Desc:   公众号
+ *   Desc:  地理位置坐标消息
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
+namespace yanlongli\wechat\messaging\receive;
 
-
-use yanlongli\wechat\App;
+use yanlongli\wechat\messaging\contract\ReceiveMessage;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * Class Location
+ * @package yanlongli\wechat\messaging\receive
+ * @property string $Location_X 地理位置维度
+ * @property string $Location_Y 地理位置经度
+ * @property string $Scale 地图缩放大小
+ * @property string $Label 地理位置信息
  */
-class OfficialAccount extends App
+class Location implements ReceiveMessage
 {
+    const TYPE = 'location';
 }

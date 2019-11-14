@@ -10,22 +10,43 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/7
- *   IDE:    PhpStorm
- *   Desc:   公众号
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\officialAccount;
+namespace yanlongli\wechat\messaging\message;
 
-
-use yanlongli\wechat\App;
+use yanlongli\wechat\messaging\contract\MassMessage;
 
 /**
- * Class OfficialAccount
- * @package yanlongli\wechatOfficialAccount
+ * 图文消息
  */
-class OfficialAccount extends App
+class MpNews implements MassMessage
 {
+    protected $type = 'mpnews';
+    protected $mediaId;
+
+    public function __construct($mediaId)
+    {
+        $this->mediaId = $mediaId;
+    }
+
+    /**
+     * @return string
+     */
+    public function type()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonData()
+    {
+        return array(
+            'mpnews' => array(
+                'media_id' => $this->mediaId,
+            ),
+        );
+    }
 }

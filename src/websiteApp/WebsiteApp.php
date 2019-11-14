@@ -15,14 +15,16 @@
  *   IDE:    PhpStorm
  *   Desc:   网站应用
  */
+declare(strict_types=1);
 
-namespace yanlongli\wechat\websiteApp;
+namespace yanlongli\wechat\website;
+
+use yanlongli\wechat\App;
 
 /**
  * Class WebsiteApp
  * @package yanlongli\wechat\websiteApp
  */
-class WebsiteApp
+class WebsiteApp extends App
 {
-
 }
