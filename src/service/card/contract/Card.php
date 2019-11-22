@@ -10,30 +10,28 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: <Zou Yiliang>
+ *   Author: Yanlongli <jobs@yanlongli.com>
  *   Date:   2019/11/8
  *   IDE:    PhpStorm
  *   Desc:
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\card;
+namespace yanlongli\wechat\service\card;
 
-
-class MemberCard extends Card
+/**
+ * Interface Card
+ * @package yanlongli\wechat\card
+ */
+abstract class Card
 {
-    public $type = 'MEMBER_CARD';
+    /**
+     * @var string
+     */
+    public $type;
 
     /**
-     * @inheritDoc
+     * @return string
      */
-    public function data()
-    {
-        return [
-            'card_type' => $this->type,
-            'member_card' => [
-
-            ]
-        ];
-    }
+    abstract public function data();
 }

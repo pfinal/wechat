@@ -13,24 +13,22 @@
  *   Author: Yanlongli <jobs@yanlongli.com>
  *   Date:   2019/11/14
  *   IDE:    PhpStorm
- *   Desc:  收到消息基础
+ *   Desc:  语音消息
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\contract;
+namespace yanlongli\wechat\messaging\receive\general;
 
-
-use yanlongli\wechat\messaging\contract\Message;
+use yanlongli\wechat\messaging\receive\GeneralMessage;
 
 /**
- * Class Receive
+ * Class Voice
  * @package yanlongli\wechat\messaging\receive
- * @property string $FromUserName 发送方帐号(OpenID)
- * @property string $ToUserName 公众号原始id
- * @property string $CreateTime 消息创建时间(整型)
- * @property string $MsgType 消息类型
- * @property int $MsgId 消息id
+ * @property string $MediaId 素材ID
+ * @property string $Format 语音格式
+ * @property string $Recognition 语音识别内容
  */
-interface ReceiveMessage extends Message
+class Voice extends GeneralMessage
 {
+    const TYPE = 'voice';
 }

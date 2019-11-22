@@ -47,8 +47,10 @@ class Config
         }
         $name = explode('.', $name);
 
-        if (count($name) === 1) {
-            if (trim($name[0]) === '') return $config;
+        if (1 === count($name)) {
+            if ('' === trim($name[0])) {
+                return $config;
+            }
 
             return isset($config[$name[0]]) ? $config[$name[0]] : $default;
         } else {
@@ -89,7 +91,7 @@ class Config
             //文件伪装成文件夹文件夹
             $_config_load_config_basename = basename($_config_load_config_file_path);
             $_config_load_config_temp[] = $_config_load_config_basename;
-            if (substr($_config_load_config_basename, -10) !== '-local.php') {
+            if ('-local.php' !== substr($_config_load_config_basename, -10)) {
                 //支持本地化配置文件
                 $_config_load_config_temp[] = substr($_config_load_config_basename, 0, -4) . '-local' . substr($_config_load_config_basename, -4);
             }
@@ -106,7 +108,7 @@ class Config
             $_config_load_config_foreach_file_path = $_config_load_config_file_path . '/' . $_config_load_config_foreach_value;
             if (is_dir($_config_load_config_foreach_file_path)) {
                 //忽略子目录
-                if ($_config_load_config_foreach_value == '.' || $_config_load_config_foreach_value == '..') {//判断是否为系统隐藏的文件.和..  如果是则跳过否则就继续往下走，防止无限循环再这里。
+                if (('.' == $_config_load_config_foreach_value) || ('..' == $_config_load_config_foreach_value)) {//判断是否为系统隐藏的文件.和..  如果是则跳过否则就继续往下走，防止无限循环再这里。
                     continue;
                 }
                 if (!isset($_config_load_config_file_config[$_config_load_config_foreach_value]))
@@ -114,16 +116,16 @@ class Config
                 // 深度加载文件
                 static::LoadConfigFile($_config_load_config_foreach_file_path, $_config_load_config_file_config[$_config_load_config_foreach_value]);
             } else {
-                if (substr($_config_load_config_foreach_value, 0, 1) == '.') {
+                if ('.' == substr($_config_load_config_foreach_value, 0, 1)) {
                     continue;
                 } else {
-                    if (substr($_config_load_config_foreach_value, -10) === '-local.php') {
+                    if ('-local.php' === substr($_config_load_config_foreach_value, -10)) {
                         $_config_load_config_foreach_key = substr($_config_load_config_foreach_value, 0, -10);
                     } else {
                         $_config_load_config_foreach_key = substr($_config_load_config_foreach_value, 0, -4);
                     }
                     // 过滤 Yii 的主要配置文件
-                    if (in_array($_config_load_config_foreach_key, self::$exclude) || substr($_config_load_config_foreach_value, -4) !== '.php') {
+                    if (in_array($_config_load_config_foreach_key, self::$exclude) || ('.php' !== substr($_config_load_config_foreach_value, -4))) {
                         continue;
                     }
                     if (file_exists($_config_load_config_foreach_file_path)) {
@@ -159,7 +161,7 @@ class Config
             $name = explode('.', $name);
 
             // 一级配置
-            if (count($name) === 1) {
+            if (1 === count($name)) {
                 $config[$name[0]] = $value;
                 return true;
             }

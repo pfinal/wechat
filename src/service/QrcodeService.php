@@ -71,7 +71,7 @@ class QrcodeService extends BaseService
             );
         }
 
-        if ($expireSeconds !== null) {
+        if (null !== $expireSeconds) {
             $data['expire_seconds'] = $expireSeconds;
         }
 

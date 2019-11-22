@@ -20,15 +20,15 @@ declare(strict_types=1);
 namespace yanlongli\wechat\messaging\receive\event;
 
 
-use yanlongli\wechat\messaging\contract\EventMessage;
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Scan
  * @package yanlongli\wechat\messaging\receive
  * @property string EventKey 事件KEY值，qrscene_为前缀，后面为二维码的参数值
- * @property string Ticket 	二维码的ticket，可用来换取二维码图片
+ * @property string Ticket    二维码的ticket，可用来换取二维码图片
  */
-class Scan implements EventMessage
+class Scan extends EventMessage
 {
     const EVENT = 'SCAN';
 }

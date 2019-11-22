@@ -7,6 +7,14 @@
 
 
 ### 更新日志
+
+    2019年11月22日
+    处理服务注册及消息监听处理
+    是的，就要完成基本的公众号工作了。现在需要处理一些细节，比如accessToken的获取和储存逻辑，log打印等
+
+    2019年11月20日
+    调整事件基础接口改为抽象类
+
     2019年11月14日
     补曾移动app类型
     增加Config类用于参数处理
@@ -23,7 +31,7 @@
 ### 说明 
 本项目采用中国 木兰开源许可协议 
 
-部分代码及处理方式来自 pfinal/wechat 更多信息请访问 [pfinal/wechat](https://github.com/pfinal/wechat)
+大部分代码及处理方式逻辑来自 pfinal/wechat 更多信息请访问 [pfinal/wechat](https://github.com/pfinal/wechat)
 
 
 ### 文档目录

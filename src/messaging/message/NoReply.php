@@ -11,27 +11,32 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/8
+ *   Date:   2019/11/22
  *   IDE:    PhpStorm
- *   Desc:
+ *   Desc:   不进行回复
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\card;
+namespace yanlongli\wechat\messaging\message;
 
-/**
- * Interface Card
- * @package yanlongli\wechat\card
- */
-abstract class Card
+
+use yanlongli\wechat\messaging\contract\ReplyMessage;
+
+class NoReply implements ReplyMessage
 {
-    /**
-     * @var string
-     */
-    public $type;
+
+    protected $type = 'NO-REPLY';
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    abstract public function data();
+    public function jsonData()
+    {
+        // TODO: Implement jsonData() method.
+    }
+
+    public function type()
+    {
+        // TODO: Implement type() method.
+    }
 }

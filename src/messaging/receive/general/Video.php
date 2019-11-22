@@ -13,16 +13,21 @@
  *   Author: Yanlongli <jobs@yanlongli.com>
  *   Date:   2019/11/14
  *   IDE:    PhpStorm
- *   Desc:
+ *   Desc:  视频消息
  */
 declare(strict_types=1);
 
-use yanlongli\wechat\support\Config;
+namespace yanlongli\wechat\messaging\receive\general;
 
+use yanlongli\wechat\messaging\receive\GeneralMessage;
 
-include __DIR__ . '/../vendor/autoload.php';
-
-
-Config::loadConfigFile(__DIR__ . '/config-local.php');
-
-var_dump(Config::get());
+/**
+ * Class Voice
+ * @package yanlongli\wechat\messaging\receive
+ * @property string $MediaId 素材ID
+ * @property string $ThumbMediaId 视频缩略图
+ */
+class Video extends GeneralMessage
+{
+    const TYPE = 'video';
+}

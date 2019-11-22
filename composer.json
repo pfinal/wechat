@@ -34,7 +34,11 @@
         "php": ">=7.3.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "ext-openssl": "*",
+        "ext-dom": "*"
     },
     "autoload": {
         "psr-4": {

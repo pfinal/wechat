@@ -17,9 +17,10 @@
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\messaging\receive\general;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
+
+use yanlongli\wechat\messaging\receive\GeneralMessage;
 
 /**
  * Class Location
@@ -29,7 +30,7 @@ use yanlongli\wechat\messaging\contract\ReceiveMessage;
  * @property string $Scale 地图缩放大小
  * @property string $Label 地理位置信息
  */
-class Location implements ReceiveMessage
+class Location extends GeneralMessage
 {
     const TYPE = 'location';
 }

@@ -20,14 +20,14 @@ declare(strict_types=1);
 namespace yanlongli\wechat\messaging\receive\event;
 
 
-use yanlongli\wechat\messaging\contract\EventMessage;
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Click
  * @package yanlongli\wechat\messaging\receive\event
  * @property string $EventKey 事件KEY值，与自定义菜单接口中KEY值对应
  */
-class View implements EventMessage
+class View extends EventMessage
 {
     const EVENT = 'VIEW';
 }

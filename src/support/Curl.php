@@ -46,9 +46,9 @@ class Curl
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
-        if (strtolower($method) === 'post') {
+        if ('post' === strtolower($method)) {
             curl_setopt($ch, CURLOPT_POST, true);
-            if ($postData !== null) {
+            if (null !== $postData) {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
             }
         }

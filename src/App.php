@@ -48,7 +48,13 @@ abstract class App
      * @var string
      */
     public $appSecret;
+    /**
+     * @var string 服务器配置令牌
+     */
     public $token;
+    /**
+     * @var string 消息加解密密钥
+     */
     public $encodingAesKey;
     public $encodingAesKeyLast;
     public $middleUrl;

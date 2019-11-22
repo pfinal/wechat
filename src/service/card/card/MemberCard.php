@@ -10,24 +10,30 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/14
+ *   Author: <Zou Yiliang>
+ *   Date:   2019/11/8
  *   IDE:    PhpStorm
- *   Desc:  文本消息
+ *   Desc:
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\service\card;
 
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
-
-/**
- * Class Text
- * @package yanlongli\wechat\messaging\receive
- * @property string $Content 文本内容
- */
-class Text implements ReceiveMessage
+class MemberCard extends Card
 {
-    const TYPE = 'text';
+    public $type = 'MEMBER_CARD';
+
+    /**
+     * @inheritDoc
+     */
+    public function data()
+    {
+        return [
+            'card_type' => $this->type,
+            'member_card' => [
+
+            ]
+        ];
+    }
 }

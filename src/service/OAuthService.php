@@ -58,7 +58,7 @@ class OAuthService extends BaseService
     {
         $state = 'YANLONGLI_WECHAT';
 
-        if (isset($_GET['code']) && isset($_GET['state']) && $_GET['state'] === $state) {
+        if (isset($_GET['code']) && isset($_GET['state']) && $state === $_GET['state']) {
 
             //通过code换取网页授权access_token
             $OauthAccessTokenArr = self::getOauthAccessToken($app, $_GET['code']);
@@ -74,7 +74,7 @@ class OAuthService extends BaseService
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             $proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
         } else {
-            $proto = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
+            $proto = isset($_SERVER['HTTPS']) && 'off' !== strtolower($_SERVER['HTTPS']) ? 'https' : 'http';
         }
 
         //当前url
@@ -126,8 +126,8 @@ class OAuthService extends BaseService
     {
         //通过一个中间url
         $middleUrl = $app->middleUrl;
-        if ($middleUrl !== null) {
-            $redirectUri = $middleUrl . ((strpos($middleUrl, '?') === false) ? '?' : '&') . 'url=' . urlencode($redirectUri);
+        if (null !== $middleUrl) {
+            $redirectUri = $middleUrl . ((false === strpos($middleUrl, '?')) ? '?' : '&') . 'url=' . urlencode($redirectUri);
         }
 
         //跳转到微信授权url

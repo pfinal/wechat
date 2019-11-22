@@ -10,25 +10,26 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: <Zou Yiliang>
- *   Date:   2019/11/8
+ *   Author: Yanlongli <jobs@yanlongli.com>
+ *   Date:   2019/11/14
  *   IDE:    PhpStorm
  *   Desc:
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\card;
+namespace yanlongli\wechat\messaging\receive\general;
 
 
-class GeneralCard extends Card
+use yanlongli\wechat\messaging\receive\GeneralMessage;
+
+/**
+ * Class Link
+ * @package yanlongli\wechat\messaging\receive
+ * @property string $Title 消息标题
+ * @property string $Description 消息描述
+ * @property string $Url 消息链接
+ */
+class Link extends GeneralMessage
 {
-    public $type = 'GENERAL_CARD';
-
-    /**
-     * @inheritDoc
-     */
-    public function data()
-    {
-        // TODO: Implement data() method.
-    }
+    const TYPE = 'link';
 }

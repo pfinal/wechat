@@ -81,7 +81,7 @@ class MaterialService extends BaseService
 
         $data['type'] = $type;
 
-        if ($type === 'video') {
+        if ('video' === $type) {
             $data['description'] = Json::encode(array(
                 'title' => $title,
                 'introduction' => $introduction
@@ -132,7 +132,7 @@ class MaterialService extends BaseService
         //分离header与body
         $header = '';
         $body = '';
-        if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == '200') {
+        if ('200' == curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
             $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE); //头信息size
             $header = substr($response, 0, $headerSize);
             $body = substr($response, $headerSize);

@@ -10,25 +10,25 @@
  *   PURPOSE.
  *   See the Mulan PSL v1 for more details.
  *
- *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/14
+ *   Author: <Zou Yiliang>
+ *   Date:   2019/11/8
  *   IDE:    PhpStorm
  *   Desc:
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\service\card;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
 
-/**
- * Class Link
- * @package yanlongli\wechat\messaging\receive
- * @property string $Title 消息标题
- * @property string $Description 消息描述
- * @property string $Url 消息链接
- */
-class Link implements ReceiveMessage
+class GroupOn extends Card
 {
-    const TYPE = 'link';
+    public $type = 'GROUPON';
+
+    /**
+     * @inheritDoc
+     */
+    public function data()
+    {
+        // TODO: Implement data() method.
+    }
 }

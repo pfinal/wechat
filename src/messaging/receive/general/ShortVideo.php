@@ -17,9 +17,10 @@
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\messaging\receive\general;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
+
+use yanlongli\wechat\messaging\receive\GeneralMessage;
 
 /**
  * Class Voice
@@ -27,7 +28,7 @@ use yanlongli\wechat\messaging\contract\ReceiveMessage;
  * @property string $MediaId 素材ID
  * @property string $ThumbMediaId 视频缩略图
  */
-class ShortVideo implements ReceiveMessage
+class ShortVideo extends GeneralMessage
 {
     const TYPE = 'shortvideo';
 }

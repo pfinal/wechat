@@ -17,9 +17,10 @@
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\messaging\receive\general;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
+
+use yanlongli\wechat\messaging\receive\GeneralMessage;
 
 /**
  * Class Image
@@ -27,7 +28,7 @@ use yanlongli\wechat\messaging\contract\ReceiveMessage;
  * @property string $PicUrl 图片地址
  * @property string $MediaId 临时消息素材ID
  */
-class Image implements ReceiveMessage
+class Image extends GeneralMessage
 {
     const TYPE = 'image';
 }

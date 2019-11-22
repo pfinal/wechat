@@ -41,7 +41,7 @@ class BaseService
     public static function request(string $url, App $app, array $data = null, bool $jsonEncode = true)
     {
         // 修正 仅在含有需要token的链接中替换token
-        if (strpos($url, 'ACCESS_TOKEN') !== false) {
+        if (false !== strpos($url, 'ACCESS_TOKEN')) {
             $executeUrl = str_replace('ACCESS_TOKEN', Wechat::getApp($app->appId)->getAccessToken(), $url);
         } else {
             $executeUrl = $url;
@@ -57,7 +57,7 @@ class BaseService
         } catch (WechatException $ex) {
 
             //更新AccessToken再次请求
-            if ($ex->getCode() == 40001) {
+            if (40001 === $ex->getCode()) {
                 $executeUrl = str_replace('ACCESS_TOKEN', Wechat::getApp($app->appId)->getAccessToken(false), $url);
                 return Json::parseOrFail(Curl::execute($executeUrl, is_null($data) ? 'get' : 'post', $data));
             }

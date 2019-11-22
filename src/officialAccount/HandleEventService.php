@@ -11,23 +11,18 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/14
+ *   Date:   2019/11/20
  *   IDE:    PhpStorm
- *   Desc:  视频消息
+ *   Desc:   _
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+namespace yanlongli\wechat\officialAccount;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
 
-/**
- * Class Voice
- * @package yanlongli\wechat\messaging\receive
- * @property string $MediaId 素材ID
- * @property string $ThumbMediaId 视频缩略图
- */
-class Video implements ReceiveMessage
+use yanlongli\wechat\Service;
+
+class HandleEventService extends Service
 {
-    const TYPE = 'video';
+
 }

@@ -19,8 +19,7 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive\event;
 
-
-use yanlongli\wechat\messaging\contract\EventMessage;
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Location
@@ -29,7 +28,7 @@ use yanlongli\wechat\messaging\contract\EventMessage;
  * @property string $Longitude 地理位置经度
  * @property string $Precision 地理位置精度
  */
-class Location implements EventMessage
+class Location extends EventMessage
 {
     const EVENT = 'LOCATION';
 }

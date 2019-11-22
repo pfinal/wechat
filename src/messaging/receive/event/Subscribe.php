@@ -19,13 +19,14 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive\event;
 
-use yanlongli\wechat\messaging\contract\EventMessage;
+
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Subscribe
  * @package yanlongli\wechat\messaging\receive\event
  */
-class Subscribe implements EventMessage
+class Subscribe extends EventMessage
 {
     const EVENT = 'subscribe';
 }

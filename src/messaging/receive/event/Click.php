@@ -20,14 +20,14 @@ declare(strict_types=1);
 namespace yanlongli\wechat\messaging\receive\event;
 
 
-use yanlongli\wechat\messaging\contract\EventMessage;
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Click
  * @package yanlongli\wechat\messaging\receive\event
  * @property string $EventKey 事件KEY值，设置的跳转URL
  */
-class Click implements EventMessage
+class Click extends EventMessage
 {
     const EVENT = 'CLICK';
 }

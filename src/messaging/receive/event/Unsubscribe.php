@@ -19,14 +19,13 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive\event;
 
-
-use yanlongli\wechat\messaging\contract\EventMessage;
+use yanlongli\wechat\messaging\receive\EventMessage;
 
 /**
  * Class Unsubscribe
  * @package yanlongli\wechat\messaging\receive\event
  */
-class Unsubscribe implements EventMessage
+class Unsubscribe extends EventMessage
 {
     const EVENT = 'unsubscribe';
 }

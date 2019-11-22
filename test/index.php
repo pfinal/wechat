@@ -11,24 +11,24 @@
  *   See the Mulan PSL v1 for more details.
  *
  *   Author: Yanlongli <jobs@yanlongli.com>
- *   Date:   2019/11/14
+ *   Date:   2019/11/20
  *   IDE:    PhpStorm
- *   Desc:  语音消息
+ *   Desc:   _
  */
 declare(strict_types=1);
 
-namespace yanlongli\wechat\messaging\receive;
+use yanlongli\wechat\support\Config;
+use yanlongli\wechat\service\OAuthService;
+use yanlongli\wechat\officialAccount\OfficialAccount;
 
-use yanlongli\wechat\messaging\contract\ReceiveMessage;
+include '../vendor/autoload.php';
+Config::loadConfigFile(__DIR__ . '/config.php');
 
-/**
- * Class Voice
- * @package yanlongli\wechat\messaging\receive
- * @property string $MediaId 素材ID
- * @property string $Format 语音格式
- * @property string $Recognition 语音识别内容
- */
-class Voice implements ReceiveMessage
-{
-    const TYPE = 'voice';
+$officialAccount = new OfficialAccount(Config::get('config.'));
+
+try {
+    $user = OAuthService::getOpenid($officialAccount);
+    var_dump($user);
+} catch (\yanlongli\wechat\WechatException $e) {
+    throw $e;
 }
