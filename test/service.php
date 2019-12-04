@@ -54,7 +54,7 @@ $service->register(receiveText::TYPE, function (receiveText $text) use ($officia
 //发什么图片回什么图片
 $service->register(receiveImage::TYPE, function (receiveImage $image) use ($officialAccount) {
     $image->sendMessage(new Image($image->MediaId));
-    CallMessageService::send($officialAccount, $image->FromUserName, new Image($image->MediaId));
+//    CallMessageService::send($officialAccount, $image->FromUserName, new Image($image->MediaId));
 });
 
 

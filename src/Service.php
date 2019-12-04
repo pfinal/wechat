@@ -63,7 +63,7 @@ abstract class Service
     /**
      * @var string self::ENCRYPT_TYPE_RAW|self::ENCRYPT_TYPE_AES
      */
-    protected string $encryptType;
+    protected ?string $encryptType = null;
 
     /**
      * Service constructor.
@@ -104,7 +104,7 @@ abstract class Service
     /**
      * 注册事件处理函数
      * @param string $event
-     * @param fn $function
+     * @param $function
      * @see 没有优先级控制，请按照先后顺序进行注册
      */
     public function register(string $event, $function): void
