@@ -22,7 +22,7 @@ namespace yanlongli\wechat\service\card;
 
 class GeneralCard extends Card
 {
-    public $type = 'GENERAL_CARD';
+    public string $type = 'GENERAL_CARD';
 
     /**
      * @inheritDoc

@@ -23,9 +23,16 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class Video implements ReplyMessage, CallMessage
 {
-    protected $type = 'video';
-    protected $attributes;
+    protected string $type = 'video';
+    protected array $attributes;
 
+    /**
+     * Video constructor.
+     * @param array|string $mediaId
+     * @param string $thumbMediaId
+     * @param string $title
+     * @param string $description
+     */
     public function __construct($mediaId, $thumbMediaId = null, $title = null, $description = null)
     {
         if (!is_array($mediaId)) {

@@ -40,7 +40,7 @@ class MaterialService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function uploadFileTemporary(App $app, $filename, $type)
+    public static function uploadFileTemporary(App $app, string $filename, string $type)
     {
         $filename = realpath($filename);
 
@@ -69,7 +69,7 @@ class MaterialService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function uploadFile(App $app, $filename, $type, $title = null, $introduction = null)
+    public static function uploadFile(App $app, string $filename, string $type, string $title = null, string $introduction = null)
     {
         $filename = realpath($filename);
 
@@ -99,12 +99,12 @@ class MaterialService extends BaseService
      * http://mp.weixin.qq.com/wiki/12/58bfcfabbd501c7cd77c19bd9cfa8354.html
      *
      * @param App $app
-     * @param $mediaId
+     * @param string $mediaId
      * @param string $savePath
      * @return bool|string
      * @throws WechatException
      */
-    public function downFile(App $app, $mediaId, $savePath = './uploads')
+    public function downFile(App $app, string $mediaId, string $savePath = './uploads')
     {
         $token = $app->getAccessToken();
 
@@ -174,8 +174,7 @@ class MaterialService extends BaseService
      * @return string 例如 http://mmbiz.qpic.cn/mmbiz/D7sHwECXBUtWxg2eVOmIsqWOERic2dfBWYhWtOzIxhiaYAIt8ludGP0QHh8cO6pVQT8V8KKZcahvzQiblMWXlA4Pw/0
      * @throws WechatException
      */
-    public
-    static function uploadNewsImage(App $app, $filename)
+    public static function uploadNewsImage(App $app, string $filename)
     {
         $filename = realpath($filename);
 
@@ -204,8 +203,7 @@ class MaterialService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public
-    static function uploadNews(App $app, $title, $thumb_media_id = null, $author = null, $digest = null, $show_cover_pic = null, $content = null, $content_source_url = null)
+    public static function uploadNews(App $app, $title, string $thumb_media_id = null, string $author = null, string $digest = null, string $show_cover_pic = null, string $content = null, string $content_source_url = null)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN';
 

@@ -36,11 +36,11 @@ class CallMessageService extends BaseService
      * @param App $app
      * @param string $openid
      * @param CallMessage $message
-     * @param null $account 客服帐号(显示客服自定义头像)
+     * @param string $account 客服帐号(显示客服自定义头像)
      * @return array
      * @throws WechatException
      */
-    public static function send(App $app, string $openid, CallMessage $message, $account = null)
+    public static function send(App $app, string $openid, CallMessage $message, string $account = null)
     {
         $data = $message->jsonData();
         $type = $message->type();
@@ -75,13 +75,13 @@ class CallMessageService extends BaseService
      * 4、设置is_to_all为false时是可以多次群发的，但每个用户只会收到最多4条，且这些群发不会进入历史消息列表。
      *
      * @param App $app
-     * @param string $tagId 用户管理中用户分组接口 $is_to_all为true时，此参数传入null即可
+     * @param string|null $tagId
      * @param MassMessage $message
      * @param bool $isToAll 选择true该消息群发给所有用户
      * @return array
      * @throws WechatException
      */
-    public static function sendAll(App $app, $tagId, MassMessage $message, bool $isToAll = false)
+    public static function sendAll(App $app, ?string $tagId, MassMessage $message, bool $isToAll = false)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token=ACCESS_TOKEN';
         $data = array(
@@ -120,11 +120,11 @@ class CallMessageService extends BaseService
     /**
      * 删除群发
      * @param App $app
-     * @param $msgId
+     * @param string $msgId
      * @return array
      * @throws WechatException
      */
-    public static function delete(App $app, $msgId)
+    public static function delete(App $app, string $msgId)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/delete?access_token=ACCESS_TOKEN';
         return BaseService::request($url, $app, array('msg_id' => $msgId));
@@ -133,12 +133,12 @@ class CallMessageService extends BaseService
     /**
      * 预览(发给某个openid)
      * @param App $app
-     * @param $openId
+     * @param string $openId
      * @param MassMessage $message
      * @return array
      * @throws WechatException
      */
-    public static function previewWithOpenId(App $app, $openId, MassMessage $message)
+    public static function previewWithOpenId(App $app, string $openId, MassMessage $message)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN';
 
@@ -155,12 +155,12 @@ class CallMessageService extends BaseService
     /**
      * 预览(发给某个微信号)
      * @param App $app
-     * @param $wxname
+     * @param string $wxname
      * @param MassMessage $message
      * @return array
      * @throws WechatException
      */
-    public static function previewWithWxname(App $app, $wxname, MassMessage $message)
+    public static function previewWithWxname(App $app, string $wxname, MassMessage $message)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=ACCESS_TOKEN';
         $data = array(
@@ -180,7 +180,7 @@ class CallMessageService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function status(App $app, $msgId)
+    public static function status(App $app, string $msgId)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/get?access_token=ACCESS_TOKEN';
         return BaseService::request($url, $app, array('msg_id' => $msgId));

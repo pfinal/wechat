@@ -182,7 +182,7 @@ class MenuService extends BaseService
      * @param $menuId
      * @throws WechatException
      */
-    public static function deleteConditional(OfficialAccount $app, $menuId)
+    public static function deleteConditional(OfficialAccount $app, string $menuId)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/delconditional?access_token=ACCESS_TOKEN';
         $data = array('menuid' => $menuId,);

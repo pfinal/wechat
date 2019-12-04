@@ -22,7 +22,7 @@ namespace yanlongli\wechat\service\card;
 
 class MemberCard extends Card
 {
-    public $type = 'MEMBER_CARD';
+    public string $type = 'MEMBER_CARD';
 
     /**
      * @inheritDoc

@@ -23,12 +23,12 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class Text implements ReplyMessage, MassMessage
 {
-    protected $type = 'text';
-    protected $attributes;
+    protected string $type = 'text';
+    protected array $content;
 
     public function __construct($content)
     {
-        $this->attributes = array('content' => $content);
+        $this->content = $content;
     }
 
     /**
@@ -36,9 +36,9 @@ class Text implements ReplyMessage, MassMessage
      */
     public function xmlData()
     {
-        return array(
-            'Content' => $this->attributes['content'],
-        );
+        return [
+            'Content' => $this->content,
+        ];
     }
 
     /**
@@ -46,7 +46,7 @@ class Text implements ReplyMessage, MassMessage
      */
     public function jsonData()
     {
-        return array('text' => $this->attributes);
+        return ['text' => ['content' => $this->content]];
     }
 
     public function type()

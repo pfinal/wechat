@@ -22,6 +22,10 @@ namespace yanlongli\wechat\officialAccount;
 
 use yanlongli\wechat\Service;
 
+/**
+ * Class HandleEventService
+ * @package yanlongli\wechat\officialAccount
+ */
 class HandleEventService extends Service
 {
 

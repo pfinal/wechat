@@ -39,7 +39,7 @@ class UserTagService extends BaseService
      * }
      * @throws WechatException
      */
-    public static function createTag(App $app, $name)
+    public static function createTag(App $app, string $name)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/create?access_token=ACCESS_TOKEN";
         $postData['tag'] = ['name' => $name];
@@ -82,7 +82,7 @@ class UserTagService extends BaseService
      * @return array {   "errcode":0,   "errmsg":"ok" }
      * @throws WechatException
      */
-    public static function tagRename(App $app, $tagId, $name)
+    public static function tagRename(App $app, string $tagId, string $name)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/update?access_token=ACCESS_TOKEN";
         $postData = [
@@ -99,7 +99,7 @@ class UserTagService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function delTag(App $app, $tagId)
+    public static function delTag(App $app, string $tagId)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/delete?access_token=ACCESS_TOKEN";
         $postData['tag'] = ['id' => $tagId];
@@ -114,59 +114,62 @@ class UserTagService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function tagUsers(App $app, $tagId, $nextOpenId = "")
+    public static function tagUsers(App $app, string $tagId, string $nextOpenId = "")
     {
         $url = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
         $postData = ['tagid' => $tagId, 'next_openid' => $nextOpenId];
-        return parent::request($url, $APP, $postData);
+        return parent::request($url, $app, $postData);
     }
 
     /**
      * 批量为用户打标签
-     * @param $tagId
-     * @param $openIds
+     * @param App $app
+     * @param string $tagId
+     * @param string $openIds
      * @return array
      * @throws WechatException
      */
-    public static function batchTagging($tagId, $openIds)
+    public static function batchTagging(App $app, string $tagId, string $openIds)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN';
         $postData = [
             'openid_list' => $openIds,
             'tagid' => $tagId
         ];
-        return parent::request($url, $postData);
+        return parent::request($url, $app, $postData);
     }
 
     /**
      * 批量取消用户标签 50 个以内
-     * @param $tagId
-     * @param $openIds
+     * @param App $app
+     * @param string $tagId
+     * @param string $openIds
      * @return array
      * @throws WechatException
      */
-    public static function batchUnTagging($tagId, $openIds)
+    public static function batchUnTagging(App $app, string $tagId, string $openIds)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN';
         $postData = [
             'openid_list' => $openIds,
             'tagid' => $tagId
         ];
-        return parent::request($url, $postData);
+        return parent::request($url, $app, $postData);
     }
 
     /**
      * 获取指定用户的所有标签ID
-     * @param $openId
+     * @param App $app
+     * @param string $openId
      * @return array {   "tagid_list":[//被置上的标签列表 134, 2   ] }
      * @throws WechatException
      */
-    public static function getUserTags($openId)
+    public static function getUserTags(App $app, string $openId)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token=ACCESS_TOKEN";
         $postData = [
             'openid' => $openId
         ];
-        return parent::request($url, $postData);
+        return parent::request($url, $app, $postData);
     }
 }

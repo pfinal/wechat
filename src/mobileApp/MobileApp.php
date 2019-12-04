@@ -15,12 +15,17 @@
  *   IDE:    PhpStorm
  *   Desc:  移动APP
  */
+declare(strict_types=1);
 
 namespace yanlongli\wechat\mobileApp;
 
 
 use yanlongli\wechat\App;
 
+/**
+ * Class MobileApp
+ * @package yanlongli\wechat\mobileApp
+ */
 class MobileApp extends App
 {
 

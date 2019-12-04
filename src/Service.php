@@ -46,25 +46,25 @@ abstract class Service
     /**
      * @var array $handles 事件集合
      */
-    protected $handles = [];
+    protected array $handles = [];
 
-    protected $stopPropagation = false;
+    protected bool $stopPropagation = false;
 
     /**
      * @var App
      */
-    protected $app;
+    protected App $app;
 
     /**
      * @var ReceiveMessage
      */
-    protected $receiveMessage;
+    protected ReceiveMessage $receiveMessage;
 
     //当次请求的加密方式，对应ENCRYPT_TYPE_XX常量
     /**
      * @var string self::ENCRYPT_TYPE_RAW|self::ENCRYPT_TYPE_AES
      */
-    protected $encryptType;
+    protected string $encryptType;
 
     /**
      * Service constructor.
@@ -105,7 +105,7 @@ abstract class Service
     /**
      * 注册事件处理函数
      * @param string $event
-     * @param  $function
+     * @param fn $function
      * @see 没有优先级控制，请按照先后顺序进行注册
      */
     public function register(string $event, $function): void
@@ -193,6 +193,9 @@ abstract class Service
 
     }
 
+    /**
+     * @return bool
+     */
     protected function attemptIsEncrypt()
     {
         //加密类型

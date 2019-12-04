@@ -28,7 +28,7 @@ abstract class Card
     /**
      * @var string
      */
-    public $type;
+    public string $type;
 
     /**
      * @return string

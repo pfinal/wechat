@@ -24,11 +24,11 @@ use yanlongli\wechat\messaging\contract\TemplateMessage;
 
 class TemplateMiniProgram implements TemplateMessage
 {
-    protected $templateId;
-    protected $date;
-    protected $page;
-    protected $fromId;
-    protected $emphasis_keyword;
+    protected string $templateId;
+    protected ?array $date;
+    protected string $page;
+    protected string $fromId;
+    protected string $emphasis_keyword;
 
     /**
      * Template constructor.

@@ -22,7 +22,7 @@ namespace yanlongli\wechat\service\card;
 
 class GroupOn extends Card
 {
-    public $type = 'GROUPON';
+    public string $type = 'GROUPON';
 
     /**
      * @inheritDoc

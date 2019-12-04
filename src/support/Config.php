@@ -24,7 +24,7 @@ class Config
     //配置集合
     protected static $config = null;
     //排除文件列表
-    protected static $exclude = [];
+    protected static array $exclude = [];
 
     /**
      * 获取配置参数

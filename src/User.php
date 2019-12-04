@@ -29,14 +29,14 @@ abstract class User
     /**
      * @var string
      */
-    public $openID;
+    public string $openID;
 
     /**
      * User constructor.
      * @param $openID
      * @return void
      */
-    public function __construct($openID)
+    public function __construct(string $openID)
     {
         $this->openID = $openID;
     }

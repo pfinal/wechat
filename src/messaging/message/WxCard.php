@@ -25,10 +25,10 @@ use yanlongli\wechat\messaging\contract\CallMessage;
  */
 class WxCard implements CallMessage
 {
-    protected $type = 'wxcard';
-    protected $cardId;
+    protected string $type = 'wxcard';
+    protected string $cardId;
 
-    public function __construct($cardId)
+    public function __construct(string $cardId)
     {
         $this->cardId = $cardId;
     }

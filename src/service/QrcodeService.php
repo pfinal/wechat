@@ -46,7 +46,7 @@ class QrcodeService extends BaseService
      * ]
      * @throws WechatException
      */
-    public static function temporary(OfficialAccount $app, $sceneId, $expireSeconds = null)
+    public static function temporary(OfficialAccount $app, string $sceneId, $expireSeconds = null)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN';
 
@@ -117,7 +117,7 @@ class QrcodeService extends BaseService
      * @param string $ticket 获取二维码ticket后，用ticket换取二维码图片。本接口无须登录态即可调用
      * @return string 返回可用于 <img src="...">
      */
-    public static function url($ticket)
+    public static function url(string $ticket)
     {
         return 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' . urlencode($ticket);
     }

@@ -48,7 +48,7 @@ class UserService extends BaseService
      *    ]
      * @throws WechatException
      */
-    public static function get(App $app, $openid, $lang = 'zh_CN')
+    public static function get(App $app, string $openid, string $lang = 'zh_CN')
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=%s&lang=%s';
         $url = sprintf($url, $openid, $lang);
@@ -88,7 +88,7 @@ class UserService extends BaseService
      * ]
      * @throws WechatException
      */
-    public static function batchGet(App $app, array $openIds, $lang = 'zh_CN')
+    public static function batchGet(App $app, array $openIds, string $lang = 'zh_CN')
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN';
 
@@ -117,7 +117,7 @@ class UserService extends BaseService
      * @return array ["total"=>关注该公众账号的总用户数,"count"=>本次拉取个数,"data"=>["openid":["","OPENID1","OPENID2"]],"next_openid"=>"NEXT_OPENID"]
      * @throws WechatException
      */
-    public static function all(App $app, $nextOpenId = '')
+    public static function all(App $app, string $nextOpenId = '')
     {
         $url = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=%s";
         $url = sprintf($url, $nextOpenId);

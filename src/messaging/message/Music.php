@@ -20,24 +20,30 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
 
 class Music implements ReplyMessage, CallMessage
 {
-    protected $type = 'music';
-    protected $attributes;
+    protected string $type = 'music';
+    protected array $music;
 
-    public function __construct($thumbMediaId, $title = '', $description = '', $musicUrl = '', $hqMusicUrl = '')
+    /**
+     * Music constructor.
+     * @param array|string $thumbMediaId
+     * @param string $title
+     * @param string $description
+     * @param string $musicUrl
+     * @param string $hqMusicUrl
+     */
+    public function __construct($thumbMediaId, string $title = '', string $description = '', string $musicUrl = '', string $hqMusicUrl = '')
     {
         if (is_array($thumbMediaId)) {
             extract($thumbMediaId, EXTR_OVERWRITE);
         }
 
-        $this->attributes = array(
-            'Music' => array(
-                'Title' => $title,
-                'Description' => $description,
-                'MusicUrl' => $musicUrl,
-                'HQMusicUrl' => $hqMusicUrl,
-                'ThumbMediaId' => $thumbMediaId,
-            )
-        );
+        $this->music = [
+            'Title' => $title,
+            'Description' => $description,
+            'MusicUrl' => $musicUrl,
+            'HQMusicUrl' => $hqMusicUrl,
+            'ThumbMediaId' => $thumbMediaId,
+        ];
     }
 
     /**
@@ -45,7 +51,7 @@ class Music implements ReplyMessage, CallMessage
      */
     public function xmlData()
     {
-        return $this->attributes;
+        return ['Music' => $this->music];
     }
 
     /**
@@ -64,10 +70,10 @@ class Music implements ReplyMessage, CallMessage
         $music = array();
 
         //将key转为小写，微信json格式为全小写
-        foreach ($this->attributes['Music'] as $k => $v) {
+        foreach ($this->music as $k => $v) {
             $music[$k] = array_change_key_case($v, CASE_LOWER);
         }
 
-        return array('music' => $music);
+        return ['music' => $music];
     }
 }

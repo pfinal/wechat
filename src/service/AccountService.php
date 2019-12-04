@@ -33,7 +33,7 @@ class AccountService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function create(App $app, $account, $nickname, $password)
+    public static function create(App $app, string $account, string $nickname, string $password)
     {
         $url = 'https://api.weixin.qq.com/customservice/kfaccount/add?access_token=ACCESS_TOKEN';
         return parent::request($url, $app, compact('account', 'nickname', 'password'));
@@ -48,7 +48,7 @@ class AccountService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function update(App $app, $account, $nickname, $password)
+    public static function update(App $app, string $account, string $nickname, string $password)
     {
         $url = 'https://api.weixin.qq.com/customservice/kfaccount/update?access_token=ACCESS_TOKEN';
         return parent::request($url, $app, compact('account', 'nickname', 'password'));
@@ -62,7 +62,7 @@ class AccountService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function avatar(App $app, $account, $filename)
+    public static function avatar(App $app, string $account, string $filename)
     {
         $url = 'http://api.weixin.qq.com/customservice/kfaccount/uploadheadimg?access_token=ACCESS_TOKEN&kf_account=' . $account;
 
@@ -83,7 +83,7 @@ class AccountService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function all($app)
+    public static function all(App $app)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/customservice/getkflist?access_token=ACCESS_TOKEN';
 

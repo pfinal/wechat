@@ -24,10 +24,10 @@ use yanlongli\wechat\messaging\contract\TemplateMessage;
 
 class Template implements TemplateMessage
 {
-    protected $templateId;
-    protected $date;
-    protected $url;
-    protected $topColor;
+    protected string $templateId;
+    protected array $date;
+    protected string $url;
+    protected string $topColor;
 
     /**
      * Template constructor.
@@ -37,7 +37,7 @@ class Template implements TemplateMessage
      * @param string $topColor
      * @param string $defaultItemColor
      */
-    public function __construct($templateId, $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177')
+    public function __construct(string $templateId, array $data, string $url = '', string $topColor = '#FF0000', string $defaultItemColor = '#173177')
     {
         $this->templateId = $templateId;
 

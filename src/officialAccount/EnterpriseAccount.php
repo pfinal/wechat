@@ -15,7 +15,7 @@
  *   IDE:    PhpStorm
  *   Desc:  企业号
  */
-
+declare(strict_types=1);
 namespace yanlongli\wechat\officialAccount;
 
 

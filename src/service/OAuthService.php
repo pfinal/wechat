@@ -54,7 +54,7 @@ class OAuthService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function getUser(App $app, $openidOnly = false)
+    public static function getUser(App $app, bool $openidOnly = false)
     {
         $state = 'YANLONGLI_WECHAT';
 
@@ -94,7 +94,7 @@ class OAuthService extends BaseService
      * @param array $remove
      * @return string
      */
-    private static function urlClean($uri, $remove = ['state', 'code'])
+    private static function urlClean(string $uri, array $remove = ['state', 'code'])
     {
         $arr = parse_url($uri);
 
@@ -122,7 +122,7 @@ class OAuthService extends BaseService
      * @param string $state
      * @param string $scopes
      */
-    public static function redirect(App $app, $redirectUri, $state = '0', $scopes = 'snsapi_userinfo'): void
+    public static function redirect(App $app, string $redirectUri, string $state = '0', string $scopes = 'snsapi_userinfo'): void
     {
         //通过一个中间url
         $middleUrl = $app->middleUrl;
@@ -145,7 +145,7 @@ class OAuthService extends BaseService
      * @param string $scope 应用授权作用域，snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid），snsapi_userinfo（弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息）
      * @return string
      */
-    public static function getOauthAuthorizeUrl(App $app, $redirectUri, $state = '0', $scope = 'snsapi_userinfo')
+    public static function getOauthAuthorizeUrl(App $app, string $redirectUri, string $state = '0', string $scope = 'snsapi_userinfo')
     {
         $appId = $app->appId;
 
@@ -169,7 +169,7 @@ class OAuthService extends BaseService
      * ]
      * @throws WechatException
      */
-    public static function getOauthAccessToken(App $app, $code)
+    public static function getOauthAccessToken(App $app, string $code)
     {
         $appId = $app->appId;
         $secret = $app->appSecret;
@@ -210,7 +210,7 @@ class OAuthService extends BaseService
      * ]
      * @throws WechatException
      */
-    public static function getOauthUserInfo(App $app, $openId, $accessToken)
+    public static function getOauthUserInfo(App $app, string $openId, string $accessToken)
     {
         $url = "https://api.weixin.qq.com/sns/userinfo?access_token={$accessToken}&openid={$openId}&lang=zh_CN";
         return parent::request($url, $app);
@@ -226,7 +226,7 @@ class OAuthService extends BaseService
      * @return mixed
      * @throws WechatException
      */
-    public static function code2BaseInfo(MiniProgram $app, $code)
+    public static function code2BaseInfo(MiniProgram $app, string $code)
     {
         //小程序配置信息
         $mini_appid = $app->appId;

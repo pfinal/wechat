@@ -38,20 +38,20 @@ class ReceiveMessage implements Message
     /**
      * @var ReplyMessage
      */
-    protected $replyMessage;
+    protected ReplyMessage $replyMessage;
     /**
      * 是否停止继续传播
      * @var bool
      * @see 标记为 true 后，后续的handle将不会被触发
      */
-    protected $propagationStopped = false;
+    protected bool $propagationStopped = false;
 
     /**
      * 是否已被处理
      * @var bool
      * @see 标记为 true 后，后续的handle将无法再次回复，可以重新标记为 false 用于强制覆盖已准备回复的内容
      */
-    protected $processed = false;
+    protected bool $processed = false;
 
 
     /**
@@ -126,7 +126,7 @@ class ReceiveMessage implements Message
     #endregion
 
     #region 收到消息的原始属性
-    protected $attribute = [];
+    protected array $attribute = [];
 
     public function __get($name)
     {

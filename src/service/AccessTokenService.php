@@ -33,10 +33,10 @@ class AccessTokenService extends BaseService
     /**
      * @param App $app
      * @param bool $useCache
-     * @return mixed
+     * @return string
      * @throws WechatException
      */
-    public static function getAccessToken(App $app, $useCache = true)
+    public static function getAccessToken(App $app, bool $useCache = true)
     {
         //获取accessToken
 //        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s';
@@ -44,8 +44,8 @@ class AccessTokenService extends BaseService
         //test
         $response = "{\"access_token\":\"27_hAQAdevf8_LTF_lLjT95kKHTdFqDA4cbWFkJbPsY71p83zRs9WTR2a8KOap5JzJedLxJMDs5oLQoQ7au_86JaQnXElVE93LGsGTgO1NuJog0JXICa83_oARkWh9n48ecEs6Vy5YK4k0SO-w7VCMaADALSC\",\"expires_in\":7200}";
         $arr = Json::parseOrFail($response);
-        $app->appId = $arr['access_token'];
+        $app->accessToken = $arr['access_token'];
 
-        return $app->appId;
+        return $app->accessToken;
     }
 }

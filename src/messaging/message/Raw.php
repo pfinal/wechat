@@ -23,7 +23,7 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class Raw implements ReplyMessage
 {
-    public $data;
+    public string $data;
 
     /**
      * 手动构建xml字符串

@@ -22,8 +22,8 @@ use yanlongli\wechat\messaging\contract\MassMessage;
  */
 class MpNews implements MassMessage
 {
-    protected $type = 'mpnews';
-    protected $mediaId;
+    protected string $type = 'mpnews';
+    protected string $mediaId;
 
     public function __construct($mediaId)
     {

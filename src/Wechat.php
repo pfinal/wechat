@@ -30,7 +30,7 @@ class Wechat
      * 实例
      * @var array[App]
      */
-    protected static $apps = [];
+    protected static array $apps = [];
 
     public function __get($name)
     {

@@ -15,10 +15,14 @@
  *   IDE:    PhpStorm
  *   Desc:  服务号
  */
+declare(strict_types=1);
 
 namespace yanlongli\wechat\officialAccount;
 
-
+/**
+ * Class ServiceAccount
+ * @package yanlongli\wechat\officialAccount
+ */
 class ServiceAccount extends OfficialAccount
 {
 

@@ -25,18 +25,16 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
 class NoReply implements ReplyMessage
 {
 
-    protected $type = 'NO-REPLY';
+    protected string $type = 'NO-REPLY';
 
     /**
      * @inheritDoc
      */
     public function jsonData()
     {
-        // TODO: Implement jsonData() method.
     }
 
     public function type()
     {
-        // TODO: Implement type() method.
     }
 }

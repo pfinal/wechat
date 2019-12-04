@@ -23,10 +23,10 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class Image implements ReplyMessage, MassMessage
 {
-    protected $type = 'image';
-    protected $mediaId;
+    protected string $type = 'image';
+    protected string $mediaId;
 
-    public function __construct($mediaId)
+    public function __construct(string $mediaId)
     {
         $this->mediaId = $mediaId;
     }

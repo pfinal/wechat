@@ -19,7 +19,10 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\officialAccount;
 
-
+/**
+ * Class User
+ * @package yanlongli\wechat\officialAccount
+ */
 class User extends \yanlongli\wechat\User
 {
 

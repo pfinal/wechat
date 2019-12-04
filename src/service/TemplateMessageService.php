@@ -41,7 +41,7 @@ class TemplateMessageService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public function send(OfficialAccount $app, $openid, Template $template)
+    public function send(OfficialAccount $app, string $openid, Template $template)
     {
         if ($app instanceof OfficialAccount) {
 

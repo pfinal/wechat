@@ -36,7 +36,7 @@ use yanlongli\wechat\WechatException;
 class GeneralMessage extends ReceiveMessage
 {
     #region
-    protected static $bind = [
+    protected static array $bind = [
         Image::TYPE => Image::class,
         Link::TYPE => Link::class,
         Location::TYPE => Location::class,
@@ -49,7 +49,7 @@ class GeneralMessage extends ReceiveMessage
 
     /**
      * @param string $MsgType
-     * @return mixed
+     * @return self
      * @throws WechatException
      */
     public static function build(string $MsgType)

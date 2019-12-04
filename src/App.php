@@ -32,13 +32,13 @@ abstract class App
      * 应用id
      * @var string
      */
-    public $appId;
+    public string $appId;
 
     /**
      * 原始ID
      * @var string
      */
-    public $id;
+    public string $id;
 
     //加密类型
     const ENCRYPT_TYPE_RAW = 'raw';
@@ -47,42 +47,42 @@ abstract class App
     /**
      * @var string
      */
-    public $appSecret;
+    public string $appSecret;
     /**
      * @var string 服务器配置令牌
      */
-    public $token;
+    public string $token;
     /**
      * @var string 消息加解密密钥
      */
-    public $encodingAesKey;
-    public $encodingAesKeyLast;
-    public $middleUrl;
+    public string $encodingAesKey;
+    public string $encodingAesKeyLast;
+    public string $middleUrl;
 
-    public $accessToken;
+    public string $accessToken;
 
     /**
      * @var array
      */
-    protected $services = [];
+    protected array $services = [];
 
     /**
      * 应用名称
      * @var string
      */
-    public $name;
+    public string $name;
 
 
     /**
      * 构造方法 可以使用一个数组作为参数
-     * @param $appId
+     * @param array|string $appId
      * @param string|null $appSecret
      * @param string|null $token
      * @param string|null $encodingAesKey
      * @param string|null $encodingAesKeyLast
      * @param string|null $middleUrl
      */
-    public function __construct($appId, $appSecret = null, $token = null, $encodingAesKey = null, $encodingAesKeyLast = null, $middleUrl = null)
+    public function __construct($appId, string $appSecret = null, string $token = null, string $encodingAesKey = null, string $encodingAesKeyLast = null, string $middleUrl = null)
     {
         if (is_array($appId)) {
             extract($appId, EXTR_OVERWRITE);
@@ -105,7 +105,7 @@ abstract class App
      * @return string
      * @throws WechatException
      */
-    public function getAccessToken($useCache = true)
+    public function getAccessToken(bool $useCache = true)
     {
         if ($useCache && $this->accessToken) {
             return $this->accessToken;

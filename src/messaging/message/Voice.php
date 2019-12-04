@@ -23,14 +23,12 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class Voice implements ReplyMessage, MassMessage
 {
-    protected $type = 'voice';
-    protected $attributes;
+    protected string $type = 'voice';
+    protected string $voice;
 
-    public function __construct($mediaId)
+    public function __construct(string $mediaId)
     {
-        $this->attributes = array(
-            'mediaId' => $mediaId,
-        );
+        $this->voice = $mediaId;
     }
 
     /**
@@ -38,9 +36,9 @@ class Voice implements ReplyMessage, MassMessage
      */
     public function xmlData()
     {
-        return array('Voice' => array(
-            'MediaId' => $this->attributes['mediaId']
-        ));
+        return ['Voice' => [
+            'MediaId' => $this->voice
+        ]];
     }
 
     /**
@@ -56,9 +54,9 @@ class Voice implements ReplyMessage, MassMessage
      */
     public function jsonData()
     {
-        return array('voice' => array(
-            'media_id' => $this->attributes['mediaId'],
-        ));
+        return ['voice' => [
+            'media_id' => $this->voice,
+        ]];
     }
 
 }

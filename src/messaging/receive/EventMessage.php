@@ -45,7 +45,7 @@ class EventMessage extends ReceiveMessage
 
     #region
 
-    protected static $bind = [
+    protected static array $bind = [
         Click::EVENT => Click::class,
         Location::EVENT => Location::class,
 //        QRScene::EVENT => QRScene::class, qrscene和订阅捆绑在一起，需要额外处理

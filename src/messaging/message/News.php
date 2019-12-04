@@ -23,8 +23,8 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
  */
 class News implements ReplyMessage, CallMessage
 {
-    protected $type = 'news';
-    protected $attributes;
+    protected string $type = 'news';
+    protected array $attributes;
 
     /**
      * $arr = ['文章标题', '描述', 'url', 'image'];
@@ -34,12 +34,12 @@ class News implements ReplyMessage, CallMessage
      * $news3 = new News([$arr,$arr])
      * $news4 = new News([$news1,$news2])
      *
-     * @param string $title
+     * @param array|string $title
      * @param string $description
      * @param string $url
      * @param string $picUrl
      */
-    public function __construct($title = '', $description = '', $url = '', $picUrl = '')
+    public function __construct($title = '', string $description = '', string $url = '', string $picUrl = '')
     {
         if (is_array($title)) {
 

@@ -29,10 +29,10 @@ use yanlongli\wechat\messaging\contract\CallMessage;
 class MsgMenu implements CallMessage
 {
 
-    protected $type = 'msgmenu';
-    protected $tail;
-    protected $list;
-    protected $title;
+    protected string $type = 'msgmenu';
+    protected string $tail;
+    protected array $list;
+    protected string $title;
 
     /**
      * Menu constructor.
@@ -40,7 +40,7 @@ class MsgMenu implements CallMessage
      * @param array $list
      * @param string $tail
      */
-    public function __construct($title, $list, $tail)
+    public function __construct(string $title, array $list, string $tail)
     {
         $this->title = $title;
         $this->list = $list;
@@ -57,13 +57,14 @@ class MsgMenu implements CallMessage
      * @param string $title
      * @return array
      */
-    public static function option($id, $title)
+    public static function option(string $id, string $title)
     {
         return ['id' => $id, 'title' => $title];
     }
 
     /**
      * @inheritDoc
+     * @return array
      */
     public function jsonData()
     {
