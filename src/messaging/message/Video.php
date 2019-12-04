@@ -33,7 +33,7 @@ class Video implements ReplyMessage, CallMessage
      * @param string $title
      * @param string $description
      */
-    public function __construct($mediaId, $thumbMediaId = null, $title = null, $description = null)
+    public function __construct($mediaId, string $thumbMediaId = null, string $title = null, string $description = null)
     {
         if (!is_array($mediaId)) {
             $mediaId = compact(array('mediaId', 'thumbMediaId', 'title', 'description'));

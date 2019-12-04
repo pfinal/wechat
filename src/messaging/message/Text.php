@@ -24,7 +24,7 @@ use yanlongli\wechat\messaging\contract\ReplyMessage;
 class Text implements ReplyMessage, MassMessage
 {
     protected string $type = 'text';
-    protected array $content;
+    protected string $content;
 
     public function __construct($content)
     {

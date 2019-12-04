@@ -38,7 +38,7 @@ class ReceiveMessage implements Message
     /**
      * @var ReplyMessage
      */
-    protected ReplyMessage $replyMessage;
+    protected ?ReplyMessage $replyMessage;
     /**
      * 是否停止继续传播
      * @var bool
@@ -91,9 +91,9 @@ class ReceiveMessage implements Message
     /**
      * 回复消息
      * @param ReplyMessage $message
-     * @see 注意并非事实回复，而是等待流程结束后回复，即有可能被撤回发送
+     * @see 注意并非实时回复，而是等待流程结束后回复，即有可能被撤回发送
      */
-    public function sendMessage(ReplyMessage $message): void
+    public function sendMessage(?ReplyMessage $message): void
     {
         //保存回复的消息
         $this->replyMessage = $message;

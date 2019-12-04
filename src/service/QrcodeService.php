@@ -37,7 +37,7 @@ class QrcodeService extends BaseService
      * 场景值ID 为整数时:32位非0整型, 建议大于100000,避免与永久二唯码冲突
      * 场景值ID（字符串形式的ID），字符串类型，长度限制为1到64
      *
-     * @param null $expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），为null时默认有效期为30秒。
+     * @param ?int $expireSeconds 该二维码有效时间，以秒为单位。 最大不超过2592000（即30天），为null时默认有效期为30秒。
      * @return array
      * [
      *      'ticket'=>'gQH47joAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9x',   //获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码
@@ -46,7 +46,7 @@ class QrcodeService extends BaseService
      * ]
      * @throws WechatException
      */
-    public static function temporary(OfficialAccount $app, string $sceneId, $expireSeconds = null)
+    public static function temporary(OfficialAccount $app, string $sceneId, int $expireSeconds = null)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN';
 

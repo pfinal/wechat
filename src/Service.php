@@ -30,7 +30,6 @@ use yanlongli\wechat\sdk\WXBizMsgCrypt;
 use yanlongli\wechat\officialAccount\OfficialAccount;
 use yanlongli\wechat\support\Json;
 use yanlongli\wechat\miniProgram\MiniProgram;
-use yanlongli\wechat\messaging\message\NoReply;
 
 /**
  * Class Service
@@ -150,7 +149,7 @@ abstract class Service
                 }
             }
         } else {
-            $this->receiveMessage->sendMessage(new NoReply());
+            $this->receiveMessage->sendMessage(null);
         }
         echo $this->buildReply();
         //结束
@@ -164,7 +163,7 @@ abstract class Service
     public function buildReply()
     {
         //回复的消息为NoReply，会返回给微信一个"success"，微信服务器不会对此作任何处理，并且不会发起重试
-        if ($this->receiveMessage->getReplyMessage() instanceof NoReply) {
+        if (is_null($this->receiveMessage->getReplyMessage())) {
             return 'success';
         }
 

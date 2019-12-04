@@ -25,7 +25,7 @@ use yanlongli\wechat\messaging\contract\TemplateMessage;
 class TemplateMiniProgram implements TemplateMessage
 {
     protected string $templateId;
-    protected ?array $date;
+    protected array $date;
     protected string $page;
     protected string $fromId;
     protected string $emphasis_keyword;
@@ -38,7 +38,7 @@ class TemplateMiniProgram implements TemplateMessage
      * @param array $data
      * @param string $emphasis_keyword
      */
-    public function __construct($templateId, $fromId, $page = '', $data = null, $emphasis_keyword = '')
+    public function __construct(string $templateId, string $fromId, string $page = '', array $data = [], $emphasis_keyword = '')
     {
         $this->templateId = $templateId;
         $this->date = $data;
