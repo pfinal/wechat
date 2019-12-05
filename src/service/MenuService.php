@@ -203,4 +203,188 @@ class MenuService extends BaseService
         return parent::request($url, $app, $data);
     }
 
+
+    /**
+     * 点击按钮
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionClick(string $name, string $key): array
+    {
+        return [
+            'type' => 'click',
+            'name' => $name,
+            'key' => $key,
+        ];
+    }
+
+    /**
+     * 子菜单
+     * @param string $name length max 7
+     * @param array $subButton length max 5
+     * @return array
+     */
+    public static function optionSubButton(string $name, array $subButton): array
+    {
+        return [
+            'name' => $name,
+            'sub_button' => $subButton
+        ];
+    }
+
+    /**
+     * 跳转URL
+     * @param string $name length max 4|7
+     * @param string $url
+     * @return array
+     */
+    public static function optionView(string $name, string $url): array
+    {
+        return [
+            'type' => 'view',
+            'name' => $name,
+            'url' => $url
+        ];
+    }
+
+    /**
+     * 打开小程序
+     * @param string $name
+     * @param string $appId
+     * @param string $path
+     * @param string $url 不支持打开小程序的版本将打开此URL
+     * @return array
+     */
+    public static function optionMiniprogram(string $name, string $appId, string $path, string $url): array
+    {
+        return [
+            'type' => 'miniprogram',
+            'name' => $name,
+            'appid' => $appId,
+            'pagepath' => $path,
+            'url' => $url
+        ];
+    }
+
+    /**
+     * 发送媒体文件
+     * @param string $name
+     * @param string $mediaId
+     * @return array
+     */
+    public static function optionMedia(string $name, string $mediaId): array
+    {
+
+        return [
+            'type' => 'media_id',
+            'name' => $name,
+            'media_id' => $mediaId
+        ];
+    }
+
+    /**
+     * 发送图文消息
+     * @param string $name
+     * @param string $mediaId
+     * @return array
+     */
+    public static function optionNews(string $name, string $mediaId): array
+    {
+        return [
+            'type' => 'view_limited',
+            'name' => $name,
+            'media_id' => $mediaId
+        ];
+    }
+
+    /**
+     * 发送位置信息
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionLocation(string $name, string $key): array
+    {
+        return [
+            'type' => 'location_select',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
+
+    /**
+     * 拍照发送
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionPicSysPhoto(string $name, string $key): array
+    {
+        return [
+            'type' => 'pic_sysphoto',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
+
+    /**
+     * 拍照或相册发送
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionPicPhotoOrAlbum(string $name, string $key): array
+    {
+        return [
+            'type' => 'pic_photo_or_album',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
+
+    /**
+     * 微信相册发送
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionPicWeixin(string $name, string $key): array
+    {
+        return [
+            'type' => 'pic_weixin',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
+
+    /**
+     * 扫码带提示
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionScancodeWaitmsg(string $name, string $key): array
+    {
+        return [
+            'type' => 'scancode_waitmsg',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
+
+    /**
+     * 扫码推事件
+     * @param string $name
+     * @param string $key
+     * @return array
+     */
+    public static function optionScancodePush(string $name, string $key): array
+    {
+        return [
+            'type' => 'scancode_push',
+            'name' => $name,
+            'key' => $key
+        ];
+    }
 }

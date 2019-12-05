@@ -27,6 +27,7 @@ use yanlongli\wechat\messaging\receive\event\Subscribe;
 use yanlongli\wechat\messaging\receive\event\Unsubscribe;
 use yanlongli\wechat\messaging\receive\event\View;
 use yanlongli\wechat\WechatException;
+use yanlongli\wechat\messaging\receive\event\TemplateSendJobFinish;
 
 /**
  * Interface EventMessage
@@ -52,24 +53,25 @@ class EventMessage extends ReceiveMessage
         Scan::EVENT => Scan::class,
         Subscribe::EVENT => Subscribe::class,
         Unsubscribe::EVENT => Subscribe::class,
-        View::EVENT => View::class
+        View::EVENT => View::class,
+        TemplateSendJobFinish::TYPE => TemplateSendJobFinish::class,
     ];
 
     /**
      * @param string $Event
      * @param string $EventKey
-     * @return mixed
+     * @return EventMessage
      * @throws WechatException
      */
-    public static function build(string $Event, string $EventKey)
+    public static function build(string $Event, ?string $EventKey = null)
     {
-        if (isset(self::$bind)) {
+        if (isset(self::$bind[$Event])) {
             if (QRScene::EVENT === $EventKey) {
                 return new QRScene();
             }
             return new self::$bind[$Event];
         }
-        throw new WechatException("无法识别的消息类型");
+        throw new WechatException("无法识别的消息类型:$Event");
     }
     #endregion
 }

@@ -104,10 +104,10 @@ abstract class Service
     /**
      * 注册事件处理函数
      * @param string $event
-     * @param $function
+     * @param callable $function
      * @see 没有优先级控制，请按照先后顺序进行注册
      */
-    public function register(string $event, $function): void
+    public function register(string $event, callable $function): void
     {
         $this->handles[$event][] = $function;
     }
@@ -145,12 +145,16 @@ abstract class Service
             foreach ($this->handles[$MsgType] as $key => $handle) {
 
                 if (!$this->receiveMessage->isPropagationStopped()) {
-                    call_user_func($handle, $this->receiveMessage);
+                    $replayMessage = call_user_func($handle, $this->receiveMessage);
+                    if (!$this->receiveMessage->isPropagationStopped()) {
+                        $this->receiveMessage->sendMessage($replayMessage);
+                    }
                 }
             }
-        } else {
-            $this->receiveMessage->sendMessage(null);
+        } elseif (isset($this->handles[''])) {
+            $this->receiveMessage->sendMessage(call_user_func($this->handles[''][0], $this->receiveMessage));
         }
+        //处理默认动作
         echo $this->buildReply();
         //结束
     }

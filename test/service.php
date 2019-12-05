@@ -26,7 +26,11 @@ use yanlongli\wechat\messaging\message\Text;
 use yanlongli\wechat\messaging\receive\general\Text as receiveText;
 use yanlongli\wechat\messaging\message\Image;
 use yanlongli\wechat\messaging\receive\general\Image as receiveImage;
+use yanlongli\wechat\messaging\receive\general\Location as receiveLocation;
+use yanlongli\wechat\messaging\receive\event\Location as receiveEventLocation;
 use yanlongli\wechat\service\CallMessageService;
+use yanlongli\wechat\messaging\contract\ReplyMessage;
+use yanlongli\wechat\messaging\receive\ReceiveMessage;
 
 
 include '../vendor/autoload.php';
@@ -42,19 +46,34 @@ $service->register(Subscribe::EVENT, function (Subscribe $subscribe) {
     $subscribe->sendMessage(new Text("感谢您的关注"));
 });
 //发什么文字回什么文字
-$service->register(receiveText::TYPE, function (receiveText $text) use ($officialAccount) {
-    $text->sendMessage(new Text($text->Content));
+$service->register(receiveText::TYPE, function (receiveText $text) use ($officialAccount): ReplyMessage {
+//    todo 这里改成 return 直接返回消息
+//    $text->sendMessage(new Text($text->Content));
     try {
 
         CallMessageService::send($officialAccount, $text->FromUserName, new Text("这个来自主动发送消息:" . $text->Content));
     } catch (WechatException $exception) {
         //屏蔽这个错误
     }
+    return new Text($text->Content);
 });
 //发什么图片回什么图片
-$service->register(receiveImage::TYPE, function (receiveImage $image) use ($officialAccount) {
-    $image->sendMessage(new Image($image->MediaId));
+$service->register(receiveImage::TYPE, function (receiveImage $image) use ($officialAccount): ReplyMessage {
 //    CallMessageService::send($officialAccount, $image->FromUserName, new Image($image->MediaId));
+    CallMessageService::send($officialAccount, $image->FromUserName, new Text($image->MediaId));
+    return new Image($image->MediaId);
+});
+//收到位置
+$service->register(receiveLocation::TYPE, function (receiveLocation $location) {
+
+    return new Text("收到普通的地址坐标：$location->Location_X,$location->Location_Y,$location->Scale,$location->MsgId");
+});
+$service->register(receiveEventLocation::TYPE, function (receiveEventLocation $location) {
+    return new Text("收到事件的地址坐标：5s一次 " . date(DATE_ATOM));
+});
+
+$service->register("", function (ReceiveMessage $receiveMessage): ReplyMessage {
+    return new Text("收到一条未处理消息" . $receiveMessage->MsgType);
 });
 
 
