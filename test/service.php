@@ -42,6 +42,9 @@ use yanlongli\wechat\messaging\receive\event\ScanCodePush;
 use yanlongli\wechat\messaging\receive\event\ScanCodeWaitMsg;
 use yanlongli\wechat\messaging\receive\event\View;
 use yanlongli\wechat\messaging\receive\event\ViewMiniprogram;
+use yanlongli\wechat\messaging\receive\general\Link;
+use yanlongli\wechat\messaging\receive\general\ShortVideo;
+use yanlongli\wechat\messaging\receive\general\Video;
 
 
 include '../vendor/autoload.php';
@@ -73,6 +76,18 @@ $service->register(function (receiveText $text) use ($officialAccount): ReplyMes
 $service->register(function (receiveImage $image) use ($officialAccount): ReplyMessage {
     CallMessageService::send($officialAccount, $image->FromUserName, new Text($image->MediaId));
     return new Image($image->MediaId);
+});
+// 链接
+$service->register(function (Link $link) {
+    return new Text('收到了您的链接：' . $link->Url);
+});
+// 视频
+$service->register(function (Video $video) {
+    return new Text('收到了您的视频');
+});
+// 收到了您的小视频
+$service->register(function (ShortVideo $shortVideo) {
+    return new Text('收到了您的视频');
 });
 //位置消息
 $service->register(function (receiveLocation $location) {
