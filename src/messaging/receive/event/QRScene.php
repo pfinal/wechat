@@ -24,8 +24,10 @@ namespace yanlongli\wechat\messaging\receive\event;
  * @package yanlongli\wechat\messaging\receive\event
  * @property string EventKey 事件KEY值，qrscene_为前缀，后面为二维码的参数值
  * @property string Ticket    二维码的ticket，可用来换取二维码图片
+ * @property string EventKeyPrefix 扫码关注事件key前缀
  */
 class QRScene extends Subscribe
 {
-
+    const EVENT = 'QRSCENE';
+    const EventKeyPrefix = 'qrscene_';
 }

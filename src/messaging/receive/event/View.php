@@ -19,15 +19,13 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive\event;
 
-
-use yanlongli\wechat\messaging\receive\EventMessage;
-
 /**
  * Class Click
  * @package yanlongli\wechat\messaging\receive\event
- * @property string $EventKey 事件KEY值，与自定义菜单接口中KEY值对应
+ * @property string $EventKey URL
+ * @property string $MenuID 指菜单ID，如果是个性化菜单，则可以通过这个字段，知道是哪个规则的菜单被点击了。
  */
-class View extends EventMessage
+class View extends Click
 {
     const EVENT = 'VIEW';
 }

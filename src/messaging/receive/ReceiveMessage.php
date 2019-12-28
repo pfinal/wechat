@@ -22,6 +22,9 @@ namespace yanlongli\wechat\messaging\receive;
 
 use yanlongli\wechat\messaging\contract\ReplyMessage;
 use yanlongli\wechat\messaging\contract\Message;
+use yanlongli\wechat\WechatException;
+use yanlongli\wechat\messaging\receive\event\Subscribe;
+use yanlongli\wechat\messaging\receive\event\QRScene;
 
 /**
  * Class Receive
@@ -31,14 +34,14 @@ use yanlongli\wechat\messaging\contract\Message;
  * @property string $CreateTime 消息创建时间(整型)
  * @property string $MsgType 消息类型
  */
-class ReceiveMessage implements Message
+abstract class ReceiveMessage implements Message
 {
 
     #region 回复相关
     /**
      * @var ReplyMessage
      */
-    protected ?ReplyMessage $replyMessage;
+    protected ?ReplyMessage $replyMessage = null;
     /**
      * 是否停止继续传播
      * @var bool
@@ -126,6 +129,67 @@ class ReceiveMessage implements Message
     #endregion
 
     #region 收到消息的原始属性
+
+
+    // 消息类型集合
+    protected static array $bind = [
+        general\Image::TYPE => general\Image::class,
+        general\Link::TYPE => general\Link::class,
+        general\Location::TYPE => general\Location::class,
+        general\ShortVideo::TYPE => general\ShortVideo::class,
+        general\Text::TYPE => general\Text::class,
+        general\Video::TYPE => general\Video::class,
+        general\Voice::TYPE => general\Voice::class,
+
+        // Event事件多套一层，注册在对应的类型之下
+        EventMessage::TYPE => [
+            event\Click::EVENT => event\Click::class,
+            event\Location::EVENT => event\Location::class,
+            event\LocationSelect::EVENT => event\LocationSelect::class,
+            event\PicPhotoOrAlbum::EVENT => event\PicPhotoOrAlbum::class,
+            event\PicSysPhoto::EVENT => event\PicSysPhoto::class,
+            event\PicWeixin::EVENT => event\PicWeixin::class,
+            event\QRScene::EVENT => event\QRScene::class, //qrscene和订阅捆绑在一起，需要额外处理
+            event\Scan::EVENT => event\Scan::class,
+            event\ScanCodePush::EVENT => event\ScanCodePush::class,
+            event\ScanCodeWaitMsg::EVENT => event\ScanCodeWaitMsg::class,
+            event\Subscribe::EVENT => event\Subscribe::class,
+            event\TemplateSendJobFinish::EVENT => event\TemplateSendJobFinish::class,
+            event\Unsubscribe::EVENT => event\Subscribe::class,
+            event\View::EVENT => event\View::class,
+            event\ViewMiniprogram::EVENT => event\ViewMiniprogram::class,
+        ]
+    ];
+
+
+    /**
+     * @param string $MsgType
+     * @param string $Event
+     * @param string|null $EventKey
+     * @return EventMessage
+     * @throws WechatException
+     */
+    public static function build(string $MsgType, ?string $Event = null, ?string $EventKey = null)
+    {
+        if (isset(self::$bind[$MsgType])) {
+            if (EventMessage::TYPE === $MsgType) {
+                $ClassName = self::$bind[$MsgType][$Event];
+
+                if (!isset(self::$bind[$MsgType][$Event])) {
+                    throw new WechatException("无法识别的消息类型:$MsgType:$Event:$EventKey");
+                }
+
+                if (Subscribe::EVENT === $Event && is_string($EventKey) && QRScene::EventKeyPrefix === substr($EventKey, 0, strlen(QRScene::EventKeyPrefix))) {
+                    $ClassName = self::$bind[$MsgType][QRScene::EVENT];
+                }
+            } else {
+                $ClassName = self::$bind[$MsgType];
+            }
+            return new $ClassName;
+        }
+        throw new WechatException("无法识别的消息类型:$MsgType:$Event:$EventKey");
+    }
+
     protected array $attribute = [];
 
     public function __get($name)

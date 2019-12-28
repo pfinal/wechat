@@ -22,7 +22,6 @@ namespace yanlongli\wechat;
 
 use yanlongli\wechat\support\Request;
 use yanlongli\wechat\messaging\receive\EventMessage;
-use yanlongli\wechat\messaging\receive\GeneralMessage;
 use yanlongli\wechat\messaging\contract\ReplyMessage;
 use yanlongli\wechat\messaging\receive\ReceiveMessage;
 use yanlongli\wechat\support\Xml;
@@ -30,6 +29,7 @@ use yanlongli\wechat\sdk\WXBizMsgCrypt;
 use yanlongli\wechat\officialAccount\OfficialAccount;
 use yanlongli\wechat\support\Json;
 use yanlongli\wechat\miniProgram\MiniProgram;
+use ReflectionFunction;
 
 /**
  * Class Service
@@ -103,13 +103,31 @@ abstract class Service
 
     /**
      * 注册事件处理函数
-     * @param string $event
      * @param callable $function
+     * @throws \ReflectionException
      * @see 没有优先级控制，请按照先后顺序进行注册
      */
-    public function register(string $event, callable $function): void
+    public function register(callable $function): void
     {
-        $this->handles[$event][] = $function;
+        $reflection = new ReflectionFunction($function);
+        $params = $reflection->getParameters();
+
+        if (!$params[0]->getClass()->hasConstant("TYPE")) {
+            $this->handles[''][] = $function;
+            return;
+        }
+
+        $type = $params[0]->getClass()->getConstant("TYPE");
+        if ($type === EventMessage::TYPE) {
+            if (!$params[0]->getClass()->hasConstant("EVENT")) {
+                $this->handles[$type][''][] = $function;
+                return;
+            }
+            $event = $params[0]->getClass()->getConstant("EVENT");
+            $this->handles[$type][$event][] = $function;
+        } else {
+            $this->handles[$type][] = $function;
+        }
     }
 
     /**
@@ -131,29 +149,42 @@ abstract class Service
             Request::setParams(Request::xmlToArray($xmlStr));
         }
         $MsgType = Request::param('MsgType/s');
+        $Event = Request::param('Event/s');
+        $EventKey = Request::param('EventKey/s');
 
-        if (EventMessage::TYPE === $MsgType) {
-            $this->receiveMessage = EventMessage::build(Request::param('Event/s'), Request::param('EventKey'));
-        } else {
-            $this->receiveMessage = GeneralMessage::build($MsgType);
-        }
+
+        $this->receiveMessage = ReceiveMessage::build($MsgType, $Event, $EventKey);
+
         //赋值处理
         $this->receiveMessage->setAttr(Request::param());
 
+        $handles = [];
         //处理事件消息
-        if (isset($this->handles[$MsgType])) {
-            foreach ($this->handles[$MsgType] as $key => $handle) {
+        if (EventMessage::TYPE === $MsgType) {
+            if (isset($this->handles[EventMessage::TYPE][$Event])) {
+                $handles = $this->handles[EventMessage::TYPE][$Event];
+            } elseif (isset($this->handles[EventMessage::TYPE][''])) {
+                $handles = $this->handles[EventMessage::TYPE][''];
+            } elseif (isset($this->handles[''])) {
+                $handles = $this->handles[''];
+            }
+        } elseif (isset($this->handles[$MsgType])) {
+            if (isset($this->handles[$MsgType])) {
+                $handles = $this->handles[$MsgType];
+            } elseif (isset($this->handles[''])) {
+                $handles = $this->handles[''];
+            }
+        }
 
+        foreach ($handles as $key => $handle) {
+            if (!$this->receiveMessage->isPropagationStopped()) {
+                $replayMessage = call_user_func($handle, $this->receiveMessage);
                 if (!$this->receiveMessage->isPropagationStopped()) {
-                    $replayMessage = call_user_func($handle, $this->receiveMessage);
-                    if (!$this->receiveMessage->isPropagationStopped()) {
-                        $this->receiveMessage->sendMessage($replayMessage);
-                    }
+                    $this->receiveMessage->sendMessage($replayMessage);
                 }
             }
-        } elseif (isset($this->handles[''])) {
-            $this->receiveMessage->sendMessage(call_user_func($this->handles[''][0], $this->receiveMessage));
         }
+
         //处理默认动作
         echo $this->buildReply();
         //结束

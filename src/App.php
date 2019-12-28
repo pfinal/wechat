@@ -59,7 +59,7 @@ abstract class App
     public ?string $encodingAesKeyLast;
     public ?string $middleUrl;
 
-    public ?string $accessToken;
+    public ?string $accessToken = '';
 
     /**
      * @var array

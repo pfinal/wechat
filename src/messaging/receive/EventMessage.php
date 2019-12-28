@@ -19,16 +19,6 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive;
 
-use yanlongli\wechat\messaging\receive\event\Click;
-use yanlongli\wechat\messaging\receive\event\Location;
-use yanlongli\wechat\messaging\receive\event\QRScene;
-use yanlongli\wechat\messaging\receive\event\Scan;
-use yanlongli\wechat\messaging\receive\event\Subscribe;
-use yanlongli\wechat\messaging\receive\event\Unsubscribe;
-use yanlongli\wechat\messaging\receive\event\View;
-use yanlongli\wechat\WechatException;
-use yanlongli\wechat\messaging\receive\event\TemplateSendJobFinish;
-
 /**
  * Interface EventMessage
  * @package yanlongli\wechat\messaging\contract
@@ -40,38 +30,5 @@ use yanlongli\wechat\messaging\receive\event\TemplateSendJobFinish;
  */
 class EventMessage extends ReceiveMessage
 {
-    const EVENT = '';
     const TYPE = 'event';
-
-
-    #region
-
-    protected static array $bind = [
-        Click::EVENT => Click::class,
-        Location::EVENT => Location::class,
-//        QRScene::EVENT => QRScene::class, qrscene和订阅捆绑在一起，需要额外处理
-        Scan::EVENT => Scan::class,
-        Subscribe::EVENT => Subscribe::class,
-        Unsubscribe::EVENT => Subscribe::class,
-        View::EVENT => View::class,
-        TemplateSendJobFinish::TYPE => TemplateSendJobFinish::class,
-    ];
-
-    /**
-     * @param string $Event
-     * @param string $EventKey
-     * @return EventMessage
-     * @throws WechatException
-     */
-    public static function build(string $Event, ?string $EventKey = null)
-    {
-        if (isset(self::$bind[$Event])) {
-            if (QRScene::EVENT === $EventKey) {
-                return new QRScene();
-            }
-            return new self::$bind[$Event];
-        }
-        throw new WechatException("无法识别的消息类型:$Event");
-    }
-    #endregion
 }

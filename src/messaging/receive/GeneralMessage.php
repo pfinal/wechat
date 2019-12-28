@@ -19,15 +19,6 @@ declare(strict_types=1);
 
 namespace yanlongli\wechat\messaging\receive;
 
-use yanlongli\wechat\messaging\receive\general\Image;
-use yanlongli\wechat\messaging\receive\general\Link;
-use yanlongli\wechat\messaging\receive\general\Location;
-use yanlongli\wechat\messaging\receive\general\ShortVideo;
-use yanlongli\wechat\messaging\receive\general\Text;
-use yanlongli\wechat\messaging\receive\general\Video;
-use yanlongli\wechat\messaging\receive\general\Voice;
-use yanlongli\wechat\WechatException;
-
 /**
  * Class GeneralMessage
  * @package yanlongli\wechat\messaging\contract
@@ -35,29 +26,4 @@ use yanlongli\wechat\WechatException;
  */
 class GeneralMessage extends ReceiveMessage
 {
-    #region
-    protected static array $bind = [
-        Image::TYPE => Image::class,
-        Link::TYPE => Link::class,
-        Location::TYPE => Location::class,
-        ShortVideo::TYPE => ShortVideo::class,
-        Text::TYPE => Text::class,
-        Video::TYPE => Video::class,
-        Voice::TYPE => Voice::class
-    ];
-
-
-    /**
-     * @param string $MsgType
-     * @return self
-     * @throws WechatException
-     */
-    public static function build(string $MsgType)
-    {
-        if (isset(self::$bind))
-            return new self::$bind[$MsgType];
-        throw new WechatException("无法识别的消息类型");
-    }
-    #endregion
-
 }
