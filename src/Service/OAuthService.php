@@ -3,7 +3,6 @@
 namespace PFinal\Wechat\Service;
 
 use PFinal\Wechat\Kernel;
-use PFinal\Wechat\Support\Session;
 use PFinal\Wechat\WechatException;
 
 class OAuthService extends BaseService
@@ -32,7 +31,7 @@ class OAuthService extends BaseService
      * @return array
      * @throws WechatException
      */
-    public static function getUser($openidOnly = false, $uri = null)
+    public static function getUser($openidOnly = false)
     {
         $state = 'PFINAL_WECHAT';
 
@@ -55,11 +54,15 @@ class OAuthService extends BaseService
             $proto = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
         }
 
-        //当前url
-        if ($uri == null) {
-            $uri = $proto . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-            $uri = static::urlClean($uri);
+        if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+            $host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+        } else {
+            $host = $_SERVER['HTTP_HOST'];
         }
+
+        //当前url
+        $uri = $proto . '://' . $host . $_SERVER['REQUEST_URI'];
+        $uri = static::urlClean($uri);
 
         //跳转到微信oAuth授权页面
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
@@ -139,7 +142,10 @@ class OAuthService extends BaseService
         $arr['path'] = array_key_exists('path', $arr) ? $arr['path'] : '';
         $arr['query'] = array_key_exists('query', $arr) ? ('?' . $arr['query']) : '';
 
-        return $arr['scheme'] . '://' . $arr['host'] . $arr['path'] . $arr['query'];
+
+        $port = empty($arr['port']) ? '' : (':' . $arr['port']);
+
+        return $arr['scheme'] . '://' . $arr['host'] . $port . $arr['path'] . $arr['query'];
     }
 
     /**
