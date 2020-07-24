@@ -2,6 +2,7 @@
 
 namespace PFinal\Wechat;
 
+use PFinal\Wechat\Contract\ReplyMessage;
 use PFinal\Wechat\Message\Receive;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -43,7 +44,7 @@ class WechatEvent extends Event
     }
 
     /**
-     * @param string $response
+     * @param string|ReplyMessage $response
      */
     public function setResponse($response)
     {
@@ -51,7 +52,7 @@ class WechatEvent extends Event
     }
 
     /**
-     * @return null|string
+     * @return null|string|ReplyMessage
      */
     public function getResponse()
     {
