@@ -286,4 +286,36 @@ class MessageService extends BaseService
         return parent::request($apiUrl, $postData);
     }
 
+    /**
+     * 小程序订阅消息
+     * @param $openid
+     * @param $templateId
+     * @param array $data
+     * @param string $page
+     * @param string $defaultItemColor
+     * @return array
+     */
+    public static function subscribeWxapp($openid, $templateId, array $data, $page = '', $defaultItemColor = '#173177')
+    {
+        // https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=ACCESS_TOKEN
+        $apiUrl = 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=ACCESS_TOKEN';
+
+        foreach ($data as $key => $val) {
+            if (!is_array($val)) {
+                $data[$key] = array(
+                    'value' => "$val",
+                    'color' => "$defaultItemColor",
+                );
+            }
+        }
+
+        $postData = array(
+            'touser' => $openid,
+            'template_id' => $templateId,
+            'page' => $page,
+            'data' => $data,
+        );
+
+        return parent::request($apiUrl, $postData);
+    }
 }
