@@ -17,9 +17,9 @@ class OAuthService extends BaseService
      * @return string
      * @throws WechatException
      */
-    public static function getOpenid()
+    public static function getOpenid($uriPrefix = '')
     {
-        $user = self::getUser(true);
+        $user = self::getUser(true, $uriPrefix);
         return $user['openid'];
     }
 
@@ -28,10 +28,11 @@ class OAuthService extends BaseService
      * 在ajax中调用本方法无效，url中请勿包含code和state查询参数
      *
      * @param bool|false $openidOnly 此参数为true时，仅返回openid 响应速度会更快，并且不需要用户点击同意授权
+     * @param string $uriPrefix 反向代理的url前缀
      * @return array
      * @throws WechatException
      */
-    public static function getUser($openidOnly = false)
+    public static function getUser($openidOnly = false, $uriPrefix = '')
     {
         $state = 'PFINAL_WECHAT';
 
@@ -50,6 +51,13 @@ class OAuthService extends BaseService
 
         if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
             $proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
+            //"https,http"
+            $proto = explode(',', $proto);
+            $proto = $proto[0];
+            if (empty($proto)) {
+                $proto = 'http';
+            }
+
         } else {
             $proto = isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off' ? 'https' : 'http';
         }
@@ -61,8 +69,9 @@ class OAuthService extends BaseService
         }
 
         //当前url
-        $uri = $proto . '://' . $host . $_SERVER['REQUEST_URI'];
+        $uri = $proto . '://' . $host . $uriPrefix . $_SERVER['REQUEST_URI'];
         $uri = static::urlClean($uri);
+
 
         //跳转到微信oAuth授权页面
         self::redirect($uri, $state, $openidOnly ? 'snsapi_base' : 'snsapi_userinfo');
