@@ -228,7 +228,7 @@ class MessageService extends BaseService
      *      'msgid' => int 413100638
      * )
      */
-    public static function template($openid, $templateId, array $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177')
+    public static function template($openid, $templateId, array $data, $url = '', $topColor = '#FF0000', $defaultItemColor = '#173177', $miniprogram = null)
     {
         $apiUrl = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN';
 
@@ -248,6 +248,10 @@ class MessageService extends BaseService
             'topcolor' => $topColor,
             'data' => $data,
         );
+        
+        if ($miniprogram != null) {
+            $postData['miniprogram'] = $miniprogram;
+        }
 
         return parent::request($apiUrl, $postData);
     }
